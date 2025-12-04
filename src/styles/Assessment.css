@@ -1,0 +1,58 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+.assessment-container {
+  min-height: 100vh;
+  background-color: #010101;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 2rem;
+}
+
+.close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  border-radius: 50%;
+  font-size: 20px;
+  z-index: 999;
+  box-shadow: 0 0 10px #ff0000, 0 0 20px #ff5555;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.close-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #ff0000, 0 0 30px #ff5555;
+}
+
+.assessment-card {
+  background-color: #111;
+  border-radius: 15px;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 0 30px rgba(0, 140, 247, 0.5);
+}
+
+.option-btn {
+  background-color: #222;
+  color: #fff;
+  border: 2px solid #008cf7;
+  border-radius: 10px;
+  padding: 10px 15px;
+  transition: 0.3s;
+}
+.option-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 140, 247, 0.7);
+}
+.option-btn.selected {
+  background-color: #008cf7;
+  color: #fff;
+  box-shadow: 0 0 20px #008cf7;
+}
+
+.submit-btn {
+  padding: 10px 30px;
+  font-weight: bold;
+  font-size: 18px;
+}

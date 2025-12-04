@@ -1,0 +1,97 @@
+/* Hero Container */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background Video */
+.hero-video {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  /* bottom: 55%; */
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+  opacity: 0.6;
+  filter:  brightness(0.5);
+}
+
+/* Dark Gradient Overlay */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+  z-index: -1;
+}
+
+/* Centered Content */
+.hero-content {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+}
+
+/* Title Animations */
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #0ff;
+  text-shadow: 0 0 12px #00eaff;
+  animation: fadeUp 1.2s ease-out;
+}
+
+.hero-title span {
+  color: #ff00ff;
+  text-shadow: 0 0 12px #ff00ff;
+}
+
+/* Tagline */
+.hero-tagline {
+  font-size: 1.3rem;
+  margin: 15px 0 30px;
+  opacity: 0.85;
+  animation: fadeUp 1.6s ease-out;
+}
+
+/* CTA Button */
+.hero-btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  background: #00eaff;
+  color: #000;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 0 18px #00eaff;
+  animation: fadeUp 2s ease-out;
+}
+
+.hero-btn:hover {
+  background: #ff00ff;
+  box-shadow: 0 0 20px #ff00ff;
+  transform: translateY(-3px);
+}
+
+/* Entrance Animation Keyframe */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsive */
+@media(max-width: 768px) {
+  .hero-title { font-size: 2.6rem; }
+  .hero-tagline { font-size: 1.1rem; }
+}

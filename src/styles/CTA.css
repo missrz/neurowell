@@ -1,0 +1,44 @@
+/* CTA SECTION */
+.cta-section {
+  width: 100%;
+  padding: 60px 20px;
+  margin-top: 20px;
+  text-align: center;
+  background: #000;           /* FULL BLACK */
+}
+
+/* Heading */
+.cta-heading {
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+  color: #00ffe7;             /* Neon Cyan */
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px #00ffe7;
+}
+
+/* Subtext */
+.cta-subtext {
+  font-size: 1rem;
+  color: #cfcfcf;
+  margin-bottom: 20px;
+}
+
+/* Button */
+.cta-button {
+  background: linear-gradient(90deg, #00b4ff, #a259ff);
+  color: #000;
+  border-radius: 40px;
+  padding: 12px 32px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+/* Hover Effect */
+.cta-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px #00b4ff;
+}

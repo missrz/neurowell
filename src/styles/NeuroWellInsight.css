@@ -1,0 +1,23 @@
+.neurowell-insight {
+  background: linear-gradient(135deg, #000000, #050505, #0a0a0a);
+  padding: 6rem 2rem;
+  color: #0ff;
+  text-align: center;
+}
+
+.neurowell-insight h2 {
+  font-size: 3rem;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+  animation: neonGlow 1.5s infinite alternate;
+  margin-bottom: 3rem;
+}
+
+.insight-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.feature-card {
+  cursor: pointer; 
+}

@@ -1,0 +1,28 @@
+.support-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: black;
+  position: relative;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5rem;
+}
+
+.support-buttons a {
+  color: white;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.support-buttons a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}

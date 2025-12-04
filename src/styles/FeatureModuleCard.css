@@ -1,0 +1,2 @@
+.feature-module-card { background: rgba(255,255,255,0.02); padding:20px; border-radius:12px; min-width:220px; text-align:center; color:#dff; transition: transform .25s; }
+.feature-module-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,183,255,0.08); }

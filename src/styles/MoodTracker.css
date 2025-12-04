@@ -1,0 +1,53 @@
+.mood-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #010101;
+  color: white;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.mood-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 1.5rem;
+  z-index: 999;
+}
+
+.mood-btn {
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-width: 100px;
+}
+.mood-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px white;
+}
+
+.mood-btn.selected {
+  transform: scale(1.2);
+  box-shadow: 0 0 20px white;
+}
+
+.mood-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  min-width: 250px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-container {
+  margin-top: 20px;
+}

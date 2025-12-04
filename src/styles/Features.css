@@ -1,0 +1,49 @@
+.features-section {
+  width: 100%;
+  padding: 6rem 0;
+  background: #020202;
+  color: #fff;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #00eaff;
+  text-shadow: 0 0 15px #00eaff;
+}
+
+.section-title span {
+  color: #ff00ff;
+  text-shadow: 0 0 15px #ff00ff;
+}
+
+.section-subtitle {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: rgba(0, 10, 15, 0.4);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  padding: 2.2rem 1.4rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.4s;
+  backdrop-filter: blur(12px);
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 18px #00eaff;
+  border-color: #00eaff;
+}
+
+/* Icons */
+.feature-icon {
+  font-size: 3rem;
+  color: #00eaff;
+  margin-bottom: 15px;
+  text-shadow: 0 0 15px #00eaff;
+}

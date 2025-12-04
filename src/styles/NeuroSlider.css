@@ -1,0 +1,55 @@
+/* Section */
+.neurowell-insight {
+  background: #000;
+  padding: 80px 0;
+  text-align: center;
+  color: #00ffe7;
+}
+
+.neurowell-insight h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 50px;
+  text-shadow: 0 0 10px #00ffe7;
+}
+
+/* Slider */
+.slider-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.8s ease;
+  width: 500%;
+}
+
+/* Cards */
+.slider-card {
+  width: 20%;
+  min-height: 180px;
+  margin: 0 10px;
+  padding: 25px;
+  border-radius: 15px;
+  background: #111;
+  cursor: pointer;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+  box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.4);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.slider-card:hover,
+.slider-card.active {
+  transform: scale(1.12);
+  box-shadow: 0px 0px 20px #00ffe7;
+}
+
+/* Text */
+.slider-card p {
+  font-size: 0.95rem;
+  color: #cfcfcf;
+  margin-top: 10px;
+}

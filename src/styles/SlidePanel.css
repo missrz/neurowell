@@ -1,0 +1,5 @@
+.slide-panel { position: fixed; top:0; right:-100%; width: 100%; max-width: 540px; height:100%; background:#06060a; color:#dff; z-index:2000; transition:right .45s ease; box-shadow: -20px 0 60px rgba(10,10,12,0.6); overflow:auto; padding:24px; }
+.slide-panel.open { right:0; }
+.slide-panel .close-btn { position:absolute; left:12px; top:12px; background:transparent; color:#00ffe7; border:0; font-size:24px; }
+.slide-panel h2 { color:#00ffe7; margin-bottom:12px; }
+.slide-panel h3 { color:#a8fff0; margin-top:14px; }

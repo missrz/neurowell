@@ -1,0 +1,92 @@
+.neo-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 75px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 3rem;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 0, 255, 0.15);
+
+  transition: transform 0.2s ease-out;
+  z-index: 50;
+}
+
+/* LOGO */
+.neo-logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.neo-logo span {
+  color: cyan;
+  text-shadow: 0 0 10px rgba(0,255,255,0.4);
+}
+
+/* MENU */
+.neo-menu {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.neo-link {
+  font-size: 1.05rem;
+  color: #fff;
+  cursor: pointer;
+
+  position: relative;
+  padding-bottom: 5px;
+
+  transition: color 0.3s;
+}
+
+.neo-link:hover {
+  color: cyan;
+}
+
+.neo-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, cyan, magenta);
+
+  transition: width 0.3s ease;
+}
+
+.neo-link:hover::after {
+  width: 100%;
+}
+
+/* BUTTON */
+.neo-btn {
+  background: transparent;
+  padding: 10px 22px;
+  border-radius: 50px;
+
+  color: #fff;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 0, 255, 0.4);
+
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.neo-btn:hover {
+  box-shadow: 0 0 12px rgba(255,0,255,0.4),
+              0 0 18px rgba(0,255,255,0.35);
+  border-color: cyan;
+}
+html {
+  scroll-behavior: smooth;
+}

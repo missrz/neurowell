@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+# Cache files
+node_modules/.cache/
+
+
+# Build folders
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Cache folders
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
