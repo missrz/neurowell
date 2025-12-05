@@ -20,11 +20,14 @@ services:
     environment:
       - PORT=4000
       - AI_SERVER_URL=http://python-ai:4001
+      - MONGO_URL=mongodb://mongo:27017/neurowell
     ports:
       - "4000:4000"
     depends_on:
       python-ai:
         condition: service_healthy
+      mongo:
+        condition: service_started
 
   frontend:
     build:
@@ -32,6 +35,23 @@ services:
       dockerfile: frontend.Dockerfile
     container_name: neurowell_frontend
     ports:
-      - "3000:80"
+      - "3001:80"
     depends_on:
       - backend
+
+  mongo:
+    image: mongo:6.0
+    container_name: neurowell_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:

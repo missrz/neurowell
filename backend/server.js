@@ -8,6 +8,17 @@ app.use(express.json());
 
 const AI_SERVER_URL = process.env.AI_SERVER_URL || "http://localhost:5001";
 const PORT = process.env.PORT || 5000;
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/neurowell';
+
+// Connect to MongoDB
+const mongoose = require('mongoose');
+mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error', err));
+
+// Routes
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
 
 app.post("/api/detect", async (req, res) => {
   const { text } = req.body;

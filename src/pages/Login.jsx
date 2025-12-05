@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Login.css";
+import { useDispatch } from 'react-redux';
+import { login, setAuthToken } from '../services/api';
+import { setUser } from '../store/userSlice';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loggedUser = useSelector(state => state.user.user);
+  useEffect(() => {
+    if (loggedUser) navigate('/');
+  }, [loggedUser, navigate]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    navigate("/consent");
+    try {
+      const data = await login(email, password);
+      setAuthToken(data.token);
+      dispatch(setUser({ user: data.user, token: data.token }));
+      navigate('/consent');
+    } catch (err) {
+      setError(err?.response?.data?.error || 'Login failed');
+    }
   };
 
   return (
@@ -16,14 +36,15 @@ export default function Login() {
         <h2 className="auth-title">Welcome Back</h2>
 
         <form className="auth-form" onSubmit={handleLogin}>
+          {error && <div className="error-text">{error}</div>}
           <div className="input-group">
             <label>Email</label>
-            <input type="email" required />
+            <input className="login-input" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input type="password" required />
+            <input className="login-input" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
           </div>
 
           <button className="auth-btn">Login</button>

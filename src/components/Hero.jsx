@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import "../styles/Hero.css";
 
 export default function Hero() {
   const navigate = useNavigate();
+  const token = useSelector((state) => state.user.token);
 
   const handleStart = () => {
-    // Simple auth check: presence of a token in localStorage
-    const token = localStorage.getItem("authToken");
+    // Simple auth check: presence of a token in Redux store (in-memory)
     if (!token) {
       // redirect to login page
       navigate("/login");

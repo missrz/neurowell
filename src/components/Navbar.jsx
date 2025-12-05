@@ -1,6 +1,8 @@
 import React, { useEffect } from "react"; 
 import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom"; // for routing
 import "../styles/Navbar.css";
+import { useSelector } from 'react-redux';
+import Logout from './Logout';
 
 export default function Navbar() {
   useEffect(() => {
@@ -18,6 +20,7 @@ export default function Navbar() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useSelector(state => state.user.user);
 
   const menuItems = [
     { name: "Home", link: "home", type: "scroll" },
@@ -67,6 +70,19 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
+      <div className="neo-auth">
+        {user ? (
+          <div className="neo-user">
+            <span className="neo-username">{user.name || user.email}</span>
+            <Logout />
+          </div>
+        ) : (
+          <div className="neo-login-links">
+            <RouterLink to="/login">Login</RouterLink>
+            <RouterLink to="/signup" style={{ marginLeft: 12 }}>Sign Up</RouterLink>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }

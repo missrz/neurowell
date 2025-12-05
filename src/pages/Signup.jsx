@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Signup.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { signup, setAuthToken } from '../services/api';
+import { setUser } from '../store/userSlice';
 
 export default function Signup() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loggedUser = useSelector(state => state.user.user);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSignup = (e) => {
+  useEffect(() => {
+    if (loggedUser) navigate('/');
+  }, [loggedUser, navigate]);
+
+  const handleSignup = async (e) => {
     e.preventDefault();
-    navigate("/consent");
+    if (!name.trim() || !email || !password) {
+      setError('Please fill all fields');
+      return;
+    }
+    try {
+      const data = await signup(name, email, password);
+      setAuthToken(data.token);
+      dispatch(setUser({ user: data.user, token: data.token }));
+      navigate('/consent');
+    } catch (err) {
+      setError(err?.response?.data?.error || 'Signup failed');
+    }
   };
 
   return (
@@ -16,19 +40,20 @@ export default function Signup() {
         <h2 className="auth-title">Create Account</h2>
 
         <form className="auth-form" onSubmit={handleSignup}>
+          {error && <div className="error-text">{error}</div>}
           <div className="input-group">
             <label>Name</label>
-            <input type="text" required />
+            <input value={name} onChange={(e)=>setName(e.target.value)} type="text" required />
           </div>
 
           <div className="input-group">
             <label>Email</label>
-            <input type="email" required />
+            <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" required />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input type="password" required />
+            <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" required />
           </div>
 
           <button className="auth-btn">Signup</button>

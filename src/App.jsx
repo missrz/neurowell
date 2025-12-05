@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Preloader from "./components/Preloader";
@@ -8,6 +9,7 @@ import Footer from "./components/Footer";
 import AnimatedBackground from "./components/AnimatedBackground";
 import Dashboard from "./pages/Dashboard";
 // Home Components
+import Home from './pages/Home';
 import Hero from "./components/Hero";
 import NeuroWellInsight from "./components/NeuroWellInsight";
 import Features from "./components/Features";
@@ -41,11 +43,36 @@ import Auth from "./components/Auth";
 
 // Floating Chatbot
 import Chatbot from "./components/Chatbot";
+import { setAuthToken, getMe } from './services/api';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/userSlice';
+import { useEffect } from 'react';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [slideOpen, setSlideOpen] = useState(false);
   const [showAuthInline, setShowAuthInline] = useState(false);
+  const loggedUser = useSelector(state => state.user.user);
+  const dispatch = useDispatch();
+
+  // restore token from sessionStorage on app start and fetch user
+  useEffect(() => {
+    try {
+      const token = (typeof window !== 'undefined' && window.sessionStorage) ? window.sessionStorage.getItem('authToken') : null;
+      if (token) {
+        setAuthToken(token);
+        getMe().then(res => {
+          if (res?.user) dispatch(setUser({ user: res.user, token }));
+        }).catch(() => {
+          // invalid token, clear
+          setAuthToken(null);
+          dispatch(setUser({ user: null, token: null }));
+        });
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -58,42 +85,7 @@ export default function App() {
           <Routes>
             {/* HOME PAGE */}
             <Route
-              path="/"
-              element={
-                <>
-                  <AnimatedBackground />
-                  <Hero />
-
-                  {/* Inline Login/Register Toggle */}
-                  <div style={{ textAlign: "center", margin: "2rem 0" }}>
-                    <button
-                      style={{
-                        padding: "10px 20px",
-                        backgroundColor: "#0ff",
-                        color: "#010101",
-                        border: "none",
-                        borderRadius: "8px",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                      }}
-                      onClick={() => setShowAuthInline(!showAuthInline)}
-                    >
-                      {showAuthInline ? "Login/SignUp" : "Login / SignUp"}
-                    </button>
-                  </div>
-
-                  {showAuthInline && (
-                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "2rem" }}>
-                      <Auth />
-                    </div>
-                  )}
-
-                  <NeuroWellInsight />
-                  <Features />
-                  <CTA />
-                  <Contact />
-                </>
-              }
+              path="/" element={<Home />} 
             />
 
             {/* AI VOICE CHAT PAGE */}

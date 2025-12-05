@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import "../styles/Auth.css";
+import { useDispatch } from 'react-redux';
+import { setUser, clearUser } from '../store/userSlice';
+import { signup, login, setAuthToken } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true); // toggle Login / Signup
@@ -8,11 +12,24 @@ export default function Auth() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [name, setName] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simple validation example
+    const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     if (!email || !password || (!isLogin && !confirmPassword)) {
       setError("Please fill all fields");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format');
+      return;
+    }
+    if (!isLogin && !name.trim()) {
+      setError('Name is required for signup');
       return;
     }
     if (!isLogin && password !== confirmPassword) {
@@ -20,8 +37,25 @@ export default function Auth() {
       return;
     }
     setError("");
-    // TODO: handle login/signup logic
-    alert(`${isLogin ? "Login" : "Signup"} submitted`);
+    // handle login/signup logic
+    (async () => {
+      try {
+        if (isLogin) {
+          const data = await login(email, password);
+          setAuthToken(data.token);
+          dispatch(setUser({ user: data.user, token: data.token }));
+          navigate('/consent');
+        } else {
+          const data = await signup(name, email, password);
+          setAuthToken(data.token);
+          dispatch(setUser({ user: data.user, token: data.token }));
+          navigate('/consent');
+        }
+      } catch (err) {
+        console.error(err);
+        setError(err?.response?.data?.error || 'Auth failed');
+      }
+    })();
   };
 
   return (
@@ -31,7 +65,17 @@ export default function Auth() {
 
         <form className="auth-form" onSubmit={handleSubmit}>
           {error && <div className="error-text">{error}</div>}
-
+          {!isLogin && (
+            <div className="input-group">
+              <label>Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your full name"
+              />
+            </div>
+          )}
           <div className="input-group">
             <label>Email</label>
             <input
