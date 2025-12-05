@@ -2,9 +2,7 @@
   "name": "neurowell-frontend",
   "version": "1.0.0",
   "private": true,
-
   "proxy": "http://localhost:5000",
-
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "animate.css": "^4.1.1",
@@ -13,23 +11,25 @@
     "chart.js": "^4.5.1",
     "cors": "^2.8.5",
     "express": "^5.2.1",
-    "framer-motion": "^12.23.24",
+    "framer-motion": "^12.23.25",
     "howler": "^2.2.4",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.10",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.15.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-scroll": "^1.9.3",
+    "recharts": "^2.15.4",
     "swiper": "^12.0.3"
   },
-
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "eslint-plugin-react-hooks": "^7.0.1"
   },
-
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -38,7 +38,6 @@
     "start:backend": "node backend/server.js",
     "dev": "concurrently \"npm run start:backend\" \"npm start\""
   },
-
   "browserslist": {
     "production": [
       ">0.2%",

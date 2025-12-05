@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import SlidePanel from "./components/SlidePanel";
 import Footer from "./components/Footer";
 import AnimatedBackground from "./components/AnimatedBackground";
-
+import Dashboard from "./pages/Dashboard";
 // Home Components
 import Hero from "./components/Hero";
 import NeuroWellInsight from "./components/NeuroWellInsight";
@@ -19,7 +19,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Consent from "./pages/Consent";
 import Support from "./pages/Support";
-import Dashboard from "./pages/Dashboard";
+import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import Chat from "./pages/Chat"; // AI Voice Chat page
 import MoodTracker from "./pages/MoodTracker"; // Mood Tracker page
 import Assessment from "./pages/Assessment";
@@ -30,6 +30,11 @@ import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
 import Logout from "./pages/Logout";
 import AiDetection from "./pages/AiDetection";
+// import AIDetection from "./pages/AIDetection";
+// import MoodTracker from "./pages/MoodTracker";
+// import Insights from "./pages/Insights";
+// import Chatbot from "./pages/Chatbot";
+// import Dashboard from "./pages/Dashboard";
 
 // Optional inline Auth
 import Auth from "./components/Auth";
@@ -116,6 +121,11 @@ export default function App() {
             <Route path="/admin" element={<Admin />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/aiDetection" element={<AiDetection/>}/>
+            <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
+            {/* <Route path="/insights" element={<Insights />} /> */}
+
+              
+
             {/* REDIRECT UNKNOWN ROUTES */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

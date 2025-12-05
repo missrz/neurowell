@@ -1,0 +1,89 @@
+.sos-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+}
+
+.sos-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff4d4d;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+/* SOS BUTTON */
+.sos-button {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  font-size: 3rem;
+  font-weight: bold;
+  background: radial-gradient(circle, #ff1a1a, #b30000);
+  border: none;
+  color: white;
+  margin: 2rem 0;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+  transition: 0.3s;
+}
+
+.sos-button:hover {
+  box-shadow: 0 0 40px rgba(255, 0, 0, 1);
+}
+
+.sos-activated {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 50, 50, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 0, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 50, 50, 0.5);
+  }
+}
+
+/* CONTACT SECTION */
+.contact-title {
+  font-size: 1.5rem;
+  color: #00eaff;
+  margin-top: 1rem;
+}
+
+.contact-list {
+  margin-top: 1rem;
+}
+
+.contact-card {
+  background: rgba(0, 10, 20, 0.6);
+  border: 2px solid #ff4d4d;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  transition: 0.3s ease-in-out;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 15px rgba(255, 60, 60, 0.7);
+}
+
+.contact-card h5 {
+  margin: 0;
+  color: #ff7373;
+}
+
+.contact-card p {
+  margin: 3px 0 0;
+  opacity: 0.8;
+}

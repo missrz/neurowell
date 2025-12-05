@@ -6,31 +6,32 @@ import "../styles/NeuroWellInsight.css";
 export default function NeuroWellInsight() {
   const navigate = useNavigate();
 
+  // All routes properly updated and standardized
   const items = [
     { 
       title: "AI Detection", 
       desc: "Detect early signs of mental health issues using NLP and emotion analysis.",
-      route: "/ai-detection"
+      route: "/neurowell/ai-detection"
     },
     { 
       title: "Emotion Tracker", 
       desc: "Track mood and emotional trends over time.",
-      route: "/moodtracker"
+      route: "/neurowell/mood-tracker"
     },
     { 
       title: "Personalized Insights", 
       desc: "Tailored recommendations and micro-tasks.",
-      route: "/insights"
+      route: "/neurowell/insights"
     },
     { 
       title: "AI Chatbot", 
       desc: "Interact with our intelligent AI assistant for instant answers and tips.",
-      route: "/chatbot"
+      route: "/neurowell/chatbot"
     },
     { 
       title: "Interactive Dashboard", 
       desc: "Visual tracking & gamified progress.",
-      route: "/dashboard"
+      route: "/neurowell/dashboard"
     }
   ];
 
