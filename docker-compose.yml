@@ -1,0 +1,37 @@
+services:
+  python-ai:
+    build:
+      context: ./backend/python_ai
+      dockerfile: Dockerfile
+    container_name: neurowell_python_ai
+    ports:
+      - "4001:4001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: neurowell_backend
+    environment:
+      - PORT=4000
+      - AI_SERVER_URL=http://python-ai:4001
+    ports:
+      - "4000:4000"
+    depends_on:
+      python-ai:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    container_name: neurowell_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

@@ -24,5 +24,10 @@ def predict():
         "advice": advice
     })
 
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"}), 200
+
 if __name__ == "__main__":
-    app.run(port=5001, debug=True)
+    app.run(host='0.0.0.0', port=4001, debug=True)

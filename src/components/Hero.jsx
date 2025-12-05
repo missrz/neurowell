@@ -1,7 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Hero.css";
 
 export default function Hero() {
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+    // Simple auth check: presence of a token in localStorage
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      // redirect to login page
+      navigate("/login");
+      return;
+    }
+    // if logged in, go to assessment
+    navigate("/assessment");
+  };
+
   return (
     <section className="hero-section" id="home">
       {/* <video className="hero-video" autoPlay muted loop playsInline>
@@ -17,7 +32,7 @@ export default function Hero() {
         <p className="hero-tagline">
           Early Mental Health Detection & Support Powered by AI
         </p>
-        <button className="hero-btn">Start Mental Health Check</button>
+        <button className="hero-btn" onClick={handleStart}>Start Mental Health Check</button>
       </div>
     </section>
   );
