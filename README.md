@@ -30,3 +30,44 @@ AI Assistant Tips
 Files added for AI support:
 - `agent.md` — instructions and repository context for AI helpers.
 - `insta.md` — short templates and examples for Instagram content generation.
+
+REPL Console / DB Tips
+----------------------
+You can open a Node REPL that loads your app models and connects to the app database. Use `make console` (or run `node backend/console.js`) to start the REPL inside the backend environment.
+
+Common commands (in the REPL):
+
+- List up to 5 users:
+```js
+await User.find().limit(5)
+```
+
+- List up to 5 users as plain objects (no Mongoose docs):
+```js
+await User.find().lean().limit(5)
+```
+
+- Find a user by MongoDB `_id` (replace `<id>`):
+```js
+await User.findById('<id>')
+// or
+await User.findOne({ _id: '<id>' })
+```
+
+- Update a user's name (by id):
+```js
+await User.findByIdAndUpdate('<id>', { name: 'New Name' }, { new: true })
+```
+
+- Update a user's password (hashing with bcrypt):
+```js
+const bcrypt = require('bcrypt');
+const newHash = await bcrypt.hash('newPlainPassword', 10);
+await User.findByIdAndUpdate('<id>', { passwordHash: newHash });
+```
+
+Notes:
+- The REPL exposes `User`, `mongoose`, `db`, and `bcrypt` for convenience.
+- Use `await` in the Node 18+ REPL to run queries directly.
+- For production or admin UIs, never expose `passwordHash` or allow unhashed password storage.
+
