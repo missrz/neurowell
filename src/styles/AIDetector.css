@@ -1,0 +1,72 @@
+.ai-detector-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 50px 20px;
+  background: #0d0d0d; /* dark futuristic background */
+}
+
+/* Heading */
+.ai-detector-container h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+.ai-detector-container .ai-text {
+  color: #00ffff; /* cyan */
+  text-shadow: 0 0 2px #00ffff, 0 0 5px #00ffff;
+  margin-bottom: 50px;
+}
+
+.ai-detector-container .detector-text {
+  color: #ff00ff; /* pink */
+  text-shadow: 0 0 2px #ff00ff, 0 0 5px #ff00ff;
+  margin-bottom: 50px;
+}
+
+/* Cards */
+.ai-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, box-shadow 0.3s;
+  color: #fff;
+  cursor: pointer;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.ai-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 20px #00ffff, 0 0 40px #8f00ff;
+}
+
+/* Icon in card */
+.ai-card .icon {
+  font-size: 2.5rem;
+  text-shadow: 0 0 2px #00ffff, 0 0 5px #00ffff, 0 0 10px #8f00ff;
+  margin-bottom: 15px;
+}
+
+/* Card title */
+.ai-card h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Card description */
+.ai-card p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .ai-detector-container h1 {
+    font-size: 3rem;
+  }
+  .ai-card .icon {
+    font-size: 2rem;
+  }
+}

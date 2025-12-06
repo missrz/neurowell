@@ -1,0 +1,171 @@
+/* ---------------------------- Container ---------------------------- */
+.settings-container {
+  width: 95%;
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 30px 25px;
+  background: rgba(15, 15, 15, 0.95);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25);
+  position: relative;
+  overflow: visible;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ---------------------------- Closing Animation ---------------------------- */
+.settings-container.closing {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* ---------------------------- Close Button ---------------------------- */
+.btn-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 35px;
+  height: 35px;
+  z-index: 100;
+  background: #0d0d0d;
+  border: 1px solid #00ffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  background: #00ffff;
+  color: #0d0d0d;
+  transition: all 0.3s ease;
+}
+
+/* ---------------------------- Heading ---------------------------- */
+.settings-container h1 {
+  font-size: 2.8rem;
+  color: #00ffff;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 0 0 5px #00ffff, 0 0 10px #8f00ff, 0 0 20px #8f00ff;
+}
+
+.settings-container p.lead {
+  text-align: center;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+/* ---------------------------- Profile Section ---------------------------- */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-section img {
+  border-radius: 50%;
+  border: 3px solid #00ffff;
+  padding: 3px;
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-section img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #00ffff, 0 0 25px #8f00ff;
+}
+
+/* ---------------------------- Buttons ---------------------------- *//* ---------------------------- Simple Close Button ---------------------------- */
+.btn-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #00ffff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.btn-close:hover {
+  color: #fff;
+}
+
+/* ---------------------------- Tabs ---------------------------- */
+.nav-tabs {
+  border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.nav-link {
+  color: #00ffff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-link.active {
+  background: rgba(0, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+}
+
+.nav-link:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+}
+
+/* ---------------------------- Form ---------------------------- */
+.settings-card {
+  background: rgba(10, 10, 10, 0.85);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.1);
+  margin-top: 20px;
+}
+
+.form-check-input {
+  cursor: pointer;
+}
+
+/* ---------------------------- Color Picker ---------------------------- */
+input[type="color"] {
+  border: none;
+  width: 50px;
+  height: 35px;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* ---------------------------- Toast Notification ---------------------------- */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #00ffff;
+  color: #0d0d0d;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+  font-weight: 600;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  z-index: 9999;
+}
+
+@keyframes fadein {
+  from { opacity: 0; bottom: 20px; }
+  to { opacity: 1; bottom: 30px; }
+}
+
+@keyframes fadeout {
+  from { opacity: 1; bottom: 30px; }
+  to { opacity: 0; bottom: 20px; }
+}

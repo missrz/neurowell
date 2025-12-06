@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
-import AnimatedBackground from "../components/AnimatedBackground";
+// import AnimatedBackground from "../components/AnimatedBackground";
 import Hero from "../components/Hero";
 import NeuroWellInsight from "../components/NeuroWellInsight";
 import Features from "../components/Features";
@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <div style={{ position: "relative" }}>
-      <AnimatedBackground />
+      {/* <AnimatedBackground /> */}
       <Hero />
 
       {/* Toggle Auth Button */}

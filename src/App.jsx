@@ -6,7 +6,7 @@ import Preloader from "./components/Preloader";
 import Navbar from "./components/Navbar";
 import SlidePanel from "./components/SlidePanel";
 import Footer from "./components/Footer";
-import AnimatedBackground from "./components/AnimatedBackground";
+// import AnimatedBackground from "./components/AnimatedBackground";
 import Dashboard from "./pages/Dashboard";
 // Home Components
 import Home from './pages/Home';

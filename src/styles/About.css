@@ -1,0 +1,85 @@
+.about-section {
+  padding: 80px 20px;
+  background: #0d0d0d; /* Dark background */
+  color: #fff;
+  position: relative;
+  border: 2px solid cyan; /* optional neon border */
+  border-radius: 15px;
+  box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; /* neon glow effect */
+}
+
+/* About header (About) */
+.about-section h2 {
+  font-size: 2.5rem;
+  color: #00bfff; /* Blue for "About" */
+  text-align: center;
+  text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+  margin-bottom: 40px;
+}
+
+/* NeuroWell highlighted in pink inside text */
+.about-section h2 span.neurowell {
+  color: #ff0582; /* Neon pink */
+  text-shadow: 0 0 10px #fc0480, 0 0 20px #ff1493;
+}
+
+/* About text paragraphs */
+.about-text {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #ccc;
+}
+
+/* Detail items */
+.about-details {
+  gap: 30px;
+}
+
+.about-item h5 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: #00bfff; /* Blue headings */
+  text-shadow: 0 0 8px #00bfff, 0 0 16px #00bfff;
+}
+
+.about-item p,
+.about-item ul {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.about-item ul li {
+  margin-bottom: 5px;
+}
+
+/* Close button */
+.about-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #fff;
+  transition: color 0.2s;
+}
+
+.about-close-btn:hover {
+  color: #ff4d4d;
+}
+
+/* Responsive tweaks for larger screens */
+@media (min-width: 768px) {
+  .about-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .about-item {
+    flex: 0 0 48%;
+  }
+}
