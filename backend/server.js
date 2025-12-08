@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 const AI_SERVER_URL = process.env.AI_SERVER_URL || "http://localhost:5001";
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/neurowell';
 
 // Connect to MongoDB

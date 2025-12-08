@@ -1,54 +1,148 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
-
 .dashboard-container {
+  background: #0d0d0d;
   min-height: 100vh;
-  background-color: #010101;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 3rem;
+  position: relative;
+  padding-bottom: 100px;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.dashboard-heading {
+  font-size: 4rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 50px;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   position: relative;
 }
 
-/* Close button */
+.dashboard-heading::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 150px;
+  height: 5px;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  transform: translateX(-50%);
+  border-radius: 5px;
+  animation: glowLine 2s infinite alternate;
+}
+
+@keyframes glowLine {
+  0% { box-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff; }
+  100% { box-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff; }
+}
+
+/* ==============================
+   Close Button
+============================== */
 .close-btn {
   position: fixed;
   top: 20px;
   right: 20px;
-  border-radius: 50%;
-  font-size: 20px;
-  z-index: 999;
-  box-shadow: 0 0 10px #ff0000, 0 0 20px #ff5555;
-  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 1000;
+  font-size: 1.3rem;
+  padding: 0.5rem 0.8rem;
+  background: linear-gradient(145deg, #7d1aff, #0cd6ff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #7d1aff, #0cd6ff inset;
+  transition: all 0.3s ease;
 }
 .close-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #ff0000, 0 0 30px #ff5555;
+  transform: scale(1.15) rotate(-2deg);
+  box-shadow: 0 0 25px #7d1aff, #0cd6ff inset;
 }
 
-/* Stat cards */
-.stat-card {
-  background-color: #111;
-  border-radius: 15px;
-  box-shadow: 0 0 25px rgba(0, 140, 247, 0.5);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.stat-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 35px rgba(0, 140, 247, 0.7);
+/* Feature Cards */
+.feature-card {
+  background: rgba(255, 255, 255, 0.05); /* frosted glass */
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  padding: 25px 15px;
+  color: #fff;
 }
 
-.stat-card .icon {
+.feature-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 20px #00ffff, 0 0 40px #8f00ff;
+}
+
+/* Card Icons */
+.feature-card .icon {
   font-size: 3rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+  text-shadow: 0 0 2px #00ffff, 0 0 5px #00ffff, 0 0 10px #8f00ff;
+  color: #00ffff;
+}
+.feature-card:hover .icon {
+  transform: scale(1.3) rotate(10deg);
+  color: #00fff7;
 }
 
-.stat-card .card-title {
-  color: #0ff;
+/* Card Titles */
+.feature-card h5 {
+  font-weight: 600;
   margin-bottom: 0.5rem;
+  color: #fff;
 }
 
-.stat-card .card-value {
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
+/* Card Descriptions */
+.feature-card p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+/* ==============================
+   Floating SOS Button
+============================== */
+.btn-danger.position-fixed {
+  box-shadow: 0 0 20px #ff1a1a, 0 0 40px #ff4d4d inset;
+  animation: pulse 2s infinite;
+  font-size: 1.8rem;
+  border-radius: 50%;
+}
+.btn-danger.position-fixed:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 30px #ff4d4d, 0 0 50px #ff1a1a inset;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Section Headings */
+h3 {
+  color: #00fff7;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px cyan;
+}
+
+/* ==============================
+   Responsive tweaks
+============================== */
+@media (max-width: 768px) {
+  .feature-card .icon {
+    font-size: 2.5rem;
+  }
+  .btn-danger.position-fixed {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  .dashboard-heading {
+    font-size: 3rem;
+  }
 }

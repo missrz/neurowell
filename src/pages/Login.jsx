@@ -12,7 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const loggedUser = useSelector(state => state.user.user);
   useEffect(() => {
-    if (loggedUser) navigate('/');
+    if (loggedUser) navigate('/dashboard');
   }, [loggedUser, navigate]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +24,7 @@ export default function Login() {
       const data = await login(email, password);
       setAuthToken(data.token);
       dispatch(setUser({ user: data.user, token: data.token }));
-      navigate('/consent');
+      navigate('/dashboard');
     } catch (err) {
       setError(err?.response?.data?.error || 'Login failed');
     }

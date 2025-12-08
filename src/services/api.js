@@ -36,7 +36,7 @@ const API_BASE = (() => {
   if (typeof window !== 'undefined') {
     const host = window.location.hostname;
     const port = window.location.port;
-    if ((host === 'localhost' || host === '127.0.0.1') && port === '3001') {
+    if ((host === 'localhost' || host === '127.0.0.1') && port === '3000') {
       return 'http://localhost:4000';
     }
   }

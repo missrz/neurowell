@@ -33,7 +33,6 @@ export default function Hero() {
         <p className="hero-tagline">
           Early Mental Health Detection & Support Powered by AI
         </p>
-        <button className="hero-btn" onClick={handleStart}>Start Mental Health Check</button>
       </div>
     </section>
   );
