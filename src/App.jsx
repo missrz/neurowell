@@ -15,6 +15,7 @@ import NeuroWellInsight from "./components/NeuroWellInsight";
 import Features from "./components/Features";
 import CTA from "./components/CTA";
 import Contact from "./components/Contact";
+import About from "./components/About";
 
 // Pages
 import Login from "./pages/Login";
@@ -104,6 +105,7 @@ export default function App() {
             <Route path="/consent" element={<Consent />} /> 
 
             {/* OTHER PAGES */}
+            <Route path="/about" element={<About />} />
             <Route path="/consent" element={<Consent />} />
             <Route path="/support" element={<Support />} />
             <Route path="/assessment" element={<Assessment />} />

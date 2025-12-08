@@ -24,7 +24,7 @@ export default function Login() {
       const data = await login(email, password);
       setAuthToken(data.token);
       dispatch(setUser({ user: data.user, token: data.token }));
-      navigate('/dashboard');
+      navigate('/consent');
     } catch (err) {
       setError(err?.response?.data?.error || 'Login failed');
     }
