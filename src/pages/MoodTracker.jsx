@@ -84,7 +84,7 @@ export default function MoodTracker() {
 
   return (
     <div className="mood-container d-flex flex-column align-items-center">
-      <button className="mood-close-btn btn btn-danger" onClick={() => navigate("/")}>
+      <button className="mood-close-btn btn btn-danger" onClick={() => navigate("/dashboard")}>
         ✕
       </button>
 

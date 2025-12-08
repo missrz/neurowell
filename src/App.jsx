@@ -24,6 +24,7 @@ import Support from "./pages/Support";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import Chat from "./pages/Chat"; // AI Voice Chat page
 import MoodTracker from "./pages/MoodTracker"; // Mood Tracker page
+import StressGames from "./pages/StressGames";
 import Assessment from "./pages/Assessment";
 import FullChatbotPage from "./pages/FullChatbotPage";
 import Source from "./pages/Source";
@@ -112,8 +113,15 @@ export default function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/aiDetection" element={<AiDetection/>}/>
-            <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
+            {/* AI Detection (two paths for backward compatibility) */}
+            <Route path="/ai-detector" element={<AiDetection />} />
+
+            {/* Advanced Analytics */}
+            <Route path="/analytics" element={<AdvancedAnalytics />} />
+
+            {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
+            <Route path="/mood-tracker" element={<MoodTracker />} />
+            <Route path="/stress-games" element={<StressGames />} />
             {/* <Route path="/insights" element={<Insights />} /> */}
 
               

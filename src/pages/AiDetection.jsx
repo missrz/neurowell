@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../styles/AiDetection.css";
 
@@ -6,6 +7,8 @@ export default function AiDetection() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const analyzeText = async () => {
     if (!text.trim()) return alert("Please enter your feelings.");
@@ -24,6 +27,12 @@ export default function AiDetection() {
 
   return (
     <div className="ai-container">
+      <button
+        className="close-btn animate_animated animate_fadeIn"
+        onClick={() => navigate("/dashboard")}
+      >
+        ✕
+      </button>
       <h1 className="title">AI Mental Health Detection</h1>
 
       <textarea

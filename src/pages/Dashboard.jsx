@@ -35,7 +35,7 @@ export default function Dashboard() {
     "Chat / Support": "/chat",
     "Mood Tracker": "/mood-tracker",
     "Stress Relief Games": "/stress-games",
-    "SOS": "/sos",
+    "SOS": "/sos-source",
     "Journal": "/journal",
     "Settings": "/settings",
     "Progress Analytics": "/analytics",
@@ -57,14 +57,6 @@ export default function Dashboard() {
         overflowX: "hidden",
       }}
     >
-      {/* Close Button */}
-      <button
-        className="close-btn animate_animated animate_fadeIn"
-        onClick={() => navigate("/")}
-      >
-        ✕
-      </button>
-
       <div className="container py-4">
 
         {/* HEADER */}

@@ -1,5 +1,6 @@
 // src/pages/StressGames.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/StressGames.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "animate.css";
@@ -394,6 +395,7 @@ function FocusDot({ onFinish }) {
 export default function StressGames() {
   const [currentGame, setCurrentGame] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
+  const navigate = useNavigate();
 
   function handleFinish(gameKey, score) {
     setTotalScore((s) => s + Number(score || 0));
@@ -456,6 +458,9 @@ export default function StressGames() {
 
   return (
     <div className="stress-games-container text-light p-4" style={{ background: "#080812", minHeight: "100vh" }}>
+      <button className="mood-close-btn btn btn-danger" onClick={() => navigate("/dashboard")}>
+        ✕
+      </button>
       <div className="container">
         {!currentGame ? (
           <>

@@ -12,7 +12,7 @@ export default function Chat() {
   let recognition;
   let micTimeout;
 
-  const handleClose = () => navigate("/");
+  const handleClose = () => navigate("/dashboard");
 
   const speakFunc = (input) => {
     const utter = new SpeechSynthesisUtterance(input);

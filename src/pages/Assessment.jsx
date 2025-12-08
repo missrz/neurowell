@@ -35,7 +35,7 @@ export default function Assessment() {
 
   return (
     <div className="assessment-container">
-      <button className="close-btn btn btn-danger" onClick={() => navigate("/")}>
+      <button className="close-btn btn btn-danger" onClick={() => navigate("/dashboard")}>
         ✕
       </button>
 
