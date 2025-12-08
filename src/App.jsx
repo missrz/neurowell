@@ -36,6 +36,7 @@ import Admin from "./pages/Admin";
 import Logout from "./pages/Logout";
 import AiDetection from "./pages/AiDetection";
 import Resources from "./pages/Resources";
+import Notifications from "./pages/Notifications";
 
 // import AIDetection from "./pages/AIDetection";
 // import MoodTracker from "./pages/MoodTracker";
@@ -118,6 +119,8 @@ export default function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/notify" element={<Notifications />} />
+
             {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
             <Route path="/mood-tracker" element={<MoodTracker />} />
             <Route path="/stress-games" element={<StressGames />} />

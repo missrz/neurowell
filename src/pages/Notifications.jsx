@@ -23,6 +23,24 @@ export default function Notifications() {
 
   return (
     <div className="notifications-container">
+      
+      {/* Close Button */}
+      <button
+        className="mood-close-btn btn btn-danger"
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          fontSize: "22px",
+          borderRadius: "50%",
+          width: "50px",
+          height: "50px",
+          zIndex: "999",
+        }}
+onClick={() => window.location.href = "/dashboard"}
+      >
+        ✕
+      </button>
       <h2 className="notif-title">🔔 Notifications</h2>
 
       {notifications.length === 0 ? (
@@ -37,6 +55,7 @@ export default function Notifications() {
             transition={{ duration: 0.3 }}
           >
             <div className="notif-content">
+              
               <h5>{notif.title}</h5>
               <p>{notif.text}</p>
             </div>

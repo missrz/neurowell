@@ -39,7 +39,7 @@ export default function Dashboard() {
     "Journal": "/journal",
     "Settings": "/settings",
     "Progress Analytics": "/AdvancedAnalytics",
-    "Notifications": "/notifications",
+    "Notifications": "/notify",
     "Resources & Helplines": "/resources",
   };
 
@@ -61,8 +61,8 @@ export default function Dashboard() {
 
         {/* HEADER */}
         <h1 className="text-center mb-5 animate_animated animate_fadeInDown dashboard-title">
-          <span className="neurowell">NeuroWell</span>
-          <div className="dashboard-subtitle">— Dashboard —</div>
+          {/* <span className="neurowell">NeuroWell</span>
+          <div className="dashboard-subtitle">— Dashboard —</div> */}
         </h1>
 
         {/* --------- MAIN FEATURES --------- */}

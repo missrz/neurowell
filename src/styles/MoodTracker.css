@@ -1,53 +1,185 @@
-.mood-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #010101;
-  color: white;
-  overflow-y: auto;
-  z-index: 1000;
+/* MoodTracker.css */
+
+/* Container */
+.tracker-container {
+  display: flex;
+  gap: 2rem;
   padding: 2rem;
+  background-color: #0f0f1a; /* dark background for overall page */
+  min-height: 100vh;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.mood-close-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 1.5rem;
-  z-index: 999;
+/* History / Right Panel */
+.history-section {
+  flex: 1;
+  background-color: #1c1c2e; /* dark panel background */
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.5); /* neon glow */
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.history-section h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #00bfff; /* neon heading */
+}
+
+/* Mood History Items */
+.history-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.moods-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mood-item {
+  border: 2px solid #00bfff;
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.3s;
+}
+
+.mood-item .mood-emoji {
+  font-size: 1.2rem;
+}
+
+.mood-item .mood-name {
+  font-size: 0.9rem;
+}
+
+/* Timestamp & Delete Button */
+.timestamp {
+  font-size: 0.75rem;
+  color: #a0a0a0;
+  margin-bottom: 0.5rem;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ff4d4d;
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Mood Buttons */
+.mood-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .mood-btn {
-  font-size: 1.2rem;
-  font-weight: bold;
-  transition: transform 0.3s, box-shadow 0.3s;
-  min-width: 100px;
+  background-color: #111122;
+  border: 2px solid #00bfff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+  position: relative;
 }
+
 .mood-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px white;
+  box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color), 0 0 30px var(--neon-color);
+  transform: translateY(-2px);
 }
 
 .mood-btn.selected {
-  transform: scale(1.2);
-  box-shadow: 0 0 20px white;
+  background-color: #00bfff;
+  color: #000;
+  box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff;
 }
 
-.mood-card {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
+/* Add Button */
+.add-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.add-btn {
+  background-color: #00bfff;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
-  min-width: 250px;
-  animation: fadeIn 0.5s ease-in-out;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #000;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.add-btn:hover {
+  box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff, 0 0 60px #00bfff;
+  transform: translateY(-2px);
 }
 
-.chart-container {
-  margin-top: 20px;
+/* Pie Chart */
+.pie-chart {
+  flex: 0 0 400px;
+  height: 400px;
+  background-color: #0f0f1a;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+  padding: 1rem;
+}
+.tracker-container {
+  display: flex;
+  justify-content: space-between; /* Left, Center, Right panels */
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #0f0f1a;
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* Center Pie Chart */
+.pie-container {
+  flex: 0 0 400px; /* Fixed width for center chart */
+  display: flex;
+  justify-content: center;
+}
+
+.pie-chart {
+  width: 400px;
+  height: 400px;
+  background-color: #0f0f1a;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+  padding: 1rem;
+}
+
+/* Right Panel Specific */
+.right-panel {
+  flex: 1;
+  max-width: 300px;
+  background-color: #1c1c2e;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+  overflow-y: auto;
+  max-height: 80vh;
 }
