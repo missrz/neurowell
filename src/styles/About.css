@@ -83,3 +83,20 @@
     flex: 0 0 48%;
   }
 }
+.about-container h4 {
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.about-modal::-webkit-scrollbar {
+  width: 8px;
+}
+.about-modal::-webkit-scrollbar-thumb {
+  background: cyan;
+  border-radius: 10px;
+}
+
+.about-container ul li {
+  margin-bottom: 6px;
+  opacity: 0.9;
+}

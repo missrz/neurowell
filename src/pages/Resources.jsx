@@ -3,8 +3,11 @@ import React from "react";
 import "../styles/Resources.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function Resources() {
+  const navigate = useNavigate(); // ✅ FIXED: must initialize navigate()
+
   const resourceList = [
     {
       id: 1,
@@ -45,6 +48,26 @@ export default function Resources() {
 
   return (
     <div className="resources-container">
+
+      {/* Close Button */}
+      <button
+        className="mood-close-btn btn btn-danger"
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          fontSize: "22px",
+          borderRadius: "50%",
+          width: "50px",
+          height: "50px",
+          zIndex: "999",
+        }}
+        onClick={() => navigate("/dashboard")} // ✅ Works now
+      >
+        ✕
+      </button>
+
+      {/* Title */}
       <motion.h2
         className="resources-title"
         initial={{ opacity: 0, y: -20 }}
@@ -53,8 +76,11 @@ export default function Resources() {
         📚 Helpful Mental Health Resources
       </motion.h2>
 
-      <p className="resource-sub">Explore guides, videos, and trusted articles.</p>
+      <p className="resource-sub">
+        Explore trusted guides, videos, and articles to support your well-being.
+      </p>
 
+      {/* Grid */}
       <div className="resource-grid">
         {resourceList.map((item) => (
           <motion.div

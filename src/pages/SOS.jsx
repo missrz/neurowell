@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import "../styles/SOS.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function SOS() {
+  const navigate = useNavigate();
   const [alertActive, setAlertActive] = useState(false);
 
   const emergencyContacts = [
@@ -16,16 +18,37 @@ export default function SOS() {
   const triggerSOS = () => {
     setAlertActive(true);
 
-    // phone vibration (mobile only)
+    // vibration for mobile
     if (navigator.vibrate) {
       navigator.vibrate([500, 300, 500, 300]);
     }
 
+    // deactivate alert after 3 seconds
     setTimeout(() => setAlertActive(false), 3000);
   };
 
   return (
     <div className="sos-container">
+
+      {/* Close Button */}
+      <button
+        className="mood-close-btn btn btn-danger"
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          fontSize: "22px",
+          borderRadius: "50%",
+          width: "45px",
+          height: "45px",
+          zIndex: "999",
+        }}
+        onClick={() => navigate("/dashboard")}
+      >
+        ✕
+      </button>
+
+      {/* Heading */}
       <motion.h2
         className="sos-title"
         initial={{ opacity: 0, y: -20 }}
@@ -39,12 +62,25 @@ export default function SOS() {
         className={`sos-button ${alertActive ? "sos-activated" : ""}`}
         onClick={triggerSOS}
         whileTap={{ scale: 0.9 }}
-        animate={{ scale: alertActive ? [1, 1.1, 1] : 1 }}
-        transition={{ duration: 0.4, repeat: alertActive ? Infinity : 0 }}
+        animate={{
+          scale: alertActive ? [1, 1.15, 1] : 1,
+          boxShadow: alertActive
+            ? [
+                "0 0 20px red",
+                "0 0 40px red",
+                "0 0 20px red"
+              ]
+            : "none",
+        }}
+        transition={{
+          duration: 0.5,
+          repeat: alertActive ? Infinity : 0,
+        }}
       >
         SOS
       </motion.button>
 
+      {/* Contacts */}
       <h4 className="contact-title">Emergency Contacts</h4>
 
       <div className="contact-list">
@@ -54,6 +90,8 @@ export default function SOS() {
             className="contact-card"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.2 }}
           >
             <div>
               <h5>{c.name}</h5>

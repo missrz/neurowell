@@ -27,13 +27,16 @@ import Chat from "./pages/Chat"; // AI Voice Chat page
 import MoodTracker from "./pages/MoodTracker"; // Mood Tracker page
 import StressGames from "./pages/StressGames";
 import Assessment from "./pages/Assessment";
+import Journal from "./pages/Journal";
 import FullChatbotPage from "./pages/FullChatbotPage";
 import Source from "./pages/Source";
-import SOSSource from "./pages/SOSSource";
+import SOS from "./pages/SOS";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
 import Logout from "./pages/Logout";
 import AiDetection from "./pages/AiDetection";
+import Resources from "./pages/Resources";
+
 // import AIDetection from "./pages/AIDetection";
 // import MoodTracker from "./pages/MoodTracker";
 // import Insights from "./pages/Insights";
@@ -97,7 +100,7 @@ export default function App() {
             <Route path="/chatbot" element={<FullChatbotPage />} />
 
             {/* MOOD TRACKER PAGE */}
-            <Route path="/journal" element={<MoodTracker />} />
+            <Route path="/journal" element={<Journal />} />
 
             {/* AUTH PAGES */}
             <Route path="/login" element={<Login />} />
@@ -111,19 +114,17 @@ export default function App() {
             <Route path="/assessment" element={<Assessment />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/source" element={<Source />} />
-            <Route path="/sos-source" element={<SOSSource />} />
+            <Route path="/sos" element={<SOS />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/logout" element={<Logout />} />
-            {/* AI Detection (two paths for backward compatibility) */}
-            <Route path="/ai-detector" element={<AiDetection />} />
-
-            {/* Advanced Analytics */}
-            <Route path="/analytics" element={<AdvancedAnalytics />} />
-
             {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
             <Route path="/mood-tracker" element={<MoodTracker />} />
             <Route path="/stress-games" element={<StressGames />} />
+            <Route path="/aiDetection" element={<AiDetection/>}/>
+            <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
+            <Route path="/Resources" element={<Resources />} />
+
             {/* <Route path="/insights" element={<Insights />} /> */}
 
               
