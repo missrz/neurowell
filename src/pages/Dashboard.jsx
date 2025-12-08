@@ -38,7 +38,7 @@ export default function Dashboard() {
     "SOS": "/sos-source",
     "Journal": "/journal",
     "Settings": "/settings",
-    "Progress Analytics": "/analytics",
+    "Progress Analytics": "/AdvancedAnalytics",
     "Notifications": "/notifications",
     "Resources & Helplines": "/resources",
   };

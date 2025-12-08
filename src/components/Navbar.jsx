@@ -25,7 +25,7 @@ export default function Navbar() {
   const menuItems = [
     { name: "Home", link: "home", type: "scroll" },
     { name: "Features", link: "features", type: "scroll" },
-    { name: "Mood Tracker", link: "/journal", type: "route" },
+    { name: "Journal", link: "/journal", type: "route" },
     { name: "Assessment", link: "/assessment", type: "route" }, // full page route
     { name: "Chat", link: "/chat", type: "route" },
     { name: "Support", link: "/support", type: "route" },

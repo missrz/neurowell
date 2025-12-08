@@ -1,105 +1,159 @@
-/* AdvancedAnalytics.css */
+/* Root dark theme colors */
+body {
+  padding-top: 90px !important; /* works even if nav is fixed */
+}
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface-light: #1e242d;
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --accent-blue: #4b9fff;
+  --stroke: #2b3544;
+}
 
-/* Main container */
-.advanced-analytics {
-  max-width: 1200px;
-  margin: 0 auto;
+/* PAGE */
+.analytics-page {
+  background: var(--bg);
+  color: var(--text);
   padding: 24px;
 }
+/* .advanced-analytics-page {
+  padding-top: 90px;
+} */
 
-/* Card styles */
-.analytics-card {
-  background-color: #fefbf3; /* soft beige */
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  transition: transform 0.2s, box-shadow 0.2s;
+/* HEADER */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
-.analytics-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+.page-title {
+  font-size: 22px;
+  font-weight: bold;
 }
 
-/* Chart container */
-.chart-container {
-  width: 100%;
-  height: 300px;
+/* RANGE SELECTOR */
+.range-selector {
+  display: flex;
+  gap: 8px;
 }
 
-/* Heatmap cell */
-.heatmap-cell {
-  width: 100%;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb; /* Tailwind gray-200 */
-}
-
-/* Buttons */
-.analytics-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.analytics-btn-blue {
-  background-color: #1f2937; /* navy blue */
-  color: #f5f5ef; /* white text */
-}
-
-.analytics-btn-blue:hover {
-  background-color: #111827; /* darker navy */
-}
-
-.analytics-btn-gray {
-  background-color: #d1d5db; /* gray-300 */
-  color: #1f2937;
-}
-
-.analytics-btn-gray:hover {
-  background-color: #9ca3af; /* gray-400 */
-}
-
-/* Range buttons */
 .range-btn {
   padding: 6px 12px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
+  border-radius: 8px;
+  background: var(--surface-light);
+  color: var(--text-muted);
+  border: 1px solid var(--stroke);
+  transition: 0.2s;
 }
 
 .range-btn.active {
-  background-color: #1f2937;
-  color: #f5f5ef;
+  background: var(--accent-blue);
+  color: white;
 }
 
-.range-btn.inactive {
-  background-color: #f3f4f6;
-  color: #374151;
+/* ACTIONS */
+.actions-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
-/* Prediction card */
-.prediction-card {
-  background-color: #fff8e7; /* soft beige variant */
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-/* Timeline / history */
-.timeline-item {
-  background-color: #ffffff;
+.analytics-btn {
+  padding: 8px 16px;
+  background: var(--surface-light);
+  color: white;
   border-radius: 8px;
-  padding: 8px;
-  border-left: 4px solid #1f2937;
-  margin-bottom: 8px;
+  border: 1px solid var(--stroke);
+  transition: 0.2s;
 }
 
-/* Heatmap colors */
-.mood-1 { background-color: #f6ebe0; }
-.mood-2 { background-color: #eed6bf; }
-.mood-3 { background-color: #e3c79b; }
-.mood-4 { background-color: #caa86c; }
-.mood-5 { background-color: #b8863e; }
+.analytics-btn:hover {
+  background: var(--accent-blue);
+}
+
+/* MAIN BOX */
+.analytics-box {
+  background: var(--surface);
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+}
+
+/* GRID */
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+/* CARDS */
+.card {
+  background: var(--surface-light);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+}
+
+.card-title {
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+/* CHART */
+.chart-container {
+  width: 100%;
+  height: 320px;
+}
+
+/* HEATMAP GRID */
+.heatmap-grid {
+  display: grid;
+  gap: 4px;
+}
+
+.cols-24 {
+  grid-template-columns: repeat(24, 1fr);
+}
+.cols-12 {
+  grid-template-columns: repeat(12, 1fr);
+}
+.cols-10 {
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.heatmap-cell {
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid var(--stroke);
+}
+
+/* Muted dark palette */
+.mood-1 { background: #1e293b; }
+.mood-2 { background: #273449; }
+.mood-3 { background: #2f3f56; }
+.mood-4 { background: #3a4c65; }
+.mood-5 { background: #4b5d77; }
+
+/* PREDICTION CARD */
+.prediction-card {
+  margin-top: 18px;
+  background: var(--surface-light);
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--stroke);
+}
+
+.prediction-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+
+.muted {
+  color: var(--text-muted);
+}
