@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenv
+.venv/
+.env
+venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# FAISS and data
+faiss.index
+faiss_docs.npy
+*.npy
+
+# Logs
+*.log

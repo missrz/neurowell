@@ -20,4 +20,30 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
-backend/python_ai/venv
+backend/ai_server/.venv
+node_modules
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenv
+.venv/
+.env
+venv/
+env/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# FAISS and data
+faiss.index
+faiss_docs.npy
+*.npy
+
+# Logs
+*.log

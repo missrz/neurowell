@@ -1,7 +1,0 @@
-node_modules
-build
-.git
-*.log
-venv
-__pycache__
-*.pyc

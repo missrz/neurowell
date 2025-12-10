@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const AI_SERVER_URL = process.env.AI_SERVER_URL || "http://localhost:5001";
+const AI_SERVER_URL = process.env.AI_SERVER_URL || "http://localhost:4001";
 const PORT = process.env.PORT || 4000;
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/neurowell';
 
@@ -19,6 +19,9 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // Routes
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+// Chat route proxies to Python AI service
+const chatRoutes = require('./routes/chat');
+app.use('/api/chat', chatRoutes);
 
 app.post("/api/detect", async (req, res) => {
   const { text } = req.body;
