@@ -22,12 +22,35 @@ def _embed(text: str) -> np.ndarray:
 
 # Simple small-talk detector: bypass RAG for short conversational queries
 SMALL_TALK = {
-    "hi", "hello", "hey", "yo", "hola", "hi there",
-    "good morning", "good evening", "how are you",
-    "what's up", "sup", "hey bro", "hey buddy",
-    "hey man", "hi buddy"
-}
+    # Basic greetings
+    "hi", "hello", "hey", "yo", "hi there", "hello there", "hey there",
 
+    # Casual variations
+    "hey buddy", "hey bro", "hey man", "hey dude",
+    "what's up", "whats up", "sup", "wsup",
+    "good morning", "good afternoon", "good evening",
+
+    # Friendly openers
+    "how are you", "how r u", "how's it going", "hows it going",
+    "how are things", "how's everything", "hows everything",
+
+    # Very common slang
+    "yo man", "yo bro", "yo buddy",
+    "hi buddy", "hi bro",
+
+    # Super short conversational starters
+    "hi!", "hello!", "hey!", "yo!",
+
+    # Polite openers
+    "greetings", "salutations",
+
+    # Chill expressions used as greetings
+    "what's good", "whats good", "what's new", "whats new",
+    "long time no see",
+
+    # Emoji-based greetings (very common from frontends)
+    "👋", "🙏", "🙌", "😊", "🙂"
+}
 
 def is_small_talk(text: str) -> bool:
     clean = (text or "").lower().strip()
