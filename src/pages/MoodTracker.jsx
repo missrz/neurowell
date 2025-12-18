@@ -89,7 +89,6 @@ export default function MoodTracker() {
       });
 
       const updated = await fetchMoodHistory(currentUser._id);
-      debugger
       setHistory(
         updated.map((d) => ({
           id: d._id,

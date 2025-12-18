@@ -87,7 +87,6 @@ export const logout = async () => {
 
 // POST localhost:4000/api/moods --
 export const saveMood = async ({ moods, description, userId }) => {
-  debugger
   const res = await axios.post(
     url("/api/moods"),
     { moods, description, userId },
