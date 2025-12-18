@@ -12,8 +12,6 @@ if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
     print(GEMINI_API_KEY)
 
-
-
 def ask_gemini(prompt: str) -> str:
     """Send `prompt` to Gemini and return text. Reads model from `GEMINI_MODEL`.
 

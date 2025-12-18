@@ -1,31 +1,66 @@
 /* MoodTracker.css */
 
-/* Container */
+/* Overall Container */
 .tracker-container {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 2rem;
   padding: 2rem;
-  background-color: #0f0f1a; /* dark background for overall page */
+  background-color: #0f0f1a;
   min-height: 100vh;
   color: #fff;
+  position: relative;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* History / Right Panel */
+/* Close Button (Top Right) */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #1c1c2e;
+  color: #00bfff;
+  border: 2px solid #00bfff;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+}
+
+.close-btn:hover {
+  background: #00bfff;
+  color: #000;
+  box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff, 0 0 60px #00bfff;
+  transform: scale(1.1);
+}
+
+/* Left & Right Panels */
 .history-section {
   flex: 1;
-  background-color: #1c1c2e; /* dark panel background */
+  background-color: #1c1c2e;
   padding: 1rem;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.5); /* neon glow */
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
   overflow-y: auto;
   max-height: 80vh;
 }
 
+.right-panel {
+  max-width: 300px;
+}
+
+/* Headings */
 .history-section h2 {
   text-align: center;
   margin-bottom: 1rem;
-  color: #00bfff; /* neon heading */
+  color: #00bfff;
 }
 
 /* Mood History Items */
@@ -79,7 +114,7 @@
   transform: scale(1.2);
 }
 
-/* Mood Buttons */
+/* Mood Buttons (Right Panel) */
 .mood-grid {
   display: flex;
   flex-wrap: wrap;
@@ -137,28 +172,8 @@
 }
 
 /* Pie Chart */
-.pie-chart {
-  flex: 0 0 400px;
-  height: 400px;
-  background-color: #0f0f1a;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
-  padding: 1rem;
-}
-.tracker-container {
-  display: flex;
-  justify-content: space-between; /* Left, Center, Right panels */
-  align-items: flex-start;
-  gap: 2rem;
-  padding: 2rem;
-  background-color: #0f0f1a;
-  min-height: 100vh;
-  color: #fff;
-}
-
-/* Center Pie Chart */
 .pie-container {
-  flex: 0 0 400px; /* Fixed width for center chart */
+  flex: 0 0 400px;
   display: flex;
   justify-content: center;
 }
@@ -170,16 +185,4 @@
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
   padding: 1rem;
-}
-
-/* Right Panel Specific */
-.right-panel {
-  flex: 1;
-  max-width: 300px;
-  background-color: #1c1c2e;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
-  overflow-y: auto;
-  max-height: 80vh;
 }

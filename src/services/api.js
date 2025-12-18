@@ -78,3 +78,40 @@ export const logout = async () => {
   authToken = null;
   return { ok: true };
 };
+
+
+// export const fetchMoods = async (currentUser) => {
+//   const res = await axios.get(url(`/api/moods/user/${currentUser._id}`), { headers: authHeaders() });
+//   return res.data; // { moods }
+// }
+
+// POST localhost:4000/api/moods --
+export const saveMood = async ({ moods, description, userId }) => {
+  debugger
+  const res = await axios.post(
+    url("/api/moods"),
+    { moods, description, userId },
+    { headers: authHeaders() }
+  );
+  return res.data;
+};
+
+// GET /api/moods/user/:userId
+
+export const fetchMoodHistory = async (userId) => {
+  const res = await axios.get(
+    url(`/api/moods/user/${userId}`),
+    { headers: authHeaders() }
+  );
+  return res.data;
+};
+
+// DELETE /api/moods/:id
+export const deleteMood = async (moodId) => {
+  const res = await axios.delete(
+    url(`/api/moods/${moodId}`),
+    { headers: authHeaders() }
+  );
+  return res.data;
+};
+

@@ -1,16 +1,10 @@
-// src/pages/StressGames.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/StressGames.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "animate.css";
 
-/*
-  Upgraded StressGames.jsx (Combination theme: Neon + Soft + Gaming)
-  - Includes 5 games with animations
-  - Keeps original game logic & localStorage bests
-*/
-
+/* ----------------- LocalStorage helpers ----------------- */
 function saveBest(key, value) {
   const prev = Number(localStorage.getItem(key) || 0);
   if (value > prev) localStorage.setItem(key, value);
@@ -19,472 +13,248 @@ function loadBest(key) {
   return Number(localStorage.getItem(key) || 0);
 }
 
-/* ---------------- Memory Grid Challenge ---------------- */
-function MemoryGridChallenge({ onFinish }) {
-  const [sequence, setSequence] = useState([]);
-  const [player, setPlayer] = useState([]);
-  const [round, setRound] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [status, setStatus] = useState("idle"); // idle | showing | input | success | fail
-  const tilesCount = 6; // 2x3
-  const difficultyDelay = 700;
+/* ----------------- Number Click ----------------- */
+function NumberClick({ onFinish }) {
+  const [numbers, setNumbers] = useState(Array.from({ length: 9 }, (_, i) => i + 1));
+  const [score, setScore] = useState(0);
 
-  useEffect(() => {
-    startRound();
-    // eslint-disable-next-line
-  }, []);
-
-  function startRound() {
-    const next = [...sequence, Math.floor(Math.random() * tilesCount)];
-    setSequence(next);
-    setPlayer([]);
-    setRound((r) => r + 1);
-    setStatus("showing");
-    showSequence(next);
-  }
-
-  async function showSequence(seq) {
-    for (let i = 0; i < seq.length; i++) {
-      setActiveIndex(seq[i]);
-      await new Promise((res) => setTimeout(res, Math.max(320, difficultyDelay - seq.length * 20)));
-      setActiveIndex(null);
-      await new Promise((res) => setTimeout(res, 180));
-    }
-    setStatus("input");
-  }
-
-  function handleTileClick(i) {
-    if (status !== "input") return;
-    setPlayer((p) => {
-      const newP = [...p, i];
-      const idx = newP.length - 1;
-      if (sequence[idx] !== i) {
-        setStatus("fail");
-        saveBest("memory_best", round - 1);
-        onFinish(round - 1);
-        return newP;
-      }
-      if (newP.length === sequence.length) {
-        setStatus("success");
-        setTimeout(() => startRound(), 700);
-      }
-      return newP;
+  function handleClick(num) {
+    setScore((s) => {
+      const newScore = s + 1;
+      saveBest("numberClick", newScore);
+      onFinish(newScore);
+      return newScore;
     });
+    setNumbers((prev) => prev.filter((n) => n !== num));
   }
 
   return (
-    <div className="mini-game card glass p-3 animated-card">
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h5 className="mb-0">Memory Grid</h5>
-        <small className="text-muted">Round: {round - (status === "fail" ? 1 : 0)}</small>
+    <div className="mini-game card glass p-3 text-center">
+      <h5 className="text-white">Number Click 🔢</h5>
+      <div className="d-flex flex-wrap justify-content-center gap-2">
+        {numbers.map((n) => (
+          <button key={n} className="btn btn-light btn-sm" onClick={() => handleClick(n)}>
+            {n}
+          </button>
+        ))}
       </div>
-
-      <p className="text-muted small">Watch the sequence and repeat it — rounds grow!</p>
-
-      <div className="memory-grid d-grid gap-2" style={{ gridTemplateColumns: "repeat(3,1fr)" }}>
-        {Array.from({ length: tilesCount }).map((_, i) => {
-          const wrongHighlight = status === "fail" && sequence[player.length] === i;
-          return (
-            <button
-              key={i}
-              className={`memory-tile btn ${activeIndex === i ? "active" : ""} ${wrongHighlight ? "wrong" : ""}`}
-              onClick={() => handleTileClick(i)}
-            >
-              <span className="tile-dot" />
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-3 d-flex gap-2">
-        <button
-          className="btn btn-outline-light btn-sm"
-          onClick={() => {
-            setSequence([]);
-            setRound(0);
-            startRound();
-          }}
-        >
-          Restart
-        </button>
-
-        <div className="ms-auto">
-          {status === "fail" && <span className="text-warning">Wrong! Final: {round - 1}</span>}
-          {status === "success" && <span className="text-success">Nice — next round...</span>}
-          {status === "input" && <span className="text-info">Your turn</span>}
-        </div>
-      </div>
-
-      <small className="d-block text-muted mt-2">Best: {loadBest("memory_best")}</small>
+      <div className="mt-2 text-white">Score: {score} | Best: {loadBest("numberClick")}</div>
     </div>
   );
 }
 
-/* ---------------- Breathing Bubble ---------------- */
-function BreathingBubble({ onFinish }) {
-  const [mode, setMode] = useState("4-4-4");
-  const [running, setRunning] = useState(false);
-  const [phase, setPhase] = useState("inhale"); // inhale | hold | exhale
-  const [count, setCount] = useState(0);
-  const intervalRef = useRef(null);
-
-  const modes = {
-    "4-4-4": { inhale: 4, hold: 4, exhale: 4 },
-    "4-7-8": { inhale: 4, hold: 7, exhale: 8 },
-    box: { inhale: 4, hold: 4, exhale: 4 },
-  };
-
-  useEffect(() => {
-    if (!running) {
-      clearInterval(intervalRef.current);
-      setPhase("inhale");
-      setCount(0);
-      return;
-    }
-    const steps = modes[mode];
-    let stageOrder = ["inhale", "hold", "exhale"];
-    let idx = 0;
-    let sec = steps[stageOrder[idx]];
-    setPhase(stageOrder[idx]);
-    setCount(sec);
-    intervalRef.current = setInterval(() => {
-      sec -= 1;
-      if (sec <= 0) {
-        idx = (idx + 1) % 3;
-        sec = steps[stageOrder[idx]];
-        setPhase(stageOrder[idx]);
-      }
-      setCount(sec);
-    }, 1000);
-
-    return () => clearInterval(intervalRef.current);
-  }, [running, mode]);
-
-  return (
-    <div className="mini-game card glass p-3 d-flex flex-column align-items-center animated-card">
-      <div className="w-100 d-flex justify-content-between align-items-center">
-        <h5 className="mb-0">Breathing Bubble</h5>
-        <small className="text-muted">Calm down in 2–4 minutes</small>
-      </div>
-
-      <div className="breathing-area my-3 d-flex flex-column align-items-center">
-        <div className={`bubble ${phase}`} />
-        <div className="mt-2 text-center">
-          <div className="fw-bold">{phase.toUpperCase()}</div>
-          <div className="text-muted small">Count: {count}s</div>
-        </div>
-      </div>
-
-      <div className="d-flex gap-2 w-100">
-        <select className="form-select form-select-sm" value={mode} onChange={(e) => setMode(e.target.value)}>
-          <option value="4-4-4">4-4-4 (Calm)</option>
-          <option value="4-7-8">4-7-8 (Relax)</option>
-          <option value="box">Box breathing (4-4-4)</option>
-        </select>
-        <button className={`btn ${running ? "btn-danger" : "btn-primary"}`} onClick={() => setRunning((r) => !r)}>
-          {running ? "Stop" : "Start"}
-        </button>
-      </div>
-
-      <small className="text-muted mt-2">Tip: Breathe through nose, exhale softly.</small>
-    </div>
-  );
-}
-
-/* ---------------- Reaction Time Tester ---------------- */
-function ReactionTimeTester({ onFinish }) {
-  const [state, setState] = useState("ready"); // ready | wait | go | result
-  const [timeStart, setTimeStart] = useState(null);
-  const [reaction, setReaction] = useState(null);
+/* ----------------- Reaction Game ----------------- */
+function ReactionGame({ onFinish }) {
+  const [color, setColor] = useState("#ff6b6b");
+  const [score, setScore] = useState(0);
   const timeoutRef = useRef(null);
 
-  function startTest() {
-    setReaction(null);
-    setState("wait");
-    const delay = 800 + Math.floor(Math.random() * 1400);
-    timeoutRef.current = setTimeout(() => {
-      setState("go");
-      setTimeStart(performance.now());
-    }, delay);
+  function startRound() {
+    const delay = Math.random() * 2000 + 1000;
+    timeoutRef.current = setTimeout(() => setColor("#2bd1ff"), delay);
   }
 
   function handleClick() {
-    if (state === "ready") {
-      startTest();
-    } else if (state === "wait") {
-      clearTimeout(timeoutRef.current);
-      setState("ready");
-      setReaction("Too early! Try again.");
-    } else if (state === "go") {
-      const rt = Math.round(performance.now() - timeStart);
-      setReaction(`${rt} ms`);
-      setState("result");
-      const prev = Number(localStorage.getItem("reaction_best") || 9999);
-      if (rt < prev) localStorage.setItem("reaction_best", rt);
-      onFinish(rt);
-    } else if (state === "result") {
-      setState("ready");
-      setReaction(null);
+    if (color === "#2bd1ff") {
+      const newScore = score + 1;
+      setScore(newScore);
+      saveBest("reaction", newScore);
+      onFinish(newScore);
     }
+    setColor("#ff6b6b");
+    startRound();
   }
 
   useEffect(() => {
+    startRound();
     return () => clearTimeout(timeoutRef.current);
   }, []);
 
   return (
-    <div className="mini-game card glass p-3 text-center animated-card">
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h5 className="mb-0">Reaction Tester</h5>
-        <small className="text-muted">Test your reflexes</small>
-      </div>
-
-      <div className={`reaction-box my-3 ${state}`} onClick={handleClick} role="button" tabIndex={0}>
-        {state === "ready" && <div className="text-muted">Click to start</div>}
-        {state === "wait" && <div className="text-muted">Wait for green...</div>}
-        {state === "go" && <div className="fw-bold">CLICK!</div>}
-        {state === "result" && <div className="fw-bold">Result: {reaction}</div>}
-      </div>
-
-      <div className="d-flex gap-2">
-        <button className="btn btn-outline-light btn-sm" onClick={() => { setReaction(null); setState("ready"); }}>
-          Reset
-        </button>
-        <div className="ms-auto text-muted small">Best: {localStorage.getItem("reaction_best") || "—"} ms</div>
-      </div>
+    <div className="mini-game card glass p-3 text-center">
+      <h5 className="text-white">Reaction Game ⚡</h5>
+      <div
+        onClick={handleClick}
+        style={{
+          margin: "20px auto",
+          width: "120px",
+          height: "120px",
+          borderRadius: "50%",
+          background: color,
+          cursor: "pointer",
+          boxShadow: `0 8px 24px ${color}, 0 0 18px inset ${color}`,
+        }}
+      />
+      <div className="text-white">Score: {score} | Best: {loadBest("reaction")}</div>
     </div>
   );
 }
 
-/* ---------------- Emotion Guessing Game ---------------- */
-const EMOTIONS = [
-  { name: "Happy", emoji: "😄", hint: "Smile, eyes crinkled" },
-  { name: "Sad", emoji: "😔", hint: "Downturned mouth" },
-  { name: "Surprised", emoji: "😲", hint: "Wide eyes" },
-  { name: "Angry", emoji: "😠", hint: "Furrowed brow" },
-  { name: "Neutral", emoji: "😐", hint: "No strong expression" },
-];
-
-function EmotionGuessingGame({ onFinish }) {
-  const [target, setTarget] = useState(null);
-  const [choices, setChoices] = useState([]);
+/* ----------------- Color Tap Game ----------------- */
+function ColorTap({ onFinish }) {
+  const colors = ["#ff6b6b", "#60ffa6", "#2bd1ff", "#ffd93d"];
+  const target = "#2bd1ff";
+  const [currentColor, setCurrentColor] = useState(colors[0]);
   const [score, setScore] = useState(0);
-
-  useEffect(() => startRound(), []);
-  function startRound() {
-    const t = EMOTIONS[Math.floor(Math.random() * EMOTIONS.length)];
-    const shuffled = [...EMOTIONS].sort(() => 0.5 - Math.random()).slice(0, 4);
-    if (!shuffled.some((s) => s.name === t.name)) shuffled[0] = t;
-    setTarget(t);
-    setChoices(shuffled.sort(() => 0.5 - Math.random()));
-  }
-
-  function handleChoice(choice) {
-    if (!target) return;
-    if (choice.name === target.name) {
-      setScore((s) => s + 1);
-      onFinish(score + 1);
-      setTimeout(startRound, 600);
-    } else {
-      setTimeout(startRound, 600);
-    }
-  }
-
-  return (
-    <div className="mini-game card glass p-3 animated-card">
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h5 className="mb-0">Emotion Guessing</h5>
-        <small className="text-muted">Read the face — choose emotion</small>
-      </div>
-
-      <div className="d-flex flex-column align-items-center my-3">
-        <div className="face-plate mb-2">{target ? target.emoji : "🙂"}</div>
-        <div className="text-muted small mb-2">Hint: {target?.hint}</div>
-
-        <div className="d-flex gap-2 flex-wrap justify-content-center">
-          {choices.map((c, idx) => (
-            <button key={idx} className="btn btn-outline-light neon-btn" onClick={() => handleChoice(c)}>
-              {c.name}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="d-flex justify-content-between align-items-center">
-        <small className="text-muted">Score: {score}</small>
-        <button className="btn btn-sm btn-outline-light" onClick={() => { setScore(0); startRound(); }}>
-          Reset
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* ---------------- Focus Dot ---------------- */
-function FocusDot({ onFinish }) {
-  const [running, setRunning] = useState(false);
-  const [score, setScore] = useState(0);
-  const [pos, setPos] = useState({ x: 50, y: 50 });
-  const [timer, setTimer] = useState(20);
+  const [pulse, setPulse] = useState(false);
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    if (running) {
-      intervalRef.current = setInterval(() => {
-        setTimer((t) => {
-          if (t <= 1) {
-            clearInterval(intervalRef.current);
-            setRunning(false);
-            saveBest("focus_best", score);
-            onFinish(score);
-            return 0;
-          }
-          return t - 1;
-        });
-        setPos({ x: Math.random() * 80 + 8, y: Math.random() * 60 + 8 });
-      }, 1200);
-    } else {
-      clearInterval(intervalRef.current);
-    }
+    intervalRef.current = setInterval(() => {
+      setCurrentColor(colors[Math.floor(Math.random() * colors.length)]);
+    }, 700);
     return () => clearInterval(intervalRef.current);
-  }, [running]);
+  }, []);
 
-  function handleClick() {
-    if (!running) return;
-    setScore((s) => s + 1);
-  }
-
-  function start() {
-    setScore(0);
-    setTimer(20);
-    setRunning(true);
+  function handleTap() {
+    if (currentColor === target) {
+      const newScore = score + 1;
+      setScore(newScore);
+      setPulse(true);
+      saveBest("colorTap", newScore);
+      onFinish(newScore);
+      setTimeout(() => setPulse(false), 500);
+    }
   }
 
   return (
-    <div className="mini-game card glass p-3 position-relative animated-card">
-      <div className="d-flex justify-content-between align-items-center mb-2">
-        <h5 className="mb-0">Focus Dot</h5>
-        <small className="text-muted">Keep tapping the dot</small>
+    <div className="mini-game card glass p-3 text-center">
+      <h5 className="text-white mb-3">Color Tap 🎯</h5>
+      <div
+        onClick={handleTap}
+        style={{
+          margin: "20px auto",
+          width: pulse ? "140px" : "120px",
+          height: pulse ? "140px" : "120px",
+          borderRadius: "50%",
+          background: currentColor,
+          border: currentColor === target ? "4px solid #2bd1ff" : "4px solid #333",
+          cursor: "pointer",
+          boxShadow: `0 8px 24px ${currentColor}, 0 0 18px inset ${currentColor}`,
+          transition: "all 0.3s ease",
+        }}
+      />
+      <div className="text-white mt-2 mb-1" style={{ fontSize: "1rem", fontWeight: "bold" }}>
+        Tap the circle when it is <span style={{ color: "#2bd1ff" }}>blue 🎯</span>
       </div>
-
-      <div className="focus-area my-3 position-relative">
-        <div
-          className={`focus-dot neon ${running ? "pulse" : ""}`}
-          style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-          onClick={handleClick}
-        />
-        {!running && (
-          <div className="focus-overlay d-flex flex-column align-items-center justify-content-center">
-            <button className="btn btn-primary start-btn" onClick={start}>
-              Start 20s
-            </button>
-            <small className="text-muted mt-2">Best: {loadBest("focus_best")}</small>
-          </div>
-        )}
-      </div>
-
-      <div className="d-flex justify-content-between align-items-center mt-2">
-        <small className="text-muted">Time: {timer}s</small>
-        <small className="text-muted">Score: {score}</small>
+      <div className={`score ${pulse ? "pulse" : ""} text-white`} style={{ fontSize: "1.1rem" }}>
+        Score: {score} | Best: {loadBest("colorTap")}
       </div>
     </div>
   );
 }
 
-/* ---------------- Main StressGames Page ---------------- */
+/* ----------------- Memory Match ----------------- */
+function MemoryMatch({ onFinish }) {
+  const symbols = ["🍎", "🍌", "🍇", "🍓", "🍍", "🥝"];
+  const [cards, setCards] = useState([...symbols, ...symbols].sort(() => Math.random() - 0.5));
+  const [flipped, setFlipped] = useState([]);
+  const [matched, setMatched] = useState(Array(cards.length).fill(false));
+  const [score, setScore] = useState(0);
+
+  function handleFlip(index) {
+    if (flipped.includes(index) || matched[index]) return;
+
+    const newFlipped = [...flipped, index];
+    setFlipped(newFlipped);
+
+    if (newFlipped.length % 2 === 0) {
+      const [first, second] = newFlipped.slice(-2);
+      if (cards[first] === cards[second]) {
+        const newMatched = [...matched];
+        newMatched[first] = true;
+        newMatched[second] = true;
+        setMatched(newMatched);
+        const newScore = score + 1;
+        setScore(newScore);
+        saveBest("memoryMatch", newScore);
+        onFinish(newScore);
+      } else {
+        setTimeout(() => {
+          setFlipped((prev) => prev.filter((i) => i !== first && i !== second));
+        }, 800);
+      }
+    }
+  }
+
+  return (
+    <div className="mini-game card glass p-3 text-center">
+      <h5 className="text-white">Memory Match 🧠</h5>
+      <div className="d-flex flex-wrap justify-content-center gap-2">
+        {cards.map((symbol, idx) =>
+          matched[idx] ? (
+            <div key={idx} style={{ width: "50px", height: "50px" }} />
+          ) : (
+            <div
+              key={idx}
+              onClick={() => handleFlip(idx)}
+              style={{
+                width: "50px",
+                height: "50px",
+                background: flipped.includes(idx) ? "#2bd1ff" : "#555",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                cursor: "pointer",
+                borderRadius: "6px",
+                fontSize: "24px",
+                fontWeight: "bold",
+                transition: "0.3s",
+              }}
+            >
+              {flipped.includes(idx) ? symbol : "?"}
+            </div>
+          )
+        )}
+      </div>
+      <div className="mt-2 text-white">Score: {score} | Best: {loadBest("memoryMatch")}</div>
+    </div>
+  );
+}
+
+
+/* ----------------- Main Page ----------------- */
 export default function StressGames() {
   const [currentGame, setCurrentGame] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
   const navigate = useNavigate();
 
-  function handleFinish(gameKey, score) {
-    setTotalScore((s) => s + Number(score || 0));
-    switch (gameKey) {
-      case "memory":
-        saveBest("memory_best", score);
-        break;
-      case "reaction":
-        const prev = Number(localStorage.getItem("reaction_best") || 9999);
-        if (score < prev) localStorage.setItem("reaction_best", score);
-        break;
-      case "emotion":
-        saveBest("emotion_best", score);
-        break;
-      case "focus":
-        saveBest("focus_best", score);
-        break;
-      default:
-        break;
-    }
+  function handleFinish(score) {
+    setTotalScore((s) => s + score);
   }
 
   const games = [
-    {
-      id: "memory",
-      title: "Memory Grid Challenge",
-      desc: "Watch and repeat the pattern. Tests your working memory!",
-      component: <MemoryGridChallenge onFinish={(score) => handleFinish("memory", score)} />,
-      emoji: "🧠",
-    },
-    {
-      id: "breathing",
-      title: "Breathing Bubble (Calm)",
-      desc: "Guided breathing with an expanding bubble to lower stress.",
-      component: <BreathingBubble onFinish={(score) => handleFinish("breathing", score)} />,
-      emoji: "🫧",
-    },
-    {
-      id: "reaction",
-      title: "Reaction Time Tester",
-      desc: "Measure your reaction time — fast reflexes indicate alertness.",
-      component: <ReactionTimeTester onFinish={(score) => handleFinish("reaction", score)} />,
-      emoji: "⚡",
-    },
-    {
-      id: "emotion",
-      title: "Emotion Guessing Game",
-      desc: "Read the face and pick the right emotion (train empathy).",
-      component: <EmotionGuessingGame onFinish={(score) => handleFinish("emotion", score)} />,
-      emoji: "😊",
-    },
-    {
-      id: "focus",
-      title: "Focus Dot (Concentration)",
-      desc: "Tap the moving dot fast — trains focused attention.",
-      component: <FocusDot onFinish={(score) => handleFinish("focus", score)} />,
-      emoji: "🎯",
-    },
+    { id: "numberClick", title: "Number Click", component: <NumberClick onFinish={handleFinish} />, emoji: "🔢" },
+    { id: "reaction", title: "Reaction Game", component: <ReactionGame onFinish={handleFinish} />, emoji: "⚡" },
+    { id: "colorTap", title: "Color Tap", component: <ColorTap onFinish={handleFinish} />, emoji: "🎨" },
+    { id: "memoryMatch", title: "Memory Match", component: <MemoryMatch onFinish={handleFinish} />, emoji: "🧠" },
   ];
 
   return (
-    <div className="stress-games-container text-light p-4" style={{ background: "#080812", minHeight: "100vh" }}>
-      <button className="mood-close-btn btn btn-danger" onClick={() => navigate("/dashboard")}>
+    <div className="stress-games-container text-light p-4">
+      <button className="mood-close-btn" onClick={() => navigate("/dashboard")} title="Go to Dashboard">
         ✕
       </button>
+
       <div className="container">
         {!currentGame ? (
           <>
-            <h1 className="text-center mb-3 animate__animated animate__fadeInDown neon-title">Stress Relief Games</h1>
-            <p className="text-center text-muted mb-4">Quick, fun mini-games to relax, focus, and train your mind.</p>
-
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h5 className="mb-0">Total Score (session): {totalScore}</h5>
-              <div>
-                <small className="text-muted me-2">Memory Best: {loadBest("memory_best")}</small>
-                <small className="text-muted me-2">Focus Best: {loadBest("focus_best")}</small>
-                <small className="text-muted">Reaction Best: {localStorage.getItem("reaction_best") || "—"} ms</small>
-              </div>
-            </div>
-
+            <h1 className="text-center mb-3 animate__animated animate__fadeInDown neon-title text-white">
+              Stress Relief Games
+            </h1>
+            <p className="text-center text-white mb-4">
+              Quick, fun mini-games to relax, focus, and train your mind.
+            </p>
             <div className="row g-3">
               {games.map((g) => (
-                <div key={g.id} className="col-12 col-md-6 col-lg-4">
+                <div key={g.id} className="col-12 col-md-6 col-lg-3">
                   <div className="card game-card p-3 h-100 animated-card" onClick={() => setCurrentGame(g)}>
                     <div className="d-flex align-items-center gap-3">
                       <div className="game-emoji neon-emoji">{g.emoji}</div>
                       <div>
-                        <h5 className="mb-1">{g.title}</h5>
-                        <p className="small text-muted mb-0">{g.desc}</p>
+                        <h5 className="mb-1 text-white">{g.title}</h5>
+                        <div className="small text-muted">Best: {loadBest(g.id)}</div>
                       </div>
                     </div>
                   </div>
@@ -498,9 +268,8 @@ export default function StressGames() {
               <button className="btn btn-outline-light me-3" onClick={() => setCurrentGame(null)}>
                 ← Back to Games
               </button>
-              <h3 className="mb-0">{currentGame.title}</h3>
+              <h3 className="mb-0 text-white">{currentGame.title}</h3>
             </div>
-
             <div className="mb-3 animate__animated animate__fadeInUp">{currentGame.component}</div>
           </>
         )}

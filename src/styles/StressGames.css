@@ -1,195 +1,115 @@
-/* src/styles/StressGames.css */
-
-/* Page background + container glow */
+/* ----------------- StressGames.css ----------------- */
 .stress-games-container {
-  color: #ecf0ff;
-  background: linear-gradient(180deg, #05050b 0%, #0d0f1a 60%);
+  background: #080812;
   min-height: 100vh;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
 }
 
-/* Game cards with neon/glass effect */
-.game-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  padding: 20px;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-}
-.game-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.8), 0 0 16px #2bd1ff inset;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-/* Emoji with 3D/glow effect */
-.game-emoji {
-  font-size: 38px;
-  width: 60px;
-  height: 60px;
+/* Cross button always visible */
+.mood-close-btn {
+  position: fixed;       /* fixed so always visible */
+  top: 20px;
+  right: 20px;
+  z-index: 9999;         /* on top of all elements */
+  font-size: 1.5rem;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.03);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 12px #2bd1ff inset;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-.game-emoji:hover {
-  transform: rotateY(15deg) scale(1.1);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.8), 0 0 20px #60ffa6 inset;
+  cursor: pointer;
+  background-color: #ff4c4c;
+  border: none;
+  box-shadow: 0 0 12px #ff4c4c, 0 0 6px inset #ff4c4c;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Mini-game cards */
+.mood-close-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff6b6b, 0 0 10px inset #ff6b6b;
+}
+
+/* Neon styles */
+.neon-title {
+  color: #ffffff;
+  text-shadow: 0 0 5px #2bd1ff, 0 0 10px #2bd1ff, 0 0 20px #2bd1ff, 0 0 40px #2bd1ff;
+  font-weight: bold;
+}
+
+.neon-emoji {
+  font-size: 2rem;
+  text-shadow: 0 0 8px #2bd1ff;
+}
+
+/* Game cards */
+.game-card {
+  background: rgba(30, 30, 40, 0.8);
+  border: 1px solid #2bd1ff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px #2bd1ff, 0 0 40px #2bd1ff inset;
+}
+
+.animated-card {
+  animation: fadeInUp 0.7s ease-in-out;
+}
+
+/* Mini-games */
 .mini-game {
-  background: rgba(255,255,255,0.02);
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 12px;
-  backdrop-filter: blur(4px);
-  transition: transform 0.2s ease, box-shadow 0.25s ease;
-}
-.mini-game:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 32px rgba(0,0,0,0.7), 0 0 18px #ff6bff inset;
-}
-
-/* Memory grid tile with animated gradient */
-.memory-grid { margin-top: 12px; display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); }
-.memory-tile {
-  aspect-ratio: 1/1;
+  background: rgba(20, 20, 30, 0.85);
+  border: 1px solid #60ffa6;
   border-radius: 12px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.03);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height: 72px;
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.25s ease;
-}
-.memory-tile:hover { 
-  transform: translateY(-6px); 
-  background: rgba(255,255,255,0.04); 
-  box-shadow: 0 8px 24px rgba(43,209,255,0.12), 0 0 12px #60ffa6 inset;
-}
-.memory-tile.active {
-  background: linear-gradient(90deg,#60ffa6,#2bd1ff);
-  box-shadow: 0 10px 30px rgba(43,209,255,0.18), 0 0 24px rgba(96,255,166,0.08) inset;
-  animation: glowPulse 1.5s infinite alternate;
-}
-.memory-tile.wrong {
-  background: linear-gradient(90deg,#ff6b6b,#ff3d3d);
-  box-shadow: 0 6px 20px rgba(255,0,0,0.6), 0 0 16px #ff3d3d inset;
+  padding: 1rem;
+  margin-top: 1rem;
+  transition: box-shadow 0.3s, transform 0.2s;
 }
 
-/* Breathing bubble with smooth scaling glow */
-.breathing-area { min-height: 180px; display:flex; align-items:center; justify-content:center; flex-direction:column; }
-.bubble {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 40px rgba(43,209,255,0.05) inset;
-  transition: transform 1s ease-in-out, box-shadow 0.3s ease;
+.mini-game:hover {
+  box-shadow: 0 0 20px #60ffa6, 0 0 40px #2bd1ff inset;
+  transform: translateY(-3px);
 }
-.bubble.inhale { transform: scale(1.35); box-shadow: 0 10px 40px #60ffa6, 0 0 50px #2bd1ff inset; }
-.bubble.hold { transform: scale(1.05); }
-.bubble.exhale { transform: scale(0.7); box-shadow: 0 6px 24px rgba(255,255,255,0.12); }
 
-/* Reaction box */
-.reaction-box {
-  height: 120px;
-  border-radius: 14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
-  cursor: pointer;
-  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.25s ease;
+.mini-game h5 {
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
-.reaction-box.wait {
-  background: linear-gradient(180deg,#2b2b3a,#181826);
+
+.mini-game .text-white {
+  color: #ffffff !important;
+  text-shadow: 0 0 6px #2bd1ff;
 }
-.reaction-box.go {
-  background: linear-gradient(90deg,#6fffb0,#00d1ff);
-  color: #002;
+
+/* Pulse animation for ColorTap */
+.score.pulse {
+  animation: pulse 0.5s ease-in-out;
+  color: #2bd1ff !important;
+  text-shadow: 0 0 8px #2bd1ff;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* Circle hover effect for tap games */
+.mini-game div[style*="border-radius: 50%"]:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 28px #6fffb0, 0 0 18px #00d1ff inset;
+  box-shadow: 0 0 20px #fff, 0 0 10px inset #fff;
 }
 
-/* Face plate for emotion */
-.face-plate {
-  width: 110px;
-  height: 110px;
-  border-radius: 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:50px;
-  border: 1px solid rgba(255,255,255,0.05);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px #2bd1ff inset;
-  transition: transform 0.2s ease, box-shadow 0.25s ease;
-}
-.face-plate:hover { transform: scale(1.05); box-shadow: 0 12px 40px #60ffa6, 0 0 24px #2bd1ff inset; }
-
-/* Focus area */
-.focus-area {
-  height: 240px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-  border-radius: 16px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.03);
-}
-.focus-dot {
-  position: absolute;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side,#fff,#2bd1ff);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 18px #60ffa6 inset;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.25s ease;
-}
-.focus-dot:hover { transform: scale(1.2); box-shadow: 0 12px 28px #6fffb0, 0 0 22px #00d1ff inset; }
-
-/* Overlay when not running */
-.focus-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55));
-  color: #fff;
-}
-
-/* Small helpers */
-.small { font-size: 0.85rem; }
-.btn-outline-light { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.95); }
-.btn-outline-light:hover { background: rgba(255,255,255,0.02); }
-
-/* Tile dot inside memory */
-.memory-tile .tile-dot {
-  width: 12px;
-  height: 12px;
-  border-radius:50%;
-  background: rgba(255,255,255,0.06);
-  display:block;
-  animation: pulseDot 1.5s infinite alternate;
-}
-
-/* Animations */
-@keyframes glowPulse {
-  0% { box-shadow: 0 8px 20px rgba(43,209,255,0.12), 0 0 16px #60ffa6 inset; }
-  100% { box-shadow: 0 12px 28px rgba(43,209,255,0.2), 0 0 20px #60ffa6 inset; }
-}
-@keyframes pulseDot {
-  0% { transform: scale(1); opacity:0.7; }
-  100% { transform: scale(1.3); opacity:1; }
+/* Fade animation */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }

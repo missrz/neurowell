@@ -30,12 +30,12 @@ export default function Dashboard() {
 
   /* ---------------------- ROUTE MAP ---------------------- */
   const routeMap = {
-    "AI Detector": "/ai-detector",
+    "AI Detector": "/AiDetection",
     "Assessment": "/assessment",
     "Chat / Support": "/chat",
     "Mood Tracker": "/mood-tracker",
     "Stress Relief Games": "/stress-games",
-    "SOS": "/sos-source",
+    "SOS": "/SOS",
     "Journal": "/journal",
     "Settings": "/settings",
     "Progress Analytics": "/AdvancedAnalytics",
