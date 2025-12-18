@@ -3,6 +3,7 @@ node_modules/
 # Cache files
 node_modules/.cache/
 
+backend/ai_server/docs
 
 # Build folders
 dist/
