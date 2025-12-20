@@ -114,3 +114,27 @@ export const deleteMood = async (moodId) => {
   return res.data;
 };
 
+// fetch user journals GET  /api/journals/user/:userId
+export const getUserJournals = async (userId) => {
+  const res = await axios.get(url(`/api/journals/user/${userId}`), { headers: authHeaders() });
+  return res.data;
+};
+
+// DELETE /api/journals/:id
+export const deleteJournal = async (id) => {
+  const res = await axios.delete(
+    url(`/api/journals/${id}`),
+    { headers: authHeaders() }
+  );
+  return res.data;
+};
+
+// POST localhost:4000/api/journalss --
+export const saveJournal = async (payload) => {
+  const res = await axios.post(
+    url("/api/journals"),
+    { payload },
+    { headers: authHeaders() }
+  );
+  return res.data;
+};

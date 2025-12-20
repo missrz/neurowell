@@ -1,60 +1,116 @@
-// src/pages/Journal.jsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "../styles/Journal.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { motion } from "framer-motion";
+import {
+  getUserJournals,
+  saveJournal,
+  deleteJournal,
+} from "../services/api";
 
-export default function Journal() {
-  const [entry, setEntry] = useState("");
+export default function JournalPage() {
+  const currentUser = useSelector((state) => state.user.user);
+  const userId = currentUser?._id;
+  const today = new Date().toISOString().split("T")[0];
 
-  // Auto-save to localStorage
+  const [dates, setDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(today);
+  const [text, setText] = useState("");
+  const [journal, setJournal] = useState(null);
+
+  // =========================
+  // LOAD USER JOURNALS
+  // =========================
   useEffect(() => {
-    const saved = localStorage.getItem("journalEntry");
-    if (saved) setEntry(saved);
+    loadJournals();
   }, []);
 
-  const handleSave = () => {
-    localStorage.setItem("journalEntry", entry);
+  const loadJournals = async () => {
+    const data = await getUserJournals(userId);
+
+    if (!data) return;
+
+    setDates([...new Set(data.map(j => j.date))]);
+
+    const todayJournal = data.find(j => j.date === today);
+    setJournal(todayJournal || null);
+  };
+
+  // =========================
+  // FETCH JOURNAL BY DATE
+  // =========================
+  const fetchJournal = async (date) => {
+    setSelectedDate(date);
+
+    const data = await getUserJournals(userId);
+    const selected = data.find(j => j.date === date);
+
+    setJournal(selected || null);
+  };
+
+  // =========================
+  // SAVE JOURNAL
+  // =========================
+  const saveEntry = async () => {
+    if (!text.trim()) return;
+
+    const payload = {
+      userId,
+      title: "My Day",
+      text,
+      date: selectedDate,
+    };
+
+    const saved = await saveJournal(payload);
+    setJournal(saved);
+    setText("");
+    loadJournals();
+  };
+
+  // =========================
+  // DELETE JOURNAL
+  // =========================
+  const handleDelete = async () => {
+    if (!journal?._id) return;
+    await deleteJournal(journal._id);
+    setJournal(null);
+    loadJournals();
   };
 
   return (
     <div className="journal-container">
-      <motion.h2
-        className="journal-title"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        📝 Personal Journal
-      </motion.h2>
+      {/* LEFT PANEL */}
+      <div className="journal-sidebar">
+        <h3>📓 Journal</h3>
 
-      <motion.p
-        className="journal-sub"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        Write your thoughts and feelings freely.
-      </motion.p>
+        <button onClick={() => fetchJournal(today)}>Today</button>
 
-      <motion.textarea
-        className="journal-textarea"
-        value={entry}
-        onChange={(e) => setEntry(e.target.value)}
-        placeholder="Start writing here..."
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      />
+        {dates.map(d => (
+          <button key={d} onClick={() => fetchJournal(d)}>
+            {d}
+          </button>
+        ))}
+      </div>
 
-      <motion.button
-        className="save-btn btn btn-info mt-3"
-        onClick={handleSave}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        Save Entry
-      </motion.button>
+      {/* NOTEBOOK */}
+      <div className="journal-page">
+        <h2>{selectedDate}</h2>
+
+        {journal && (
+          <>
+            <h3>{journal.title}</h3>
+            <p>{journal.text}</p>
+            <button onClick={handleDelete}>🗑 Delete</button>
+          </>
+        )}
+
+        <textarea
+          placeholder="Write freely..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+
+        <button onClick={saveEntry}>Save Entry</button>
+      </div>
     </div>
   );
 }

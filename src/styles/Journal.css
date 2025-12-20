@@ -1,58 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap");
+
+/* ---------- ROOT ---------- */
+:root {
+  --dark-bg: #0e0e0e;
+  --sidebar-bg: #141414;
+  --paper-bg: #fdfcf8;
+  --line-color: #d8d8d8;
+  --ink: #111;
+  --accent: #7c7cff;
+}
+
+/* ---------- LAYOUT ---------- */
 .journal-container {
-  max-width: 700px;
-  margin: auto;
-  padding: 2rem;
+  display: flex;
+  height: 100vh;
+  background: var(--dark-bg);
   color: white;
-  text-align: center;
-  background: linear-gradient(135deg, #090d1f, #0f1c30);
-  border-radius: 25px;
-  box-shadow: 0 0 20px rgba(0, 195, 255, 0.4);
-  margin-top: 2rem;
+  overflow: hidden;
+  font-family: "Patrick Hand", cursive;
 }
 
-.journal-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #00eaff;
+/* ---------- SIDEBAR ---------- */
+.journal-sidebar {
+  width: 260px;
+  background: var(--sidebar-bg);
+  border-right: 2px solid #222;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-.journal-sub {
-  opacity: 0.8;
+.journal-sidebar h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
 }
 
-.journal-textarea {
+.journal-sidebar button {
   width: 100%;
-  min-height: 250px;
-  padding: 1.3rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid #00eaff;
-  border-radius: 15px;
+  background: transparent;
+  color: #ccc;
+  border: 1px dashed #444;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Patrick Hand", cursive;
+}
+
+.journal-sidebar button:hover,
+.journal-sidebar button.active {
+  background: #222;
   color: #fff;
-  font-size: 1.1rem;
-  outline: none;
-  resize: none;
-  backdrop-filter: blur(5px);
-  box-shadow: inset 0 0 10px rgba(0, 200, 255, 0.3);
-  transition: 0.3s ease;
+  border-color: #fff;
 }
 
-.journal-textarea:focus {
-  border-color: #00b3ff;
-  box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+/* ---------- NOTEBOOK PAGE ---------- */
+.journal-page {
+  flex: 1;
+  background: var(--paper-bg);
+  color: var(--ink);
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.08);
 }
 
-.save-btn {
-  font-size: 1.1rem;
-  padding: 10px 25px;
-  border-radius: 12px;
-  font-weight: 600;
-  background: #00eaff;
+/* ---------- HEADER ---------- */
+.journal-page h2 {
+  font-size: 30px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* ---------- ENTRIES ---------- */
+.entries {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.entries p {
+  background: repeating-linear-gradient(
+    var(--paper-bg),
+    var(--paper-bg) 26px,
+    var(--line-color) 27px
+  );
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.entries b {
+  color: #444;
+}
+
+/* ---------- TEXTAREA ---------- */
+textarea {
+  width: 100%;
+  min-height: 120px;
   border: none;
-  color: black;
-  transition: 0.3s;
+  resize: none;
+  background: repeating-linear-gradient(
+    var(--paper-bg),
+    var(--paper-bg) 28px,
+    var(--line-color) 29px
+  );
+  font-size: 20px;
+  padding: 10px;
+  outline: none;
+  font-family: "Patrick Hand", cursive;
+  color: var(--ink);
 }
 
-.save-btn:hover {
-  background: #00cfff;
+/* ---------- SAVE BUTTON ---------- */
+button {
+  align-self: flex-end;
+  margin-top: 10px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
+button:hover {
+  opacity: 0.85;
+}
+
+/* ---------- SUGGESTION ---------- */
+.suggestion {
+  border-top: 2px dashed #aaa;
+  margin-top: 20px;
+  padding-top: 10px;
+  font-size: 18px;
+  color: #555;
+  font-style: italic;
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 768px) {
+  .journal-container {
+    flex-direction: column;
+  }
+
+  .journal-sidebar {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  .journal-sidebar button {
+    min-width: 120px;
+  }
+
+  .journal-page {
+    padding: 20px;
+  }
+}

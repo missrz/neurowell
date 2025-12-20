@@ -29,7 +29,7 @@ import StressGames from "./pages/StressGames";
 import Assessment from "./pages/Assessment";
 import Journal from "./pages/Journal";
 import FullChatbotPage from "./pages/FullChatbotPage";
-import Source from "./pages/Source";
+// import Source from "./pages/Source";
 import SOS from "./pages/SOS";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
@@ -114,7 +114,7 @@ export default function App() {
             <Route path="/support" element={<Support />} />
             <Route path="/assessment" element={<Assessment />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/source" element={<Source />} />
+            {/* <Route path="/source" element={<Source />} /> */}
             <Route path="/sos" element={<SOS />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />

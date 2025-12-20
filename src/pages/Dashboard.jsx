@@ -37,6 +37,7 @@ export default function Dashboard() {
     "Stress Relief Games": "/stress-games",
     "SOS": "/SOS",
     "Journal": "/journal",
+
     "Settings": "/settings",
     "Progress Analytics": "/AdvancedAnalytics",
     "Notifications": "/notify",
