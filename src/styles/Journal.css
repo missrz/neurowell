@@ -2,12 +2,16 @@
 
 /* ---------- ROOT ---------- */
 :root {
-  --dark-bg: #0e0e0e;
+  --dark-bg: #0b0b0b;
   --sidebar-bg: #141414;
-  --paper-bg: #fdfcf8;
-  --line-color: #d8d8d8;
-  --ink: #111;
-  --accent: #7c7cff;
+
+  /* Vintage diary colors */
+  --paper-bg: #B99566;
+  --paper-shadow: #C7A575;
+  --line-color: #D5B78B;
+  --ink: #3d3226ff;
+
+  --accent: #8b6cff;
 }
 
 /* ---------- LAYOUT ---------- */
@@ -15,44 +19,53 @@
   display: flex;
   height: 100vh;
   background: var(--dark-bg);
-  color: white;
-  overflow: hidden;
   font-family: "Patrick Hand", cursive;
+  overflow: hidden;
 }
 
 /* ---------- SIDEBAR ---------- */
 .journal-sidebar {
-  width: 260px;
+  width: 250px;
   background: var(--sidebar-bg);
-  border-right: 2px solid #222;
-  padding: 20px;
+  border-right: 2px solid #1f1f1f;
+  padding: 15px;
   overflow-y: auto;
 }
 
 .journal-sidebar h3 {
-  font-size: 24px;
-  margin-bottom: 15px;
-  letter-spacing: 1px;
+  font-size: 22px;
+  margin-bottom: 18px;
+  color: #eee;
 }
 
 .journal-sidebar button {
   width: 100%;
   background: transparent;
-  color: #ccc;
+  color: #bbb;
   border: 1px dashed #444;
-  padding: 8px 10px;
-  margin-bottom: 8px;
+  padding: 0px 12px;
+  margin-bottom: 10px;
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
   font-family: "Patrick Hand", cursive;
+  transition: all 0.2s ease;
+}
+
+.journal-sidebar button strong {
+  font-size: 17px;
+  display: block;
+}
+
+.journal-sidebar button small {
+  font-size: 12px;
+  opacity: 0.7;
 }
 
 .journal-sidebar button:hover,
 .journal-sidebar button.active {
-  background: #222;
+  background: #1f1f1f;
   color: #fff;
-  border-color: #fff;
+  border-color: var(--accent);
 }
 
 /* ---------- NOTEBOOK PAGE ---------- */
@@ -60,85 +73,85 @@
   flex: 1;
   background: var(--paper-bg);
   color: var(--ink);
-  padding: 30px 40px;
+  padding: 40px 60px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.08);
+
+  /* old paper depth */
+  box-shadow:
+    inset 0 0 40px rgba(0, 0, 0, 0.15),
+    inset 0 0 0 1px var(--paper-shadow);
 }
 
-/* ---------- HEADER ---------- */
-.journal-page h2 {
+/* ---------- DATE (SMALL & ELEGANT) ---------- */
+.journal-page input[type="date"] {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  color: #452a06ff;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+/* ---------- TITLE ---------- */
+.journal-page input[placeholder="Journal title"] {
   font-size: 30px;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #976634ff;
+  margin-bottom: 18px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #cdbfa9;
 }
 
-/* ---------- ENTRIES ---------- */
-.entries {
-  flex: 1;
-  margin-bottom: 20px;
-}
-
-.entries p {
-  background: repeating-linear-gradient(
-    var(--paper-bg),
-    var(--paper-bg) 26px,
-    var(--line-color) 27px
-  );
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 18px;
-}
-
-.entries b {
-  color: #444;
-}
-
-/* ---------- TEXTAREA ---------- */
+/* ---------- WRITING AREA (BIG & VINTAGE) ---------- */
 textarea {
+  flex: 1;
   width: 100%;
-  min-height: 120px;
   border: none;
   resize: none;
+  outline: none;
   background: repeating-linear-gradient(
     var(--paper-bg),
-    var(--paper-bg) 28px,
-    var(--line-color) 29px
+    var(--paper-bg) 30px,
+    var(--line-color) 31px
   );
-  font-size: 20px;
-  padding: 10px;
-  outline: none;
+  font-size: 21px;
+  line-height: 31px;
+  padding: 1px 12px;
   font-family: "Patrick Hand", cursive;
   color: var(--ink);
 }
 
-/* ---------- SAVE BUTTON ---------- */
-button {
-  align-self: flex-end;
-  margin-top: 10px;
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: 8px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 4px;
+/* ---------- ACTION BUTTONS ---------- */
+.journal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
 }
 
-button:hover {
+.journal-actions button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.journal-actions button:hover {
   opacity: 0.85;
 }
 
-/* ---------- SUGGESTION ---------- */
-.suggestion {
-  border-top: 2px dashed #aaa;
-  margin-top: 20px;
-  padding-top: 10px;
-  font-size: 18px;
-  color: #555;
-  font-style: italic;
+/* ---------- DELETE / DANGER ---------- */
+.journal-actions button:last-child {
+  background: #b85c5c;
 }
 
 /* ---------- MOBILE ---------- */
@@ -152,14 +165,49 @@ button:hover {
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    padding: 10px;
+    padding: 12px;
   }
 
   .journal-sidebar button {
-    min-width: 120px;
+    min-width: 160px;
   }
 
   .journal-page {
-    padding: 20px;
+    padding: 25px;
   }
+
+  textarea {
+    font-size: 19px;
+  }
+}
+
+/* ---------- NIGHT DIARY MODE ---------- */
+.night-mode {
+  --paper-bg: #949494ff;
+  --paper-shadow: #000;
+  --line-color: #2e2e2e;
+  --ink: #e6e6e6;
+}
+
+.night-mode .journal-page {
+  background: var(--paper-bg);
+  color: var(--ink);
+}
+
+.night-mode textarea {
+  background: repeating-linear-gradient(
+    var(--paper-bg),
+    var(--paper-bg) 30px,
+    var(--line-color) 31px
+  );
+  color: var(--ink);
+}
+
+.night-mode input,
+.night-mode textarea {
+  caret-color: #ffd27d;
+}
+
+.night-mode .journal-sidebar {
+  background: #0f0f0f;
 }
