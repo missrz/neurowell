@@ -54,13 +54,14 @@ export default function JournalPage() {
   // -----------------------------
   // SAVE / UPDATE
   // -----------------------------
-  const saveEntry = async (updatedJ) => {
-    const newJ = updatedJ || selectedJournal;
-    if (!newJ.text.trim()) return;
+  const saveEntry = async (updatedJ = {}) => {
+    const newJ = (updatedJ && updatedJ?._id !== undefined) ? updatedJ : selectedJournal;
+
+    if (!newJ?.text?.trim()) return;
     const payload = {
       ...newJ,
       title:
-        newJ.title.trim() ||
+        newJ?.title?.trim() ||
         newJ.text.split(" ").slice(0, 6).join(" "),
       userId,
     };
@@ -140,7 +141,9 @@ export default function JournalPage() {
               <strong>{j.title}</strong>
               <br />
               <small>{j.date}</small>
-              {j.pinned && " 📌"}
+              {j.pinned && (
+                <span title="Pinned journal">📌</span>
+              )}
             </button>
           ))}
       </div>

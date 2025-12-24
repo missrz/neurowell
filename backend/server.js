@@ -40,6 +40,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/moods", moodRoutes);
 app.use("/api/journals", journalRoutes);
+// app.use("/api/analytics", analyticsRoutes);
 
 // AI detection route
 app.post("/api/detect", async (req, res, next) => {

@@ -95,11 +95,15 @@ router.put("/:id", auth, async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
+    const pinned = req.body?.payload?.pinned;
+
     journal.title = req.body?.payload?.title;
     journal.text = req.body?.payload?.text;
-    journal.date = req.body?.payload?.date;
-    journal.pinned = req.body?.payload?.pinned || journal.pinned;
-
+    journal.date = req.body?.payload?.date;    
+    journal.pinned =
+      pinned === null || pinned === undefined
+        ? journal.pinned
+        : pinned;
 
     await journal.save();
     res.status(200).json(journal);
