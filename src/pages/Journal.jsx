@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "../styles/Journal.css";
+import ToastNotification from "../components/ToastNotification";
 import {
   getUserJournals,
   saveJournal,
+  updateJournal,
   deleteJournal,
 } from "../services/api";
 
@@ -11,180 +13,129 @@ export default function JournalPage() {
   const currentUser = useSelector((state) => state.user.user);
   const userId = currentUser?._id;
   const today = new Date().toISOString().split("T")[0];
-
+  const [toastMsg, setToastMsg] = useState(null);
+  const [toastType, setToastType] = useState("success");
   const [journals, setJournals] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(today);
   const [selectedJournal, setSelectedJournal] = useState(null);
-  const [autosaveTimer, setAutosaveTimer] = useState(null);
 
-  const draftKey = `journal_draft_${selectedDate}`;
+  // -----------------------------
+  // CREATE EMPTY JOURNAL
+  // -----------------------------
+  const createEmptyJournal = (date) => ({
+    _id: null,
+    userId,
+    title: "",
+    text: "",
+    date,
+    pinned: false,
+  });
 
-  // =========================
-  // LOAD JOURNALS OR DRAFT
-  // =========================
+  // -----------------------------
+  // LOAD ALL JOURNALS
+  // -----------------------------
   useEffect(() => {
-    loadJournals();
-  }, []);
+  if (!currentUser) return;
+  loadJournals(currentUser._id || currentUser?.id);
+}, [currentUser]);
 
-  // =========================
-  // SYNC DRAFT ACROSS TABS
-  // =========================
-  useEffect(() => {
-    const syncDraft = (e) => {
-      if (e.key === draftKey && e.newValue) {
-        setSelectedJournal(JSON.parse(e.newValue));
-      }
-    };
-    window.addEventListener("storage", syncDraft);
-    return () => window.removeEventListener("storage", syncDraft);
-  }, [draftKey]);
 
-  const loadJournals = async () => {
-    const data = await getUserJournals(userId);
+  const loadJournals = async (uid) => {
+    const data = await getUserJournals(uid);
     if (!data) return;
 
     setJournals(data);
 
-    const todayJournal = data.find(j => j.date === today);
-    if (todayJournal) {
-      setSelectedJournal(todayJournal);
-      return;
-    }
-
-    loadDraft(today);
+    const todayJournal = data.find((j) => j.date === today);
+    setSelectedJournal(
+      todayJournal ? todayJournal : createEmptyJournal(today)
+    );
   };
 
-  // =========================
-  // LOAD DRAFT (PER DATE)
-  // =========================
-  const loadDraft = (date) => {
-    const draft = localStorage.getItem(`journal_draft_${date}`);
-    if (draft) {
-      setSelectedJournal(JSON.parse(draft));
-    } else {
-      setSelectedJournal({
-        _id: null,
-        title: "",
-        text: "",
-        date,
-        pinned: false,
-        isDraft: true,
-      });
-    }
-  };
-
-  // =========================
-  // AUTO-SAVE (DEBOUNCED)
-  // =========================
-  const autosaveDraft = (updated) => {
-    if (autosaveTimer) clearTimeout(autosaveTimer);
-
-    const timer = setTimeout(() => {
-      localStorage.setItem(draftKey, JSON.stringify(updated));
-    }, 500);
-
-    setAutosaveTimer(timer);
-  };
-
-  // =========================
-  // SAVE JOURNAL
-  // =========================
-  const saveEntry = async () => {
-    if (!selectedJournal.title || !selectedJournal.text) return;
-
+  // -----------------------------
+  // SAVE / UPDATE
+  // -----------------------------
+  const saveEntry = async (updatedJ) => {
+    const newJ = updatedJ || selectedJournal;
+    if (!newJ.text.trim()) return;
     const payload = {
+      ...newJ,
+      title:
+        newJ.title.trim() ||
+        newJ.text.split(" ").slice(0, 6).join(" "),
       userId,
-      title: selectedJournal.title,
-      text: selectedJournal.text,
-      date: selectedJournal.date,
-      pinned: selectedJournal.pinned || false,
     };
 
-    const saved = await saveJournal(payload);
+    let saved;
+    if (newJ._id) {
+      saved = await updateJournal(payload);
+    } else {
+      saved = await saveJournal(payload);
+    }
 
-    setJournals(prev => {
-      const filtered = prev.filter(j => j.date !== saved.date);
-      return [saved, ...filtered];
-    });
-
+    if (!saved) return;
+    setToastType("success");
+    setToastMsg("Data saved successfully!");
     setSelectedJournal(saved);
-    localStorage.removeItem(draftKey);
+
+    setJournals((prev) => {
+      const exists = prev.find((j) => j._id === saved._id);
+      return exists
+        ? prev.map((j) => (j._id === saved._id ? saved : j))
+        : [saved, ...prev];
+    });
   };
 
-  // =========================
-  // DELETE JOURNAL
-  // =========================
+  // -----------------------------
+  // DELETE
+  // -----------------------------
   const handleDelete = async () => {
     if (!selectedJournal?._id) return;
 
     await deleteJournal(selectedJournal._id);
-
-    setJournals(prev =>
-      prev.filter(j => j._id !== selectedJournal._id)
+    setToastType("error");
+    setToastMsg("Data deleted successfully!");
+    setJournals((prev) =>
+      prev.filter((j) => j._id !== selectedJournal._id)
     );
 
-    setSelectedJournal(null);
+    setSelectedJournal(createEmptyJournal(today));
   };
 
-  // =========================
-  // DISCARD DRAFT
-  // =========================
-  const discardDraft = () => {
-    localStorage.removeItem(draftKey);
-    loadDraft(selectedDate);
+  // -----------------------------
+  // NEW JOURNAL
+  // -----------------------------
+  const createNewJournal = () => {
+    setSelectedJournal(createEmptyJournal(today));
   };
 
-  // =========================
-  // DATE CHANGE (CALENDAR)
-  // =========================
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-
-    const existing = journals.find(j => j.date === date);
-    if (existing) {
-      setSelectedJournal(existing);
-    } else {
-      loadDraft(date);
-    }
-  };
-
-  // =========================
-  // PIN JOURNAL
-  // =========================
-  const togglePin = () => {
-    const updated = {
-      ...selectedJournal,
-      pinned: !selectedJournal.pinned,
-    };
-    setSelectedJournal(updated);
-    autosaveDraft(updated);
-  };
+  if (!currentUser) {
+    return <div className="loading">Loading journals...</div>;
+  }
 
   return (
+    <>
+    <ToastNotification
+        message={toastMsg}
+        type={toastType}
+        onClose={() => setToastMsg(null)}
+      />
     <div className="journal-container">
-
-      {/* LEFT PANEL */}
+      {/* SIDEBAR */}
       <div className="journal-sidebar">
-        <h3>📓 Journal</h3>
-        
-        {/* <button
-  onClick={() =>
-    document.body.classList.toggle("night-mode")
-  }
->
-  🌙 Night Mode
-</button> */}
+        <h3 className="journal-header">
+          📓 Journal
+          <button className="new-link" onClick={createNewJournal}>
+            New
+          </button>
+        </h3>
 
         {journals
           .sort((a, b) => b.pinned - a.pinned)
-          .map(j => (
+          .map((j) => (
             <button
               key={j._id}
               className={selectedJournal?._id === j._id ? "active" : ""}
-              onClick={() => {
-                setSelectedDate(j.date);
-                setSelectedJournal(j);
-              }}
+              onClick={() => setSelectedJournal(j)}
             >
               <strong>{j.title}</strong>
               <br />
@@ -196,48 +147,64 @@ export default function JournalPage() {
 
       {/* RIGHT PANEL */}
       <div className="journal-page">
-
-        {/* CALENDAR */}
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => handleDateChange(e.target.value)}
-        />
+        {!selectedJournal && (
+          <div className="empty-state">
+            Select a journal or click <b>New</b> ✨
+          </div>
+        )}
 
         {selectedJournal && (
           <>
             <input
+              type="date"
+              value={selectedJournal.date}
+              onChange={(e) =>
+                setSelectedJournal({
+                  ...selectedJournal,
+                  date: e.target.value,
+                })
+              }
+            />
+
+            <input
               placeholder="Journal title"
               value={selectedJournal.title}
-              onChange={(e) => {
-                const updated = {
+              onChange={(e) =>
+                setSelectedJournal({
                   ...selectedJournal,
                   title: e.target.value,
-                };
-                setSelectedJournal(updated);
-                autosaveDraft(updated);
-              }}
+                })
+              }
             />
 
             <textarea
               placeholder="Write freely..."
               value={selectedJournal.text}
-              onChange={(e) => {
-                const updated = {
+              onChange={(e) =>
+                setSelectedJournal({
                   ...selectedJournal,
                   text: e.target.value,
-                };
-                setSelectedJournal(updated);
-                autosaveDraft(updated);
-              }}
+                })
+              }
             />
 
             <div className="journal-actions">
               <button onClick={saveEntry}>💾 Save</button>
-              <button onClick={togglePin}>📌 Pin</button>
-              {selectedJournal.isDraft && (
-                <button onClick={discardDraft}>🗑 Discard Draft</button>
-              )}
+
+              <button
+                onClick={() => {
+                  const updatedJ = {
+                    ...selectedJournal,
+                    pinned: !selectedJournal.pinned,
+                  }
+                  setSelectedJournal(updatedJ);
+                  saveEntry(updatedJ);
+                }
+              }
+              >
+                📌 Pin
+              </button>
+
               {selectedJournal._id && (
                 <button onClick={handleDelete}>❌ Delete</button>
               )}
@@ -246,5 +213,5 @@ export default function JournalPage() {
         )}
       </div>
     </div>
-  );
+  </>);
 }

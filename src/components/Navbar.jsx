@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"; 
-import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom"; // for routing
+import { NavLink, Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
 import "../styles/Navbar.css";
 import { useSelector } from 'react-redux';
 import Logout from './Logout';
@@ -43,8 +43,16 @@ export default function Navbar() {
         {menuItems.map((item) => (
           <li key={item.name} className="neo-link">
             {item.type === "route" ? (
-              <RouterLink to={item.link}>{item.name}</RouterLink>
-            ) : (
+  <NavLink
+    to={item.link}
+    className={({ isActive }) =>
+      isActive ? "active-link" : ""
+    }
+  >
+    {item.name}
+  </NavLink>
+) : (
+
               <a
                 href="#"
                 onClick={(e) => {

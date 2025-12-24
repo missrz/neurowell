@@ -10,7 +10,7 @@ const auth = require("../middleware/authMiddleware");
 router.post("/", auth, async (req, res) => {
   try {
     console.log(req.body.payload);
-    const { title, text, date } = req.body.payload;
+    const { title, text, date, pinned } = req.body.payload;
 
     if (!text) {
       return res.status(400).json({ message: "Journal text is required" });
@@ -20,6 +20,7 @@ router.post("/", auth, async (req, res) => {
       title,
       text,
       date,
+      pinned: pinned || false ,
       userId: req.user.id, // 🔥 from token
     });
 
@@ -94,14 +95,16 @@ router.put("/:id", auth, async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    journal.title = req.body.title;
-    journal.text = req.body.text;
-    journal.date = req.body.date;
+    journal.title = req.body?.payload?.title;
+    journal.text = req.body?.payload?.text;
+    journal.date = req.body?.payload?.date;
+    journal.pinned = req.body?.payload?.pinned || journal.pinned;
+
 
     await journal.save();
     res.status(200).json(journal);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    res.status(422).json({ message: "Server error", error });
   }
 });
 

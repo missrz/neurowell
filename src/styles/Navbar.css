@@ -90,3 +90,27 @@
 html {
   scroll-behavior: smooth;
 }
+
+.neo-menu a {
+  color: #bbb;
+  text-decoration: none;
+  position: relative;
+  padding: 6px 10px;
+  transition: all 0.3s ease;
+}
+
+.neo-menu a.active-link {
+  color: #6df2c2; /* highlight color */
+  font-weight: 600;
+}
+
+.neo-menu a.active-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: #6df2c2;
+  border-radius: 4px;
+}

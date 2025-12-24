@@ -138,3 +138,13 @@ export const saveJournal = async (payload) => {
   );
   return res.data;
 };
+
+// POST localhost:4000/api/journals/:id --
+export const updateJournal = async (payload) => {
+  const res = await axios.put(
+    url(`/api/journals/${payload?._id}`),
+    { payload },
+    { headers: authHeaders() }
+  );
+  return res.data;
+};

@@ -45,11 +45,11 @@ export default function MoodTracker() {
 
   /* ================= LOAD FROM BACKEND ================= */
   useEffect(() => {
-    if (!currentUser?._id) return;
+    if (!currentUser) return;
 
     const loadMoods = async () => {
       try {
-        const data = await fetchMoodHistory(currentUser._id);
+        const data = await fetchMoodHistory(currentUser._id || currentUser?.id);
         setHistory(
           data.map((d) => ({
             id: d._id,
