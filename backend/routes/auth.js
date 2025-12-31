@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get current user (requires token in Authorization: Bearer <token>)
+// Get current user (requires token in A uthorization: Bearer <token>)
 router.get('/me', async (req, res) => {
   const auth = req.headers.authorization;
   if (!auth || !auth.startsWith('Bearer ')) return res.status(401).json({ error: 'Missing token' });

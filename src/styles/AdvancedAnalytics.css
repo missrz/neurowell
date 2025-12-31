@@ -1,159 +1,120 @@
-/* Root dark theme colors */
 body {
-  padding-top: 90px !important; /* works even if nav is fixed */
+  padding-top: 90px !important;
+  background: linear-gradient(135deg, #eef2ff, #fdf4ff);
 }
+
+/* ROOT */
 :root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface-light: #1e242d;
-  --text: #e5e7eb;
-  --text-muted: #9ca3af;
-  --accent-blue: #4b9fff;
-  --stroke: #2b3544;
+  --glass: rgba(255, 255, 255, 0.65);
+  --border: rgba(255, 255, 255, 0.35);
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #7c3aed;
+  --secondary: #60a5fa;
 }
 
 /* PAGE */
 .analytics-page {
-  background: var(--bg);
-  color: var(--text);
   padding: 24px;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
 }
-/* .advanced-analytics-page {
-  padding-top: 90px;
-} */
 
 /* HEADER */
 .header-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
 }
 
 .page-title {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
 }
 
-/* RANGE SELECTOR */
+/* RANGE BUTTONS */
 .range-selector {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .range-btn {
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: var(--surface-light);
-  color: var(--text-muted);
-  border: 1px solid var(--stroke);
-  transition: 0.2s;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  color: var(--text);
+  cursor: pointer;
 }
 
 .range-btn.active {
-  background: var(--accent-blue);
+  background: var(--primary);
   color: white;
-}
-
-/* ACTIONS */
-.actions-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.analytics-btn {
-  padding: 8px 16px;
-  background: var(--surface-light);
-  color: white;
-  border-radius: 8px;
-  border: 1px solid var(--stroke);
-  transition: 0.2s;
-}
-
-.analytics-btn:hover {
-  background: var(--accent-blue);
-}
-
-/* MAIN BOX */
-.analytics-box {
-  background: var(--surface);
-  padding: 22px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
 }
 
 /* GRID */
 .grid-two {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-bottom: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 22px;
 }
 
-/* CARDS */
+/* CARD */
 .card {
-  background: var(--surface-light);
-  padding: 16px;
-  border-radius: 14px;
-  border: 1px solid var(--stroke);
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 .card-title {
-  margin-bottom: 10px;
   color: var(--text);
+  margin-bottom: 6px;
+}
+
+/* TEXT */
+.avg-text,
+.journal-status {
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* QUOTE */
+.quote {
+  margin-top: 12px;
+  text-align: center;
+  font-style: italic;
+  color: var(--muted);
 }
 
 /* CHART */
-.chart-container {
+.recharts-wrapper {
+  margin-top: 10px;
+}
+
+/* ================= GAUGE ================= */
+.gauge-container {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.gauge-svg {
   width: 100%;
-  height: 320px;
+  max-width: 260px;
 }
 
-/* HEATMAP GRID */
-.heatmap-grid {
-  display: grid;
-  gap: 4px;
+.gauge-score {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: -8px;
 }
 
-.cols-24 {
-  grid-template-columns: repeat(24, 1fr);
-}
-.cols-12 {
-  grid-template-columns: repeat(12, 1fr);
-}
-.cols-10 {
-  grid-template-columns: repeat(10, 1fr);
-}
-
-.heatmap-cell {
-  height: 30px;
-  border-radius: 6px;
-  border: 1px solid var(--stroke);
-}
-
-/* Muted dark palette */
-.mood-1 { background: #1e293b; }
-.mood-2 { background: #273449; }
-.mood-3 { background: #2f3f56; }
-.mood-4 { background: #3a4c65; }
-.mood-5 { background: #4b5d77; }
-
-/* PREDICTION CARD */
-.prediction-card {
-  margin-top: 18px;
-  background: var(--surface-light);
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid var(--stroke);
-}
-
-.prediction-value {
-  font-size: 28px;
-  font-weight: bold;
-  color: var(--accent-blue);
-}
-
-.muted {
-  color: var(--text-muted);
+.gauge-label {
+  font-size: 14px;
+  color: var(--muted);
 }

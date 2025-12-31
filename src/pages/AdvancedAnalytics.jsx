@@ -1,6 +1,5 @@
 // src/pages/AdvancedAnalytics.jsx
-
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../styles/AdvancedAnalytics.css";
 
 import {
@@ -16,276 +15,192 @@ import {
   Legend,
 } from "recharts";
 
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+/* ================= EMOJI MAP ================= */
+const moodEmoji = {
+  1: "😞",
+  2: "😟",
+  3: "🙂",
+  4: "😊",
+  5: "😄",
+};
 
-/* ================= MOOD → SCORE MAP ================= */
-const moodScoreMap = {
-  Happy: 5,
-  Excited: 5,
-  Enjoying: 4,
-  Calm: 4,
-  Reflective: 3,
-  Neutral: 3,
-  Confused: 2,
-  Sad: 2,
-  Lonely: 2,
-  Anxiety: 2,
-  Stressed: 1,
-  Angry: 1,
-  Depressed: 1,
-  Demotivated: 1,
-  Fear: 1,
-  Disgust: 1,
+/* ================= DATA ================= */
+const moodData = [
+  { day: "Mon", mood: 2 },
+  { day: "Tue", mood: 3 },
+  { day: "Wed", mood: 3.5 },
+  { day: "Thu", mood: 4 },
+  { day: "Fri", mood: 4.3 },
+  { day: "Sat", mood: 4.6 },
+  { day: "Sun", mood: 4.8 },
+];
+
+const journalData = [
+  { day: "Mon", positive: 6, negative: 3 },
+  { day: "Tue", positive: 8, negative: 2 },
+  { day: "Wed", positive: 5, negative: 4 },
+  { day: "Thu", positive: 7, negative: 3 },
+  { day: "Fri", positive: 6, negative: 2 },
+  { day: "Sun", positive: 5, negative: 2 },
+];
+
+const gameData = [
+  { level: 1, value: 1 },
+  { level: 2, value: 2 },
+  { level: 3, value: 3 },
+  { level: 4, value: 4 },
+  { level: 5, value: 5 },
+  { level: 6, value: 6 },
+  { level: 7, value: 7 },
+  { level: 8, value: 8 },
+  { level: 9, value: 9 },
+  { level: 10, value: 8 },
+];
+
+/* ================= EMOJI DOT ================= */
+const EmojiDot = ({ cx, cy, payload }) => {
+  const mood = Math.round(payload.mood);
+  return (
+    <text x={cx} y={cy + 6} textAnchor="middle" fontSize="22">
+      {moodEmoji[mood]}
+    </text>
+  );
 };
 
 export default function AdvancedAnalytics() {
-  const exportRef = useRef(null);
-
   const [range, setRange] = useState("week");
-  const [chartData, setChartData] = useState([]);
-  const [activityData, setActivityData] = useState([]);
-  const [heatmapItems, setHeatmapItems] = useState([]);
-  const [prediction, setPrediction] = useState(null);
-  const [loadingPrediction, setLoadingPrediction] = useState(false);
+  const assessmentScore = 72; // out of 100
 
-  /* ================= READ MOOD HISTORY ================= */
-  const getMoodHistory = () =>
-    JSON.parse(localStorage.getItem("moodHistory") || "[]");
-
-  /* ================= CALCULATE AVERAGE MOOD ================= */
-  const avgMood = (moods) => {
-    if (!moods.length) return 0;
-    const total = moods.reduce(
-      (sum, m) => sum + (moodScoreMap[m] || 3),
-      0
-    );
-    return +(total / moods.length).toFixed(2);
-  };
-
-  /* ================= GENERATE DATA BY RANGE ================= */
-  const generateFromHistory = (range) => {
-    const history = getMoodHistory();
-    if (!history.length) return [];
-
-    const buckets = {};
-
-    history.forEach((entry) => {
-      const date = new Date(entry.timestamp);
-      let key = "";
-
-      if (range === "day") {
-        key = `${date.getHours()}:00`;
-      } else if (range === "week") {
-        key = date.toLocaleDateString("en-US", { weekday: "short" });
-      } else if (range === "month") {
-        key = `D${date.getDate()}`;
-      } else if (range === "year") {
-        key = date.toLocaleDateString("en-US", { month: "short" });
-      }
-
-      if (!buckets[key]) buckets[key] = [];
-      buckets[key].push(avgMood(entry.moods));
-    });
-
-    return Object.keys(buckets).map((label) => ({
-      label,
-      mood: +(
-        buckets[label].reduce((a, b) => a + b, 0) / buckets[label].length
-      ).toFixed(2),
-    }));
-  };
-
-  /* ================= ACTIVITY DATA ================= */
-  const generateActivityData = (base) =>
-    base.map((d) => ({
-      ...d,
-      journaling: Math.floor(Math.random() * 4), // optional placeholder
-    }));
-
-  /* ================= PREDICTION ================= */
-  const fetchPrediction = async () => {
-    setLoadingPrediction(true);
-    try {
-      const history = getMoodHistory();
-      if (!history.length) {
-        setPrediction(null);
-        return;
-      }
-
-      const recent = history.slice(0, 5);
-      const score =
-        recent.reduce((s, e) => s + avgMood(e.moods), 0) / recent.length;
-
-      setPrediction({ predicted: score.toFixed(1) });
-    } finally {
-      setLoadingPrediction(false);
-    }
-  };
-
-  /* ================= RANGE CHANGE ================= */
-  const handleRangeChange = (r) => {
-    setRange(r);
-
-    const moodData = generateFromHistory(r);
-    setChartData(moodData);
-    setActivityData(generateActivityData(moodData));
-
-    setHeatmapItems(
-      moodData.map((d) => ({
-        id: d.label,
-        value: Math.round(d.mood),
-      }))
-    );
-  };
-
-  /* ================= INIT ================= */
-  useEffect(() => {
-    handleRangeChange(range);
-    fetchPrediction();
-  }, []);
-
-  /* ================= EXPORT PDF ================= */
-  const exportToPDF = async () => {
-    const canvas = await html2canvas(exportRef.current, { scale: 2 });
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "px",
-      format: [canvas.width, canvas.height],
-    });
-    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0);
-    pdf.save("NeuroWell_Analytics.pdf");
-  };
-
-  /* ================= EXPORT CSV ================= */
-  const downloadCSV = () => {
-    const rows = [["Label", "Average Mood", "Journaling"]];
-    chartData.forEach((d, i) =>
-      rows.push([d.label, d.mood, activityData[i]?.journaling ?? 0])
-    );
-
-    const csv =
-      "data:text/csv;charset=utf-8," +
-      rows.map((r) => r.join(",")).join("\n");
-
-    const link = document.createElement("a");
-    link.href = encodeURI(csv);
-    link.download = `Analytics_${range}.csv`;
-    link.click();
-  };
-
-  /* ================= JSX ================= */
   return (
     <div className="analytics-page">
-      {/* Header */}
+      {/* HEADER */}
       <div className="header-row">
-        <h1 className="page-title">Advanced Analytics — NeuroWellInsight</h1>
+        <h1 className="page-title">Advanced Analytics</h1>
+
         <div className="range-selector">
-          {["day", "week", "month", "year"].map((r) => (
+          {["Day", "Week", "Month", "Year"].map((r) => (
             <button
               key={r}
-              onClick={() => handleRangeChange(r)}
-              className={`range-btn ${range === r ? "active" : ""}`}
+              className={`range-btn ${
+                range === r.toLowerCase() ? "active" : ""
+              }`}
+              onClick={() => setRange(r.toLowerCase())}
             >
-              {r.toUpperCase()}
+              {r}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="actions-row">
-        <button className="analytics-btn" onClick={fetchPrediction}>
-          {loadingPrediction ? "Predicting..." : "Run Prediction"}
-        </button>
-
-        <button className="analytics-btn" onClick={exportToPDF}>
-          Export PDF
-        </button>
-
-        <button className="analytics-btn" onClick={downloadCSV}>
-          Download CSV
-        </button>
-      </div>
-
-      {/* Export Section */}
-      <div ref={exportRef} className="analytics-box">
-        <div className="grid-two">
-          {/* Line Chart */}
-          <div className="card">
-            <h3 className="card-title">Mood Trend ({range})</h3>
-            <div className="chart-container">
-              <ResponsiveContainer>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2b3544" />
-                  <XAxis dataKey="label" stroke="#9ca3af" />
-                  <YAxis domain={[1, 5]} stroke="#9ca3af" />
-                  <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="mood"
-                    stroke="#4b9fff"
-                    strokeWidth={3}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Bar Chart */}
-          <div className="card">
-            <h3 className="card-title">Activity (Journaling)</h3>
-            <div className="chart-container">
-              <ResponsiveContainer>
-                <BarChart data={activityData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2b3544" />
-                  <XAxis dataKey="label" stroke="#9ca3af" />
-                  <YAxis stroke="#9ca3af" />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    dataKey="journaling"
-                    radius={[6, 6, 0, 0]}
-                    fill="#0ea5a4"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-
-        {/* Heatmap */}
+      <div className="grid-two">
+        {/* ================= MOOD TRACKER ================= */}
         <div className="card">
-          <h3 className="card-title">Heatmap ({range})</h3>
-          <div
-            className={`heatmap-grid ${
-              range === "day"
-                ? "cols-24"
-                : range === "year"
-                ? "cols-12"
-                : "cols-10"
-            }`}
-          >
-            {heatmapItems.map((c) => (
-              <div
-                key={c.id}
-                className={`heatmap-cell mood-${c.value}`}
-                title={`${c.id}: mood ${c.value}`}
-              ></div>
-            ))}
-          </div>
+          <h3 className="card-title">Average Mood Detection</h3>
+          <p className="avg-text">Avg. Mood: <b>4.6</b> 😊</p>
+
+          <ResponsiveContainer width="100%" height={260}>
+            <LineChart data={moodData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="day" />
+              <YAxis domain={[1, 5]} />
+              <Tooltip />
+              <Line
+                dataKey="mood"
+                stroke="#7c3aed"
+                strokeWidth={3}
+                dot={<EmojiDot />}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+
+          <div className="scale">😞 Worst — 🙂 Okay — 😄 Best</div>
         </div>
 
-        {/* Prediction */}
-        <div className="prediction-card">
-          <h3 className="card-title">Prediction</h3>
-          {prediction ? (
-            <p className="prediction-value">{prediction.predicted}/5</p>
-          ) : (
-            <p className="muted">Not enough data</p>
-          )}
+        {/* ================= JOURNAL ================= */}
+        <div className="card">
+          <h3 className="card-title">Journal Insights</h3>
+          <p className="journal-status">
+            Mood: <b>You’re looking sad this week</b>
+          </p>
+
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={journalData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="day" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="positive" fill="#22c55e" />
+              <Bar dataKey="negative" fill="#ef4444" />
+            </BarChart>
+          </ResponsiveContainer>
+
+          <p className="quote">
+            “Remember, it’s okay to seek support when you need it.”
+          </p>
+        </div>
+
+        {/* ================= GAME PROGRESS ================= */}
+        <div className="card">
+          <h3 className="card-title">Game Progress</h3>
+          <p className="avg-text">Average Level: <b>5.8</b> 🎮</p>
+
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={gameData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="level" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="#38bdf8" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* ================= ASSESSMENT GAUGE ================= */}
+<div className="card">
+  <h3 className="card-title">Assessment Overview</h3>
+
+  <div className="gauge-container">
+    <svg viewBox="0 0 200 120" className="gauge-svg">
+      {/* Background Arc */}
+      <path
+        d="M20 100 A80 80 0 0 1 180 100"
+        fill="none"
+        stroke="#e5e7eb"
+        strokeWidth="16"
+      />
+
+      {/* Progress Arc */}
+      <path
+        d="M20 100 A80 80 0 0 1 180 100"
+        fill="none"
+        stroke="#7c3aed"
+        strokeWidth="16"
+        strokeDasharray="251"
+        strokeDashoffset={251 - (assessmentScore / 100) * 251}
+      />
+
+      {/* NEEDLE */}
+      <line
+        x1="100"
+        y1="100"
+        x2="100"
+        y2="30"
+        stroke="#1f2937"
+        strokeWidth="3"
+        transform={`rotate(${assessmentScore * 1.8 - 90} 100 100)`}
+      />
+
+      {/* Center Dot */}
+      <circle cx="100" cy="100" r="6" fill="#1f2937" />
+    </svg>
+
+    <div className="gauge-score">{assessmentScore}</div>
+    <div className="gauge-label">Average Mental Health Score</div>
+  </div>
+</div>
+
         </div>
       </div>
-    </div>
   );
 }

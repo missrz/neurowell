@@ -34,7 +34,7 @@ import SOS from "./pages/SOS";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
 import Logout from "./pages/Logout";
-import AIDetector from "./pages/AIDetector";
+// import AIDetector from "./pages/AIDetector";
 import Resources from "./pages/Resources";
 import Notifications from "./pages/Notifications";
 
@@ -124,7 +124,7 @@ export default function App() {
             {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
             <Route path="/mood-tracker" element={<MoodTracker />} />
             <Route path="/stress-games" element={<StressGames />} />
-            <Route path="/aiDetector" element={<AIDetector/>}/>
+            {/* <Route path="/aiDetector" element={<AIDetector/>}/> */}
             <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
             <Route path="/Resources" element={<Resources />} />
 

@@ -21,7 +21,7 @@ router.post("/", auth, async (req, res) => {
       text,
       date,
       pinned: pinned || false ,
-      userId: req.user.id, // 🔥 from token
+      userId: req.user.id, // 🔥 from toke n
     });
 
     const savedJournal = await journal.save();
