@@ -10,24 +10,14 @@ export default function StressGames() {
   return (
     <div className="stress-games-container text-white">
       <h2 className="text-center neon-title mb-4">Mind Games 🎮</h2>
-
+<button
+  className="btn btn-outline-light mb-3"
+  onClick={() => navigate("/dashboard")}
+>
+  ⬅ Back to Feature
+</button>
       <div className="row g-4 justify-content-center">
-        {/* LOGIC MIND GAME */}
-        <div className="col-12 col-md-4">
-          <div
-            className="game-card p-4 text-center"
-            role="button"
-            tabIndex={0}
-            onClick={() => goTo("/stress-games/logic")}
-            onKeyDown={(e) =>
-              e.key === "Enter" && goTo("/stress-games/logic")
-            }
-          >
-            <div className="neon-emoji mb-2">🧠</div>
-            <h5>Logic Mind Game</h5>
-            <p className="small text-muted">MCQs • Timer • Brain Boost</p>
-          </div>
-        </div>
+       
 
         {/* CODE BREAKER GAME */}
         <div className="col-12 col-md-4">
@@ -58,10 +48,43 @@ export default function StressGames() {
             }
           >
             <div className="neon-emoji mb-2">🫧</div>
-            <h5>Bubble Merge</h5>
+            <h5>Rain Drop</h5>
             <p className="small text-muted">Relax • Merge • Numbers</p>
           </div>
         </div>
+        {/* SNAKE GAME */}
+<div className="col-12 col-md-4">
+  <div
+    className="game-card p-4 text-center"
+    role="button"
+    tabIndex={0}
+    onClick={() => goTo("/stress-games/snake")}
+    onKeyDown={(e) =>
+      e.key === "Enter" && goTo("/stress-games/snake")
+    }
+  >
+    <div className="neon-emoji mb-2">🐍</div>
+    <h5>Expanding Snake</h5>
+    <p className="small text-muted">Levels • Growing Map • Chill Play</p>
+  </div>
+</div>
+ {/* BOUNCE LOGIC */}
+<div className="col-12 col-md-4">
+  <div
+    className="game-card p-4 text-center"
+    role="button"
+    tabIndex={0}
+    onClick={() => goTo("/stress-games/ball")}
+    onKeyDown={(e) =>
+      e.key === "Enter" && goTo("/stress-games/ball")
+    }
+  >
+    <div className="neon-emoji mb-2">⚪↔️🧱 </div>
+    <h5>Bouncing Ball</h5>
+    <p className="small text-muted">
+      Mindfulness • Creativity • Calm</p>
+  </div>
+</div>
 
       </div>
     </div>

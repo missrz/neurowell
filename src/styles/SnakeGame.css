@@ -1,0 +1,170 @@
+.snake-wrapper {
+  min-height: 100vh;            /* full screen height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* horizontal center */
+  justify-content: center;     /* vertical center */
+  text-align: center;
+}
+
+.snake-board {
+  display: grid;
+  margin: 16px auto;
+  gap: 2px;
+  background: #0c0f1a;
+  padding: 12px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.15);
+}
+
+.cell {
+  width: 20px;
+  height: 20px;
+  background: #222;
+  border-radius: 4px;
+}
+
+.cell.snake {
+  background: #00ffcc;
+  box-shadow: 0 0 5px #00ffcc;
+}
+
+.cell.food {
+  background: #ff4d6d;
+  box-shadow: 0 0 6px #ff4d6d;
+}
+.snake-game-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.snake-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 140px;
+  align-items: stretch;
+}
+.snake-controls button {
+  white-space: nowrap;
+}
+
+.speed-toggle {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.speed-toggle button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+.speed-toggle .active {
+  background: #00ffcc;
+  color: black;
+  font-weight: bold;
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+.level-up-flash {
+  animation: flash 1s ease-in-out;
+}
+
+@keyframes flash {
+  0% { box-shadow: 0 0 0px #00ffcc; }
+  50% { box-shadow: 0 0 25px #00ffcc; }
+  100% { box-shadow: 0 0 0px #00ffcc; }
+}
+
+.game-over-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.game-over-box button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff4d6d;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-over-box button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ff4d6d;
+}
+
+
+.game-over-box {
+  background: #0f172a;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 0 20px #22d3ee;
+  animation: pop 0.3s ease-in-out;
+}
+
+.game-over-box h1 {
+  color: #f87171;
+  margin-bottom: 10px;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Mobile D-Pad */
+.mobile-controller {
+  display: none;
+  margin-top: 20px;
+}
+
+.mobile-controller button {
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  margin: 5px;
+  border-radius: 50%;
+  border: none;
+  background: #111;
+  color: #00ffcc;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+}
+
+/* Show mobile controller only on small screens */
+@media (max-width: 768px) {
+  .snake-game-row {
+    flex-direction: column;
+  }
+
+  .snake-controls {
+    flex-direction: row;
+    margin-top: 10px;
+    min-width: 140px;
+  align-items: stretch;
+  }
+
+  .mobile-controller {
+    display: block;
+  }
+}
