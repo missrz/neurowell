@@ -36,6 +36,8 @@ import Logout from "./pages/Logout";
 import Resources from "./pages/Resources";
 import Notifications from "./pages/Notifications";
 import BubbleMergeGame from "./pages/BubbleMergeGame";
+import SnakeGame from "./pages/SnakeGame";
+import BounceLogicBall from "./pages/BounceLogicBall";
 
 // import AIDetection from "./pages/AIDetection";
 // import MoodTracker from "./pages/MoodTracker";
@@ -124,9 +126,12 @@ export default function App() {
             <Route path="/mood-tracker" element={<MoodTracker />} />
             <Route path="/stress-games" element={<StressGames />} />
             <Route path="/stress-games/bubble-merge" element={<BubbleMergeGame />} />
-
             <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
             <Route path="/Resources" element={<Resources />} />
+
+            <Route path="/stress-games/code-breaker" element={<CodeBreakerGame />} />           
+            <Route path="/stress-games/snake" element={<SnakeGame />} />
+            <Route path="/stress-games/ball" element={<BounceLogicBall />} />
 
             {/* REDIRECT UNKNOWN ROUTES */}
             <Route path="*" element={<Navigate to="/" />} />

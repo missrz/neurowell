@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function RainDropGame() {
   const [drops, setDrops] = useState([]);
@@ -10,6 +11,7 @@ export default function RainDropGame() {
   const [gameActive, setGameActive] = useState(false);
   const [level, setLevel] = useState(1);
   const [speedMultiplier, setSpeedMultiplier] = useState(1);
+  const navigate = useNavigate();
 
   const rainAreaRef = useRef(null);
   const animationRef = useRef(null);
@@ -68,14 +70,11 @@ export default function RainDropGame() {
 
       setDrops((prev) =>
   prev
-    .map((d) =>
-      d.caught
-        ? d
-        : {
-            ...d,
-            y: d.y + d.speed * speedMultiplier * delta,
-          }
-    )
+    .map((d) => ({
+  ...d,
+  y: d.y + d.speed * speedMultiplier * delta,
+}))
+
     .filter((d) => d.y < height + 120 && !d.caught)
 );
 
@@ -101,7 +100,7 @@ export default function RainDropGame() {
       const t = setTimeout(() => setTimeLeft((v) => v - 1), 1000);
       const elapsed = 60 - timeLeft;
 
-      if (elapsed > 0 && elapsed % 10 === 0) {
+      if (elapsed > 0 && elapsed % 15 === 0) {
         setSpeedMultiplier((s) => s * 1.5);
       }
 
@@ -127,9 +126,9 @@ export default function RainDropGame() {
     )
   );
 
-  setTimeout(() => {
+  
     setDrops((prev) => prev.filter((d) => d.id !== id));
-  }, 0);
+ 
 
   const drop = drops.find((d) => d.id === id);
   if (drop) {
@@ -154,12 +153,22 @@ export default function RainDropGame() {
     return (
       <div className="rain-game-container">
         <div className="start-screen">
-          <h1>🌧️ Rain Drop Catcher</h1>
+          <h1>
+            {timeLeft === 0 ? "⏱️ Game Over" : "🌧️ Rain Drop Catcher"}
+          </h1>
           <p>🏆 High Score: {highScore}</p>
           <button className="start-btn" onClick={startGame}>
             START RAIN 🌧️
           </button>
+          
         </div>
+        <button
+  className="back-btn"
+  onClick={() => navigate("/stress-games")}
+>
+  ⬅ Back
+</button>
+
       </div>
     );
   }
@@ -173,7 +182,13 @@ export default function RainDropGame() {
         <div>Time: {timeLeft}s</div>
       </div>
 
-      <div className="rain-area" ref={rainAreaRef} style={{ touchAction: "none" }}>
+      <div className="rain-area" ref={rainAreaRef} style={{ touchAction: "none" }}
+        style={{
+  touchAction: "none",
+  userSelect: "none",
+  WebkitTapHighlightColor: "transparent",
+}}>
+
         <div className="sky-bg"></div>
 
        {drops.map((d) => (
@@ -186,10 +201,11 @@ export default function RainDropGame() {
       opacity: d.opacity,
       pointerEvents: d.caught ? "none" : "auto",
       willChange: "transform",
+      pointerEvents: "auto",
     }}
     onPointerDown={(e) => {
       e.preventDefault();
-      e.stopPropagation();
+      // e.stopPropagation();
       catchDrop(d.id);
     }}
   >
