@@ -125,6 +125,9 @@ export default function App() {
             {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
             <Route path="/mood-tracker" element={<MoodTracker />} />
             <Route path="/stress-games" element={<StressGames />} />
+
+            {/* <Route path="/stress-games/logic" element={<LogicMindGame />} /> */}
+
             <Route path="/stress-games/bubble-merge" element={<BubbleMergeGame />} />
             <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
             <Route path="/Resources" element={<Resources />} />

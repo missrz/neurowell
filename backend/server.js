@@ -54,6 +54,7 @@ app.use("/api/resources", resourcesRoutes);
 app.use('/api/assesments', assesmentRoutes);
 app.use('/api/valueble_history', valuebleHistoryRoutes);
 
+
 // AI detection route
 app.post("/api/detect", async (req, res, next) => {
   const { text } = req.body;
