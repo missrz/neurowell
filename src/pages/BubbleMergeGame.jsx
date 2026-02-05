@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import "../styles/BubbleMerge.css";
 
 export default function RainDropGame() {
   const [drops, setDrops] = useState([]);

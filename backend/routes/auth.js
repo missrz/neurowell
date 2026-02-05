@@ -10,20 +10,36 @@ const TOKEN_EXPIRY = '7d';
 
 // Signup
 router.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) return res.status(400).json({ error: 'Name, email and password required' });
+  const { fullName, email, password, termsaAndAccepted, imagePath, preferences } = req.body;
+  if (!fullName || !email || !password) return res.status(400).json({ error: 'Full name, email and password required' });
+  if (!termsaAndAccepted) return res.status(400).json({ error: 'Terms must be accepted' });
   // simple email format validation
   const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-  if (!emailRegex.test(email)) return res.status(400).json({ error: 'Invalid email format' });
+  const emailLower = String(email).toLowerCase();
+  if (!emailRegex.test(emailLower)) return res.status(400).json({ error: 'Invalid email format' });
   try {
-    const existing = await User.findOne({ email });
+    const existing = await User.findOne({ email: emailLower });
     if (existing) return res.status(400).json({ error: 'User already exists' });
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
-    const user = new User({ name, email, passwordHash });
+    const userData = { fullName, email: emailLower, passwordHash, termsaAndAccepted: Boolean(termsaAndAccepted), imagePath };
+    if (typeof preferences !== 'undefined') {
+      if (typeof preferences === 'string') {
+        try {
+          userData.preferences = JSON.parse(preferences);
+        } catch (e) {
+          return res.status(400).json({ error: 'Invalid preferences JSON' });
+        }
+      } else if (typeof preferences === 'object') {
+        userData.preferences = preferences;
+      } else {
+        return res.status(400).json({ error: 'Invalid preferences format' });
+      }
+    }
+    const user = new User(userData);
     await user.save();
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: TOKEN_EXPIRY });
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
+    const token = jwt.sign({ id: user._id, email: user.email, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: TOKEN_EXPIRY });
+    res.json({ token, user: { id: user._id, fullName: user.fullName, email: user.email } });
   } catch (err) {
     console.error('Signup error', err);
     res.status(500).json({ error: 'Server error' });

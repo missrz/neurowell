@@ -9,7 +9,7 @@ const auth = require("../middleware/authMiddleware");
 // ============================
 router.post("/", auth, async (req, res) => {
   try {
-    const { moods, userId, description } = req.body;
+    const { moods, description, score } = req.body;
 
     if (!moods || moods.length === 0) {
       return res.status(400).json({ message: "Moods array is required." });
@@ -18,6 +18,7 @@ router.post("/", auth, async (req, res) => {
     const newMood = new Mood({
       moods,
       description,
+      score,
       userId: req.user.id // 🔥 from token
     });
 
@@ -74,6 +75,34 @@ router.put("/:id", auth, async (req, res) => {
     mood.moods = req.body.moods;
     mood.description = req.body.description;
     await mood.save();
+
+    setImmediate(() => {
+      console.log("Background job started for:", req.user.id)
+
+      console.log("Background job finished for:", req.user.id)
+    });
+
+    res.status(200).json(mood);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// ============================
+// Show a mood by ID
+// GET /api/moods/:id
+// ============================
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const mood = await Mood.findById(req.params.id);
+
+    if (!mood) {
+      return res.status(404).json({ message: "Mood not found" });
+    }
+
+    if (mood.userId.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
 
     res.status(200).json(mood);
   } catch (error) {

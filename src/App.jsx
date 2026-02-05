@@ -29,12 +29,10 @@ import StressGames from "./pages/StressGames";
 import Assessment from "./pages/Assessment";
 import Journal from "./pages/Journal";
 import FullChatbotPage from "./pages/FullChatbotPage";
-import CodeBreakerGame from "./pages/CodeBreakerGame";
 import SOS from "./pages/SOS";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
 import Logout from "./pages/Logout";
-import LogicMindGame from "./pages/LogicMindGame";
 import Resources from "./pages/Resources";
 import Notifications from "./pages/Notifications";
 import BubbleMergeGame from "./pages/BubbleMergeGame";
@@ -125,13 +123,10 @@ export default function App() {
             {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
             <Route path="/mood-tracker" element={<MoodTracker />} />
             <Route path="/stress-games" element={<StressGames />} />
-            <Route path="/stress-games/logic" element={<LogicMindGame />} />
             <Route path="/stress-games/bubble-merge" element={<BubbleMergeGame />} />
 
             <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
             <Route path="/Resources" element={<Resources />} />
-
-            <Route path="/stress-games/code-breaker" element={<CodeBreakerGame />} />           
 
             {/* REDIRECT UNKNOWN ROUTES */}
             <Route path="*" element={<Navigate to="/" />} />

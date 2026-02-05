@@ -16,11 +16,16 @@ const MoodSchema = new mongoose.Schema({
     default: "",
     required: false
   },
-  timestamp: {
-    type: Date,
-    default: Date.now
-  }
-});
+  aiResponse: {
+    type: mongoose.Schema.Types.Mixed,
+    default: null
+  },
+  score: {
+    type: Number,             // Optional: AI-generated mood score (e.g., 0-100)
+    default: null,
+    required: false
+  },
+}, { timestamps: true });
 
 // Export the Mongoose model
 module.exports = mongoose.model("Mood", MoodSchema);
