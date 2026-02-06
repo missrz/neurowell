@@ -70,6 +70,11 @@ router.post("/", auth, async (req, res) => {
 // ============================
 router.get("/", auth, async (req, res) => {
   try {
+    // Admin-only: only users with isAdmin flag may list all moods
+    if (!req.user || !req.user.isAdmin) {
+      console.warn('Unauthorized attempt to list all moods by user', req.user && req.user.id);
+      return res.status(403).json({ message: 'Forbidden: admin only' });
+    }
     const moods = await Mood.find().sort({ timestamp: -1 });
     res.status(200).json(moods);
   } catch (error) {

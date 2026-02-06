@@ -69,4 +69,71 @@ router.patch('/:id', auth, async (req, res) => {
   }
 });
 
+// ============================
+// Get all users (admin/debug)
+// GET /api/users
+// ============================
+router.get("/", auth, async (req, res) => {
+  try {
+    // Admin-only: only users with isAdmin flag may list all users
+    if (!req.user || !req.user.isAdmin) {
+      console.warn('Unauthorized attempt to list all users by user', req.user && req.user.id);
+      return res.status(403).json({ message: 'Forbidden: admin only' });
+    }
+    const users = await User.find().sort({ date: -1 });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// ============================
+// Show a user by ID
+// GET /api/users/:id
+// ============================
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-passwordHash');
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user._id.toString() !== req.user.id && !req.user.isAdmin) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// ============================
+// Delete a user by ID
+// DELETE /api/users/:id
+// ============================
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id).select('-passwordHash');
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Allow delete if user is owner OR admin
+    if (user._id.toString() !== req.user.id && !req.user.isAdmin) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await user.deleteOne();
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;
