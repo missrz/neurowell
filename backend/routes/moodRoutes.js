@@ -45,7 +45,7 @@ router.post("/", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const title = `my tracking advice for ${moods.join(', ')} on ${new Date(savedMood.createdAt || savedMood.createdAt).toISOString()}`;
+            const title = `my mood tracking advice for ${moods.join(', ')} on ${new Date(savedMood.createdAt || savedMood.createdAt).toISOString()}`;
             const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: savedMood._id.toString(), entityType: 'mood' });
             await tip.save();
           } catch (e) {
@@ -136,7 +136,7 @@ router.put("/:id", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const title = `my tracking advice for ${(mood.moods || []).join(', ')} on ${new Date(mood.createdAt || mood.createdAt).toISOString()}`;
+            const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${new Date(mood.createdAt || mood.createdAt).toISOString()}`;
             const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: mood._id.toString(), entityType: 'mood' });
             await tip.save();
           } catch (e) {

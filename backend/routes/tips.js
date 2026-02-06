@@ -15,7 +15,7 @@ router.post("/", auth, async (req, res) => {
       return res.status(403).json({ message: "Forbidden: admin only" });
     }
 
-    const { title, description, isReaded, entity_id, entityType } = req.body;
+    const { title, description, isReaded, entity_id, entityType, userId } = req.body;
 
     if (!description) {
       return res.status(400).json({ message: "Tip description is required" });
@@ -27,7 +27,7 @@ router.post("/", auth, async (req, res) => {
       isReaded,
       entity_id,
       entityType,
-      userId: req.user.id, // 🔥 from token
+      userId: userId || req.user.id, // 🔥 from token or request body
     });
 
     const savedTip = await tip.save();
