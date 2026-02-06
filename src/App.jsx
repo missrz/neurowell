@@ -38,7 +38,7 @@ import Notifications from "./pages/Notifications";
 import BubbleMergeGame from "./pages/BubbleMergeGame";
 import SnakeGame from "./pages/SnakeGame";
 import BounceLogicBall from "./pages/BounceLogicBall";
-
+import NightSkyMemoryGame from "./pages/NightSkyMemoryGame";
 // import AIDetection from "./pages/AIDetection";
 // import MoodTracker from "./pages/MoodTracker";
 // import Insights from "./pages/Insights";
@@ -132,6 +132,7 @@ export default function App() {
             <Route path="/stress-games/code-breaker" element={<CodeBreakerGame />} />           
             <Route path="/stress-games/snake" element={<SnakeGame />} />
             <Route path="/stress-games/ball" element={<BounceLogicBall />} />
+            <Route path="/stress-games/night" element={<NightSkyMemoryGame />} />
 
             {/* REDIRECT UNKNOWN ROUTES */}
             <Route path="*" element={<Navigate to="/" />} />

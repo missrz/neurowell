@@ -17,7 +17,8 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 export default function MoodTracker() {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user.user);
-
+  const userId = currentUser?._id || currentUser?.id;
+  
   /* ================= FINAL MOODS ================= */
   const finalMoods = [
     { emoji: "😊", mood: "Happy", color: "#EECEDA" },
@@ -37,19 +38,20 @@ export default function MoodTracker() {
     { emoji: "😕", mood: "Confused", color: "#F67280" },
     { emoji: "😣", mood: "Demotivated", color: "#EBB195" },
   ];
-
+  
   /* ================= STATES ================= */
   const [rightPanelMoods, setRightPanelMoods] = useState([]);
   const [history, setHistory] = useState([]);
   const [description, setDescription] = useState("");
-
+  
   /* ================= LOAD FROM BACKEND ================= */
   useEffect(() => {
-    if (!currentUser) return;
-
+    if (!userId) return;
+    
+    
     const loadMoods = async () => {
       try {
-        const data = await fetchMoodHistory(currentUser._id || currentUser?.id);
+        const data = await fetchMoodHistory(userId);
         setHistory(
           data.map((d) => ({
             id: d._id,
@@ -64,175 +66,186 @@ export default function MoodTracker() {
         console.error("Failed to fetch mood history", err);
       }
     };
-
+    
     loadMoods();
-  }, [currentUser]);
-
+  }, [userId]);
+  
   /* ================= TOGGLE MOOD ================= */
   const toggleMood = (mood) => {
     setRightPanelMoods((prev) =>
       prev.includes(mood)
-        ? prev.filter((m) => m !== mood)
-        : [...prev, mood]
-    );
-  };
-
-  /* ================= ADD ================= */
-  const addToHistory = async () => {
-    if (rightPanelMoods.length === 0 || !currentUser?._id) return;
-
-    try {
-      await saveMood({
-        moods: rightPanelMoods.map((m) => m.toLowerCase()),
-        description,
-        userId: currentUser._id,
-      });
-
-      const updated = await fetchMoodHistory(currentUser._id);
-      setHistory(
-        updated.map((d) => ({
-          id: d._id,
-          moods: d.moods.map(
-            (m) => m.charAt(0).toUpperCase() + m.slice(1)
-          ),
-          description: d.description,
-          timestamp: d.createdAt || d.timestamp,
-        }))
-      );
-
-      setRightPanelMoods([]);
-      setDescription("");
-    } catch (err) {
-      console.error("Failed to save mood", err);
-    }
-  };
-
-  /* ================= DELETE ================= */
-  const deleteHistory = async (id) => {
-    try {
-      await deleteMood(id);
-      setHistory((prev) => prev.filter((h) => h.id !== id));
-    } catch (err) {
-      console.error("Delete failed", err);
-    }
-  };
-
-  /* ================= PIE DATA ================= */
-  const moodCounts = finalMoods.map((m) =>
-    history.reduce(
-      (acc, h) => acc + h.moods.filter((hm) => hm === m.mood).length,
-      0
-    )
+    ? prev.filter((m) => m !== mood)
+    : [...prev, mood]
   );
+};
 
-  const total = moodCounts.reduce((a, b) => a + b, 0);
+/* ================= ADD ================= */
+const addToHistory = async () => {
+  if (rightPanelMoods.length === 0) return;
+  
+  try {
+    const payload = {
+      moods: rightPanelMoods.map((m) => m.toLowerCase()),
+      description,
+      userId,
+    };
+    
+    const saved = await saveMood(payload);
+    
+    // 👇 ADD ENTRY LOCALLY (no reload needed)
+    const newEntry = {
+      id: saved._id || Date.now(),
+      moods: rightPanelMoods,
+      description,
+      timestamp: new Date().toISOString(),
+    };
+    
+    setHistory((prev) => [newEntry, ...prev]);
+    
+    setRightPanelMoods([]);
+    setDescription("");
+  } catch (err) {
+    console.error("Failed to save mood", err);
+  }
+};
 
-  const pieData = {
-    labels: finalMoods.map((m) => m.mood),
-    datasets: [
-      {
-        data: moodCounts,
-        backgroundColor: finalMoods.map((m) => m.color),
-        borderColor: "#0a0a0a",
-        borderWidth: 2,
-      },
-    ],
-  };
 
-  const pieOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { position: "bottom", labels: { color: "#fff" } },
-      datalabels: {
-        color: "#fff",
-        formatter: (v) =>
-          total ? `${Math.round((v / total) * 100)}%` : "",
-      },
+/* ================= DELETE ================= */
+const deleteHistory = async (id) => {
+  try {
+    await deleteMood(id);
+    setHistory((prev) => prev.filter((h) => h.id !== id));
+  } catch (err) {
+    console.error("Delete failed", err);
+  }
+};
+
+/* ================= PIE DATA ================= */
+const moodCounts = finalMoods.map((m) =>
+  history.reduce(
+  (acc, h) => acc + h.moods.filter((hm) => hm === m.mood).length,
+  0
+)
+);
+
+const total = moodCounts.reduce((a, b) => a + b, 0);
+
+const pieData = {
+  labels: finalMoods.map((m) => m.mood),
+  datasets: [
+    {
+      data: moodCounts,
+      backgroundColor: finalMoods.map((m) => m.color),
+      borderColor: "#0a0a0a",
+      borderWidth: 2,
     },
-  };
+  ],
+};
 
-  /* ================= CLOSE ================= */
-  const handleClose = () => navigate("/dashboard");
+const pieOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: "bottom", labels: { color: "#fff" } },
+    datalabels: {
+      color: "#fff",
+      formatter: (v) => {
+        if (!v || !total) return null;
+        return `${Math.round((v / total) * 100)}%`;
+      },
+      
+    },
+  },
+};
 
-  /* ================= JSX ================= */
-  return (
-    <div className="tracker-container">
-      <button className="close-btn" onClick={handleClose}>❌</button>
+/* ================= CLOSE ================= */
+const handleClose = () => navigate("/dashboard");
+if (!userId) {
+  return <div className="loading">Loading mood tracker...</div>;
+}
 
-      {/* LEFT */}
-      <div className="history-section">
-        <h2>Mood History</h2>
-        <ul>
-          {history.map((entry) => (
-            <li key={entry.id}>
-              <div className="moods-row">
-                {entry.moods.map((m) => (
-                  <div key={m} className="mood-item">
-                    <span className="mood-emoji">
-                      {finalMoods.find((f) => f.mood === m)?.emoji}
-                    </span>
-                    <span className="mood-name">{m}</span>
-                  </div>
-                ))}
-              </div>
-
-              {entry.description && (
-                <div className="description">{entry.description}</div>
-              )}
-
-              <div className="timestamp">
-                {new Date(entry.timestamp).toLocaleString()}
-              </div>
-
-              <button
-                className="delete-btn"
-                onClick={() => deleteHistory(entry.id)}
-              >
-                🗑️
-              </button>
-            </li>
-          ))}
-        </ul>
+/* ================= JSX ================= */
+return (
+  <div className="tracker-container">
+  <button className="close-btn" onClick={handleClose}>❌</button>
+  
+  {/* LEFT */}
+  <div className="history-section">
+  <h2>Mood History</h2>
+  <ul>
+  {history.map((entry) => (
+    <li key={entry.id}>
+    <div className="moods-row">
+    {entry.moods.map((m) => (
+      <div key={m} className="mood-item">
+      <span className="mood-emoji">
+      {finalMoods.find((f) => f.mood === m)?.emoji}
+      </span>
+      <span className="mood-name">{m}</span>
       </div>
-
-      {/* CENTER */}
-      <div className="pie-container">
-        <div className="pie-chart">
-          <Pie data={pieData} options={pieOptions} />
-        </div>
-      </div>
-
-      {/* RIGHT */}
-      <div className="history-section right-panel">
-        <h2>Select Mood</h2>
-
-        <div className="mood-grid">
-          {finalMoods.map((m) => (
-            <button
-              key={m.mood}
-              className={`mood-btn ${
-                rightPanelMoods.includes(m.mood) ? "selected" : ""
-              }`}
-              style={{ "--neon-color": m.color }}
-              onClick={() => toggleMood(m.mood)}
-            >
-              {m.emoji} {m.mood}
-            </button>
-          ))}
-        </div>
-
-        <textarea
-          className="mood-description"
-          placeholder="Describe how you're feeling (optional)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        <button className="add-btn" onClick={addToHistory}>
-          Add to History
-        </button>
-      </div>
+    ))}
     </div>
-  );
+    
+    {entry.description && (
+      <div className="description">{entry.description}</div>
+    )}
+    
+    <div className="timestamp">
+    {new Date(entry.timestamp).toLocaleString()}
+    </div>
+    
+    <button
+    className="delete-btn"
+    onClick={() => deleteHistory(entry.id)}
+    >
+    🗑️
+    </button>
+    </li>
+  ))}
+  </ul>
+  </div>
+  
+  {/* CENTER */}
+  <div className="pie-container">
+  <div className="pie-chart">
+  {total > 0 ? (
+    <Pie data={pieData} options={pieOptions} />
+  ) : (
+    <p className="no-data">No mood data yet</p>
+  )}
+  </div>
+  </div>
+  
+  {/* RIGHT */}
+  <div className="history-section right-panel">
+  <h2>Select Mood</h2>
+  
+  <div className="mood-grid">
+  {finalMoods.map((m) => (
+    <button
+    key={m.mood}
+    className={`mood-btn ${
+      rightPanelMoods.includes(m.mood) ? "selected" : ""
+    }`}
+    style={{ "--neon-color": m.color }}
+    onClick={() => toggleMood(m.mood)}
+    >
+    {m.emoji} {m.mood}
+    </button>
+  ))}
+  </div>
+  
+  <textarea
+  className="mood-description"
+  placeholder="Describe how you're feeling (optional)"
+  value={description}
+  onChange={(e) => setDescription(e.target.value)}
+  />
+  
+  <button className="add-btn" onClick={addToHistory}>
+  Add to History
+  </button>
+  </div>
+  </div>
+);
 }
