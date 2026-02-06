@@ -12,6 +12,7 @@ const moodRoutes = require("./routes/moodRoutes");
 const journalRoutes = require("./routes/journalRoutes");
 const analytics = require("./routes/analytics");
 const usersRoutes = require('./routes/users');
+const tipsRoutes = require('./routes/tips');
 
 const app = express();
 
@@ -44,7 +45,7 @@ app.use("/api/moods", moodRoutes);
 app.use("/api/journals", journalRoutes);
 app.use("/api/analytics", analytics);
 app.use("/api/users", usersRoutes);
-
+app.use("/api/tips", tipsRoutes);
 // AI detection route
 app.post("/api/detect", async (req, res, next) => {
   const { text } = req.body;

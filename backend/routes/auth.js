@@ -39,7 +39,7 @@ router.post('/signup', async (req, res) => {
     const user = new User(userData);
     await user.save();
     const token = jwt.sign({ id: user._id, email: user.email, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: TOKEN_EXPIRY });
-    res.json({ token, user: { id: user._id, fullName: user.fullName, email: user.email } });
+    res.json({ token, user: { id: user._id, fullName: user.fullName, email: user.email, isAdmin: user.isAdmin } });
   } catch (err) {
     console.error('Signup error', err);
     res.status(500).json({ error: 'Server error' });
@@ -55,15 +55,15 @@ router.post('/login', async (req, res) => {
     if (!user) return res.status(400).json({ error: 'Invalid credentials' });
     const valid = await bcrypt.compare(password, user.passwordHash);
     if (!valid) return res.status(400).json({ error: 'Invalid credentials' });
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: TOKEN_EXPIRY });
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
+    const token = jwt.sign({ id: user._id, email: user.email, isAdmin: user.isAdmin }, JWT_SECRET, { expiresIn: TOKEN_EXPIRY });
+    res.json({ token, user: { id: user._id, fullName: user.fullName, email: user.email, isAdmin: user.isAdmin } });
   } catch (err) {
     console.error('Login error', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Get current user (requires token in A uthorization: Bearer <token>)
+// Get current user (requires token in Authorization: Bearer <token>)
 router.get('/me', async (req, res) => {
   const auth = req.headers.authorization;
   if (!auth || !auth.startsWith('Bearer ')) return res.status(401).json({ error: 'Missing token' });
