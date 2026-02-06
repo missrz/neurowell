@@ -1,0 +1,57 @@
+.night-game {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0b1d3a, #020617);
+  color: #e0e7ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.sky {
+  width: 320px;
+  height: 320px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.star {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #334155;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.star:hover {
+  opacity: 0.9;
+}
+
+.star.active {
+  background: #facc15;
+  box-shadow: 0 0 12px #fde68a;
+  opacity: 1;
+}
+
+.overlay {
+  position: absolute;
+  background: rgba(2, 6, 23, 0.85);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

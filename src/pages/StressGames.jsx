@@ -86,6 +86,24 @@ export default function StressGames() {
   </div>
 </div>
 
+{/* NIGHT STAR GAME */}
+<div className="col-12 col-md-4">
+  <div
+    className="game-card p-4 text-center"
+    role="button"
+    tabIndex={0}
+    onClick={() => goTo("/stress-games/night")}
+    onKeyDown={(e) =>
+      e.key === "Enter" && goTo("/stress-games/night")
+    }
+  >
+    <div className="neon-emoji mb-2">🌃🌠🌟🌙🌙 </div>
+    <h5>Dot Memory</h5>
+    <p className="small text-muted">
+      Mindfulness • Creativity • Calm</p>
+  </div>
+</div>
+
       </div>
     </div>
   );
