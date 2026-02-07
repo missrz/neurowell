@@ -147,6 +147,50 @@ router.get("/:id", auth, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+// ============================
+// Delete resource (ADMIN ONLY)
+// DELETE /api/resources/:id
+// ============================
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    // 1️⃣ Admin check
+    if (!req.user || !req.user.isAdmin) {
+      console.warn(
+        "Unauthorized attempt to delete resource",
+        req.user && req.user.id,
+        "resource:",
+        req.params.id
+      );
+      return res.status(403).json({ message: "Forbidden: admin only" });
+    }
+
+    console.log(
+      "Admin deleting resource",
+      "admin:",
+      req.user.id,
+      "resource:",
+      req.params.id
+    );
+
+    // 2️⃣ Find resource
+    const resource = await Resource.findById(req.params.id);
+    if (!resource) {
+      console.warn("Resource not found for delete:", req.params.id);
+      return res.status(404).json({ message: "Resource not found" });
+    }
+
+    // 3️⃣ Delete
+    await resource.deleteOne();
+
+    res.status(200).json({
+      message: "Resource deleted successfully",
+      id: req.params.id
+    });
+  } catch (err) {
+    console.error("Delete resource error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 module.exports = router;
