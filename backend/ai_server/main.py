@@ -7,6 +7,7 @@ import re
 import os
 import json
 from rag.gemini_client import ask_gemini
+import random
 
 app = FastAPI(title="NeuroWell Vector Indexer")
 
@@ -168,3 +169,136 @@ async def score_endpoint(request: Request):
         return JSONResponse({"error": str(e)}, status_code=500)
 
     return {"score": score, "raw": raw}
+
+
+@app.post('/assessment/generate')
+async def generate_assessment(request: Request):
+    """Open endpoint: generate an assessment with questions via Gemini and return validated JSON.
+
+    Request JSON: { "theme": "...", "numQuestions": 5 }
+    Response JSON: { "assessment": { "title": "..." }, "questions": [ { "title": "...", "options": [...], "correctAnswer": "..." }, ... ], "raw": <ai raw> }
+    """
+    try:
+        payload = await request.json()
+    except Exception:
+        return JSONResponse({"error": "Invalid JSON"}, status_code=400)
+
+    theme = payload.get('theme')
+    # pick a random theme if none provided
+    THEMES = [
+        'historical trivia',
+        'fun facts and puzzles',
+        'mindfulness and self-care',
+        'gratitude and reflection',
+        'healthy habits and routines',
+        'light games and challenges',
+        'creative prompts and storytelling'
+    ]
+    if not theme:
+        theme = random.choice(THEMES)
+    try:
+        num = int(payload.get('numQuestions') or payload.get('num') or 5)
+    except Exception:
+        num = 5
+    if num < 1:
+        return JSONResponse({"error": "numQuestions must be >= 1"}, status_code=400)
+
+    # Accept optional journal entries passed in the request; default to empty string
+    journal_data = payload.get('journal') or payload.get('journal_entries') or payload.get('journal_data') or ''
+    if isinstance(journal_data, list):
+        journal_data = '\n'.join([str(x) for x in journal_data])
+    else:
+        journal_data = str(journal_data)
+
+    prompt = (
+        "Return ONLY valid JSON. Do not include explanations, markdown, or extra text.\n\n"
+
+        "You are creating a short, fun, and interactive self-assessment based on a user's recent journal entries.\n\n"
+
+        "Input context:\n"
+        "- Journal entries may include thoughts, emotions, activities, struggles, wins, or reflections from the last 2 days.\n"
+        "- If journal entries are provided and contain meaningful content, tailor the assessment questions directly to those themes.\n"
+        "- If journal entries are missing, empty, or meaningless, generate a general but fun self-assessment suitable for anyone.\n\n"
+
+        "Tone and style rules:\n"
+        "- Keep the tone friendly, light, and engaging.\n"
+        "- Questions should feel like a game or reflection quiz, not an exam.\n"
+        "- Avoid clinical or judgmental language.\n"
+        "- Make options relatable, human, and easy to choose from.\n\n"
+
+        "JSON structure rules:\n"
+        "- Return one object with keys:\n"
+        "  - title (string)\n"
+        "  - questions (array)\n"
+        "- Each question must be an object with:\n"
+        "  - title (string)\n"
+        "  - options (array of exactly 4 strings)\n"
+        "  - correctAnswer (must exactly match one option)\n"
+        "- Generate exactly {num} questions.\n\n"
+
+        "Content rules:\n"
+        "- Questions should gently reinforce self-awareness, mood, habits, or mindset.\n"
+        "- Correct answers should reflect the healthiest, most constructive, or most self-aware choice — but never shame the user.\n\n"
+
+        f"Theme: {theme}\n"
+        f"Journal entries (last 2 days): {journal_data}\n\n"
+
+        "Return ONLY the JSON object."
+    )
+
+    raw = None
+    parsed = None
+    try:
+        raw = ask_gemini(prompt)
+    except Exception as e:
+        GEMINI_URL = os.environ.get('GEMINI_URL')
+        GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+        if not GEMINI_URL:
+            return JSONResponse({"error": "Gemini client failed", "details": str(e)}, status_code=502)
+        headers = {"Content-Type": "application/json"}
+        if GEMINI_API_KEY:
+            headers["Authorization"] = f"Bearer {GEMINI_API_KEY}"
+        try:
+            resp = requests.post(GEMINI_URL, json={"prompt": prompt}, headers=headers, timeout=20)
+            try:
+                parsed = resp.json()
+            except Exception:
+                raw = resp.text
+        except Exception as e2:
+            return JSONResponse({"error": "Gemini request failed", "details": str(e2)}, status_code=502)
+
+    # If parsed not set, try to extract JSON from raw text
+    if parsed is None and raw:
+        m = re.search(r"\{[\s\S]*\}", raw)
+        if m:
+            try:
+                parsed = json.loads(m.group(0))
+            except Exception:
+                parsed = None
+
+    if parsed is None:
+        return JSONResponse({"error": "Unable to parse JSON from Gemini response", "raw": raw}, status_code=502)
+
+    # locate title and questions
+    title = parsed.get('title') or (parsed.get('assessment') and isinstance(parsed.get('assessment'), dict) and parsed.get('assessment').get('title'))
+    questions = parsed.get('questions')
+    if not title or not isinstance(questions, list):
+        return JSONResponse({"error": "AI returned invalid assessment structure", "raw": parsed}, status_code=502)
+
+    valid_questions = []
+    for q in questions:
+        if not isinstance(q, dict):
+            continue
+        qtitle = q.get('title') or q.get('question')
+        options = q.get('options')
+        correct = q.get('correctAnswer') or q.get('correct') or q.get('answer')
+        if not qtitle or not isinstance(options, list) or len(options) != 4:
+            continue
+        if not correct or correct not in options:
+            continue
+        valid_questions.append({"title": qtitle, "options": options, "correctAnswer": correct})
+
+    if len(valid_questions) == 0:
+        return JSONResponse({"error": "No valid questions produced by AI", "raw": parsed}, status_code=502)
+
+    return {"assessment": {"title": title}, "questions": valid_questions, "raw": parsed}

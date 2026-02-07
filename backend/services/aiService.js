@@ -9,4 +9,12 @@ async function scoreText(text) {
   return resp.data; // { score, raw }
 }
 
-module.exports = { scoreText };
+async function generateAssessment(theme, numQuestions = 5) {
+  const url = `${AI_SERVER_URL.replace(/\/$/, '')}/assessment/generate`;
+  const payload = { numQuestions };
+  if (theme) payload.theme = theme;
+  const resp = await axios.post(url, payload, { timeout: 30000 });
+  return resp.data; // { assessment, questions, raw }
+}
+
+module.exports = { scoreText, generateAssessment };

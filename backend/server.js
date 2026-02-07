@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-
+require("./cron"); // Start cron jobs
 
 dotenv.config();
 
@@ -14,6 +14,7 @@ const analytics = require("./routes/analytics");
 const usersRoutes = require('./routes/users');
 const tipsRoutes = require('./routes/tips');
 const resourcesRoutes = require('./routes/resources');
+const assesmentRoutes = require('./routes/assesments');
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use("/api/analytics", analytics);
 app.use("/api/users", usersRoutes);
 app.use("/api/tips", tipsRoutes);
 app.use("/api/resources", resourcesRoutes);
+app.use('/api/assesments', assesmentRoutes);
 
 // AI detection route
 app.post("/api/detect", async (req, res, next) => {
