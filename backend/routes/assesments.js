@@ -1,5 +1,6 @@
 const express = require('express');
 const Assesment = require('../models/Assesment');
+const Question = require('../models/Question');
 const auth = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -12,7 +13,18 @@ router.get('/', auth, async (req, res) => {
       return res.status(403).json({ message: 'Forbidden: admin only' });
     }
     const items = await Assesment.find().sort({ createdAt: -1 });
-    res.status(200).json(items);
+    // fetch all questions for these assessments in a single query
+    const ids = items.map(i => i._id);
+    const questions = await Question.find({ assesmentId: { $in: ids } }).sort({ createdAt: 1 });
+    const qByA = {};
+    questions.forEach(q => {
+      const key = q.assesmentId.toString();
+      if (!qByA[key]) qByA[key] = [];
+      qByA[key].push(q);
+    });
+    const result = items.map(item => ({ ...item.toObject(), questions: qByA[item._id.toString()] || [] }));
+    console.log('Returning', result.length, 'assessments with questions');
+    res.status(200).json(result);
   } catch (err) {
     console.error('Error listing assesments', err && err.message ? err.message : err);
     res.status(500).json({ message: 'Server error', error: err });
@@ -22,9 +34,10 @@ router.get('/', auth, async (req, res) => {
 // GET /api/assesments/:id - read (authenticated users and admins)
 router.get('/:id', auth, async (req, res) => {
   try {
-    const item = await Assesment.findById(req.params.id);
+    const item = await Assesment.findById(req.params.id).select('-aiResponse');;
     if (!item) return res.status(404).json({ message: 'Assesment not found' });
-    res.status(200).json(item);
+    const questions = await Question.find({ assesmentId: item._id }).sort({ createdAt: 1 });
+    res.status(200).json({ ...item.toObject(), questions });
   } catch (err) {
     console.error('Error fetching assesment', err && err.message ? err.message : err);
     res.status(500).json({ message: 'Server error', error: err });

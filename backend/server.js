@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const generateAssessmentJob = require("./jobs/generateAssessmentJob")
 require("./cron"); // Start cron jobs
 
 dotenv.config();
@@ -82,6 +83,11 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
+
+if (process.env.RUN_CRON_NOW === "true") {
+  console.log("⚡ Manually triggering assessment job")
+  generateAssessmentJob()
+};
 
 // ========================
 // Start Server
