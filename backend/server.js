@@ -16,6 +16,7 @@ const usersRoutes = require('./routes/users');
 const tipsRoutes = require('./routes/tips');
 const resourcesRoutes = require('./routes/resources');
 const assesmentRoutes = require('./routes/assesments');
+const valuebleHistoryRoutes = require('./routes/valueable_history');
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/tips", tipsRoutes);
 app.use("/api/resources", resourcesRoutes);
 app.use('/api/assesments', assesmentRoutes);
+app.use('/api/valueble_history', valuebleHistoryRoutes);
 
 // AI detection route
 app.post("/api/detect", async (req, res, next) => {
