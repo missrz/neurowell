@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
-
+const chatWithGemini = require("../services/geminiChat")
+const auth = require("../middleware/authMiddleware");
 const router = express.Router();
 
 const AI_SERVER_URL = process.env.AI_SERVER_URL || "http://localhost:4001";
@@ -26,5 +27,15 @@ router.post('/', async (req, res) => {
     return res.status(502).json({ error: 'could not reach ai server' });
   }
 });
+
+router.post("/send", auth, async (req, res) => {
+  const { message } = req.body
+  const userIdFromToken = req.user && req.user.id
+  if (!message) return res.status(400).json({ error: "Message is required" })
+  if (!userIdFromToken) return res.status(401).json({ error: "Unauthorized" })
+  const reply = await chatWithGemini({ userId: userIdFromToken, message })
+
+  res.json({ reply })
+})
 
 module.exports = router;

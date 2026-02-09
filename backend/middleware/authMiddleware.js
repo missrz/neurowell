@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
+const User = require('../models/User');
 
-module.exports = function (req, res, next) {
+module.exports = async function (req, res, next) {
 
   const authHeader = req.headers.authorization;
 
@@ -13,7 +14,8 @@ module.exports = function (req, res, next) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; // { id, email, ... }
+    const user = await User.findById(decoded.id).select('-passwordHash');
+    req.user = user;
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token is not valid" });

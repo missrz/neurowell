@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-
+const generateAssessmentJob = require("./jobs/generateAssessmentJob")
+require("./cron"); // Start cron jobs
 
 dotenv.config();
 
@@ -11,6 +12,11 @@ const chatRoutes = require("./routes/chat");
 const moodRoutes = require("./routes/moodRoutes");
 const journalRoutes = require("./routes/journalRoutes");
 const analytics = require("./routes/analytics");
+const usersRoutes = require('./routes/users');
+const tipsRoutes = require('./routes/tips');
+const resourcesRoutes = require('./routes/resources');
+const assesmentRoutes = require('./routes/assesments');
+const valuebleHistoryRoutes = require('./routes/valueable_history');
 
 const app = express();
 
@@ -42,8 +48,12 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/moods", moodRoutes);
 app.use("/api/journals", journalRoutes);
 app.use("/api/analytics", analytics);
+app.use("/api/users", usersRoutes);
+app.use("/api/tips", tipsRoutes);
+app.use("/api/resources", resourcesRoutes);
+app.use('/api/assesments', assesmentRoutes);
+app.use('/api/valueble_history', valuebleHistoryRoutes);
 
-// app.use("/api/analytics", analyticsRoutes);
 
 // AI detection route
 app.post("/api/detect", async (req, res, next) => {
@@ -76,6 +86,11 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
+
+if (process.env.RUN_CRON_NOW === "true") {
+  console.log("⚡ Manually triggering assessment job")
+  generateAssessmentJob()
+};
 
 // ========================
 // Start Server

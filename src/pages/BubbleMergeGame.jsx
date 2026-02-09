@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/BubbleMerge.css";
 
 export default function RainDropGame() {
   const [drops, setDrops] = useState([]);
