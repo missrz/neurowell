@@ -31,10 +31,41 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// GET /api/assesments/today - get today's assessment for the user (authenticated users)
+router.get('/today', auth, async (req, res) => {
+  try {
+    // get latest assessment
+    const assesment = await Assesment.findOne().select('-aiResponse').sort({ createdAt: -1 });
+
+    if (!assesment) {
+      return res.status(404).json({ message: 'No assessment found' });
+    }
+
+    // fetch questions for this assessment
+    const questions = await Question
+      .find({ assesmentId: assesment._id })
+      .sort({ createdAt: 1 });
+
+    // attach questions
+    const result = {
+      ...assesment.toObject(),
+      questions: questions || []
+    };
+
+    console.log('Returning latest assessment with questions');
+
+    res.status(200).json(result);
+
+  } catch (err) {
+    console.error('Error listing assesments', err?.message || err);
+    res.status(500).json({ message: 'Server error', error: err });
+  }
+});
+
 // GET /api/assesments/:id - read (authenticated users and admins)
 router.get('/:id', auth, async (req, res) => {
   try {
-    const item = await Assesment.findById(req.params.id).select('-aiResponse');;
+    const item = await Assesment.findById(req.params.id).select('-aiResponse');
     if (!item) return res.status(404).json({ message: 'Assesment not found' });
     const questions = await Question.find({ assesmentId: item._id }).sort({ createdAt: 1 });
     res.status(200).json({ ...item.toObject(), questions });

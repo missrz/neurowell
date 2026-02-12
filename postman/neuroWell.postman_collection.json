@@ -1,0 +1,1804 @@
+{
+  "info": {
+    "_postman_id": "fc4f197c-0148-44ad-82ac-07f36a0c98f1",
+    "name": "neuroWell",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52129018",
+    "_collection_link": "https://go.postman.co/collection/52129018-fc4f197c-0148-44ad-82ac-07f36a0c98f1?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "users update",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ak@gmail.com\",\n    \"password\": \"password\",\n    \"fullName\": \"Abdul kalam\",\n    \"termsaAndAccepted\": true,\n    \"preferences\": {},\n    \"imagePath\": \"\"\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/users/6984468f01d77f1c82c75b5a",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "users",
+                "6984468f01d77f1c82c75b5a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ak@gmail.com\",\n    \"password\": \"password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/auth/login",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "signup",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ak@gmail.com\",\n    \"password\": \"password\",\n    \"fullName\": \"Abdul kalam\",\n    \"termsaAndAccepted\": true\n\n}"
+            },
+            "url": {
+              "raw": "localhost:4000/api/auth/signup",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user index admin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/users",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/users/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "users",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6984468f01d77f1c82c75b5a"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "moods",
+      "item": [
+        {
+          "name": "moods CREATE",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"moods\": [\"happy\"],\n    \"description\": \"first mood\",\n    \"score\": 5\n\n}"
+            },
+            "url": {
+              "raw": "localhost:4000/api/moods",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "moods"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "moods index",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:4000/api/moods",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "moods"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "moods update",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"moods\": [\"happy\", \"sad\"],\r\n    \"description\": \"first mood\",\r\n    \"score\": 2\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/moods/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "moods",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "698469f88cbed8b5afc99462"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "moods show",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/moods/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "moods",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69846ce65d42e8548936bc47"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "moods delete",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/moods/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "moods",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "698469f88cbed8b5afc99462"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "moods/user index",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMjgwMjQ4LCJleHAiOjE3NzA4ODUwNDh9.lEsZA3e1PC6MaeGOOBl6VyhMlEmWIqIJNWajATh_P-Y",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:4000/api/moods/user/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "moods",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6984468f01d77f1c82c75b5a"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AI",
+      "item": [
+        {
+          "name": "score",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prompt\":\"moods: [happy, sad], description: I was happy untill i meet my enime today\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4001/score",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4001",
+              "path": [
+                "score"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Assessment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"theme\":\"historical trivia\",\"numQuestions\":5}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4001/assessment/generate",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4001",
+              "path": [
+                "assessment",
+                "generate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"message\": \"Hi how can i help my self to be more caml\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/chat/send",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "chat",
+                "send"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "journal",
+      "item": [
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json, text/plain, */*"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en-GB,en-US;q=0.9,en;q=0.8"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMzY3MTQwLCJleHAiOjE3NzA5NzE5NDB9.v1JZ-wj6lIPIzTID3C2KqFrRgRUSY7Ug-QKLXCADPv4"
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Origin",
+                "value": "http://localhost:3000"
+              },
+              {
+                "key": "Referer",
+                "value": "http://localhost:3000/"
+              },
+              {
+                "key": "Sec-Fetch-Dest",
+                "value": "empty"
+              },
+              {
+                "key": "Sec-Fetch-Mode",
+                "value": "cors"
+              },
+              {
+                "key": "Sec-Fetch-Site",
+                "value": "same-site"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+              },
+              {
+                "key": "sec-ch-ua",
+                "value": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\""
+              },
+              {
+                "key": "sec-ch-ua-mobile",
+                "value": "?0"
+              },
+              {
+                "key": "sec-ch-ua-platform",
+                "value": "\"Windows\""
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"payload\": {\r\n        \"text\": \"I have been working on rz project to make it complete it by 25 udidiu sd\",\r\n        \"title\": \"ak day of 02/06/26\",\r\n        \"userId\": \"6984468f01d77f1c82c75b5a\",\r\n        \"date\": \"2026-02-06\",\r\n        \"pinned\": false,\r\n        \"createdAt\": \"2026-02-06T08:59:33.202Z\",\r\n        \"updatedAt\": \"2026-02-06T09:00:19.049Z\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/api/journals/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "journals",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6985ad757f653966cb03dceb"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json, text/plain, */*"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en-GB,en-US;q=0.9,en;q=0.8"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMzY3MTQwLCJleHAiOjE3NzA5NzE5NDB9.v1JZ-wj6lIPIzTID3C2KqFrRgRUSY7Ug-QKLXCADPv4"
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Origin",
+                "value": "http://localhost:3000"
+              },
+              {
+                "key": "Referer",
+                "value": "http://localhost:3000/"
+              },
+              {
+                "key": "Sec-Fetch-Dest",
+                "value": "empty"
+              },
+              {
+                "key": "Sec-Fetch-Mode",
+                "value": "cors"
+              },
+              {
+                "key": "Sec-Fetch-Site",
+                "value": "same-site"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+              },
+              {
+                "key": "sec-ch-ua",
+                "value": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\""
+              },
+              {
+                "key": "sec-ch-ua-mobile",
+                "value": "?0"
+              },
+              {
+                "key": "sec-ch-ua-platform",
+                "value": "\"Windows\""
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"payload\": {\r\n        \"userId\": \"6984468f01d77f1c82c75b5a\",\r\n        \"title\": \"meeted my old frend who become enime now\",\r\n        \"text\": \"I do not talk to him and ignored him very well.\",\r\n        \"date\": \"2026-02-03\",\r\n        \"pinned\": false\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/api/journals",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "journals"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json, text/plain, */*"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en-GB,en-US;q=0.9,en;q=0.8"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMzY3MTQwLCJleHAiOjE3NzA5NzE5NDB9.v1JZ-wj6lIPIzTID3C2KqFrRgRUSY7Ug-QKLXCADPv4"
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive"
+              },
+              {
+                "key": "Origin",
+                "value": "http://localhost:3000"
+              },
+              {
+                "key": "Referer",
+                "value": "http://localhost:3000/"
+              },
+              {
+                "key": "Sec-Fetch-Dest",
+                "value": "empty"
+              },
+              {
+                "key": "Sec-Fetch-Mode",
+                "value": "cors"
+              },
+              {
+                "key": "Sec-Fetch-Site",
+                "value": "same-site"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+              },
+              {
+                "key": "sec-ch-ua",
+                "value": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\""
+              },
+              {
+                "key": "sec-ch-ua-mobile",
+                "value": "?0"
+              },
+              {
+                "key": "sec-ch-ua-platform",
+                "value": "\"Windows\""
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/journals/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "journals",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json, text/plain, */*"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en-GB,en-US;q=0.9,en;q=0.8"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMzY3MTQwLCJleHAiOjE3NzA5NzE5NDB9.v1JZ-wj6lIPIzTID3C2KqFrRgRUSY7Ug-QKLXCADPv4"
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive"
+              },
+              {
+                "key": "Origin",
+                "value": "http://localhost:3000"
+              },
+              {
+                "key": "Referer",
+                "value": "http://localhost:3000/"
+              },
+              {
+                "key": "Sec-Fetch-Dest",
+                "value": "empty"
+              },
+              {
+                "key": "Sec-Fetch-Mode",
+                "value": "cors"
+              },
+              {
+                "key": "Sec-Fetch-Site",
+                "value": "same-site"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+              },
+              {
+                "key": "sec-ch-ua",
+                "value": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\""
+              },
+              {
+                "key": "sec-ch-ua-mobile",
+                "value": "?0"
+              },
+              {
+                "key": "sec-ch-ua-platform",
+                "value": "\"Windows\""
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/journals",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "journals"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user index",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json, text/plain, */*"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en-GB,en-US;q=0.9,en;q=0.8"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaWF0IjoxNzcwMzY3MTQwLCJleHAiOjE3NzA5NzE5NDB9.v1JZ-wj6lIPIzTID3C2KqFrRgRUSY7Ug-QKLXCADPv4"
+              },
+              {
+                "key": "Connection",
+                "value": "keep-alive"
+              },
+              {
+                "key": "Origin",
+                "value": "http://localhost:3000"
+              },
+              {
+                "key": "Referer",
+                "value": "http://localhost:3000/"
+              },
+              {
+                "key": "Sec-Fetch-Dest",
+                "value": "empty"
+              },
+              {
+                "key": "Sec-Fetch-Mode",
+                "value": "cors"
+              },
+              {
+                "key": "Sec-Fetch-Site",
+                "value": "same-site"
+              },
+              {
+                "key": "User-Agent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+              },
+              {
+                "key": "sec-ch-ua",
+                "value": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\""
+              },
+              {
+                "key": "sec-ch-ua-mobile",
+                "value": "?0"
+              },
+              {
+                "key": "sec-ch-ua-platform",
+                "value": "\"Windows\""
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:4000/api/journals/user/:id",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "journals",
+                "user",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6984468f01d77f1c82c75b5a"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "tip",
+      "item": [
+        {
+          "name": "index",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/tips",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/tips/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6985aa5026281c4f9416c90b"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/tips/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6985aa5026281c4f9416c90b"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"test by admin\",\r\n    \"description\": \"hey this is my first test from postman\",\r\n    \"entityType\": \"Mood\",\r\n    \"entity_id\": \"69846ce65d42e8548936bc47\",\r\n    \"userId\": \"6984468f01d77f1c82c75b5a\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/tips",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"payload\": {\n        \"title\": \"test by admin update\",\n        \"description\": \"hey this is my first test from postman\",\n        \"entityType\": \"Mood\",\n        \"entity_id\": \"69846ce65d42e8548936bc47\",\n        \"userId\": \"6984468f01d77f1c82c75b5a\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/tips/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6985d792ffe5ab2e958193f6"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user index",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"payload\": {\n        \"title\": \"test by admin update\",\n        \"description\": \"hey this is my first test from postman\",\n        \"entityType\": \"Mood\",\n        \"entity_id\": \"69846ce65d42e8548936bc47\",\n        \"userId\": \"6984468f01d77f1c82c75b5a\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/tips/user/:userId",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips",
+                "user",
+                ":userId"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "6984468f01d77f1c82c75b5a"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "mark as read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/tips/:userId/readed",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "tips",
+                ":userId",
+                "readed"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "6984468f01d77f1c82c75b5a"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Assesment",
+      "item": [
+        {
+          "name": "show",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/assesments/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "assesments",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69872b57a0e6560f9eb0c41a"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/assesments",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "assesments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/assesments/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "assesments",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "today",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/assesments/today",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "assesments",
+                "today"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Resource",
+      "item": [
+        {
+          "name": "create resources",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"type\" : \"articles\",\r\n  \"title\" : \"understanding stress\" ,\r\n  \"description\" : \"Learn how stress affects your body & mind.\",\r\n  \"url\" : \"https://www.healthline.com/health/stress\",\r\n  \"language\" : \"english\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/resources",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "resources"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:4000/api/resources",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "resources"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:4000/api/resources/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "resources",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69872762e13bc3452e2de326"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/resources/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "resources",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69872762e13bc3452e2de326"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "valueable history",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"type\" : \"game\", \r\n\"name\" : \"LOGIC mind GAME \", \r\n\"score\" :20\r\n}"
+            },
+            "url": {
+              "raw": "localhost:4000/api/valueble_history",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "valueble_history"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "index",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/valueble_history",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "valueble_history"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/valueble_history/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "valueble_history",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6989dc9b351794d67f881adc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"type\" : \"game\", \n\"name\" : \"LOGIC mind GAME \", \n\"score\" :20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:4000/api/valueble_history/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "valueble_history",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6989dc9b351794d67f881adc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/valueble_history/:id",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "valueble_history",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6989dc9b351794d67f881adc"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "analytics",
+      "item": [
+        {
+          "name": "moods",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/analytics?type=mood&period=day",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "analytics"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "mood",
+                  "type": "text"
+                },
+                {
+                  "key": "period",
+                  "value": "day",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "journal",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/analytics?type=journal&period=day",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "analytics"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "journal"
+                },
+                {
+                  "key": "period",
+                  "value": "day"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "valuable",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4"
+              }
+            ],
+            "url": {
+              "raw": "localhost:4000/api/analytics?type=valuable&period=day",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "analytics"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "valuable"
+                },
+                {
+                  "key": "period",
+                  "value": "day"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

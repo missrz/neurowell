@@ -82,7 +82,7 @@ export default function Navbar() {
       <div className="neo-auth">
         {user ? (
           <div className="neo-user">
-            <span className="neo-username">{user.name || user.email}</span>
+            <span className="neo-username">{user.fullName || user.email}</span>
             <Logout />
           </div>
         ) : (
