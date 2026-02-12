@@ -148,3 +148,18 @@ export const updateJournal = async (payload) => {
   );
   return res.data;
 };
+
+// Fetch aggregated analytics: /api/analytics?type=<mood|journal|valuable>&period=<day|week|month|year>
+export const fetchAnalytics = async (type, period, subtype) => {
+  try {
+    const q = new URLSearchParams({ type, period });
+    if (subtype) q.append('subtype', subtype);
+    const res = await axios.get(url(`/api/analytics?${q.toString()}`), {
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    });
+    return res.data; // { type, period, subtype?, data: [...] }
+  } catch (err) {
+    console.error('fetchAnalytics error', err);
+    throw err;
+  }
+};

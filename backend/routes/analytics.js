@@ -62,10 +62,11 @@ router.get("/mood-usage", auth, async (req, res) => {
   }
 });
 
-// GET /api/analytics?type=mood|journal|valuable&period=day|week|month|year
-router.get("/", async (req, res) => {
+// GET /api/analytics?type=mood|journal|valuable&period=day|week|month|year&subtype=game|assessment (when type=valuable)
+router.get("/", auth, async (req, res) => {
   try {
-    const { type, period } = req.query
+    const { type, period, subtype } = req.query
+    const userId = req.user && req.user.id
 
     if (!type || !period) {
       return res.status(400).json({
@@ -87,7 +88,21 @@ router.get("/", async (req, res) => {
 
     const groupFormat = getGroupFormat(period)
 
-    const data = await Model.aggregate([
+    // Build aggregation pipeline: include user filter and optional subtype for valuable
+    const pipeline = []
+
+    if (userId) {
+      const match = { userId: new mongoose.Types.ObjectId(userId) }
+      if (type === "valuable" && subtype) {
+        match.type = subtype
+      }
+      pipeline.push({ $match: match })
+    } else if (type === "valuable" && subtype) {
+      // fallback: if somehow no userId, at least filter by subtype
+      pipeline.push({ $match: { type: subtype } })
+    }
+
+    pipeline.push(
       {
         $group: {
           _id: groupFormat,
@@ -99,11 +114,14 @@ router.get("/", async (req, res) => {
       {
         $sort: { "_id": 1 }
       }
-    ])
+    )
+
+    const data = await Model.aggregate(pipeline)
 
     res.json({
       type,
       period,
+      subtype: subtype || null,
       data
     })
   } catch (err) {
