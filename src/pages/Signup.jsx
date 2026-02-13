@@ -9,7 +9,8 @@ export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loggedUser = useSelector(state => state.user.user);
-  const [name, setName] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [termsAndAccepted, setTermsAndAccepted] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,12 +21,12 @@ export default function Signup() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (!name.trim() || !email || !password) {
+    if (!fullName.trim() || !email || !password) {
       setError('Please fill all fields');
       return;
     }
     try {
-      const data = await signup(name, email, password);
+      const data = await signup(fullName, email, password, termsAndAccepted);
       setAuthToken(data.token);
       dispatch(setUser({ user: data.user, token: data.token }));
       navigate('/consent');
@@ -42,8 +43,8 @@ export default function Signup() {
         <form className="auth-form" onSubmit={handleSignup}>
           {error && <div className="error-text">{error}</div>}
           <div className="input-group">
-            <label>Name</label>
-            <input value={name} onChange={(e)=>setName(e.target.value)} type="text" required />
+            <label>Full Name</label>
+            <input value={fullName} onChange={(e)=>setFullName(e.target.value)} type="text" required />
           </div>
 
           <div className="input-group">
@@ -54,6 +55,16 @@ export default function Signup() {
           <div className="input-group">
             <label>Password</label>
             <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" required />
+          </div>
+
+          <div className="input-group">
+            <label>Terms and conditions</label>
+            <input
+              type="checkbox"
+              checked={termsAndAccepted}
+              onChange={(e) => setTermsAndAccepted(e.target.checked)}
+              required
+            />
           </div>
 
           <button className="auth-btn">Signup</button>

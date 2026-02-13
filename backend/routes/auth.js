@@ -10,9 +10,9 @@ const TOKEN_EXPIRY = '7d';
 
 // Signup
 router.post('/signup', async (req, res) => {
-  const { fullName, email, password, termsaAndAccepted, imagePath, preferences } = req.body;
+  const { fullName, email, password, termsAndAccepted, imagePath, preferences } = req.body;
   if (!fullName || !email || !password) return res.status(400).json({ error: 'Full name, email and password required' });
-  if (!termsaAndAccepted) return res.status(400).json({ error: 'Terms must be accepted' });
+  if (!termsAndAccepted) return res.status(400).json({ error: 'Terms must be accepted' });
   // simple email format validation
   const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
   const emailLower = String(email).toLowerCase();
@@ -22,7 +22,7 @@ router.post('/signup', async (req, res) => {
     if (existing) return res.status(400).json({ error: 'User already exists' });
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
-    const userData = { fullName, email: emailLower, passwordHash, termsaAndAccepted: Boolean(termsaAndAccepted), imagePath };
+    const userData = { fullName, email: emailLower, passwordHash, termsAndAccepted: Boolean(termsAndAccepted), imagePath };
     if (typeof preferences !== 'undefined') {
       if (typeof preferences === 'string') {
         try {

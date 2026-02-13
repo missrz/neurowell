@@ -58,8 +58,8 @@ export const detectMood = async (text) => {
 };
 
 // Auth endpoints
-export const signup = async (name, email, password) => {
-  const res = await axios.post(url('/api/auth/signup'), { name, email, password });
+export const signup = async (fullName, email, password, termsAndAccepted) => {
+  const res = await axios.post(url('/api/auth/signup'), { fullName, email, password, termsAndAccepted });
   return res.data; // { token, user }
 };
 
