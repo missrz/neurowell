@@ -4,6 +4,7 @@ const Journal = require("../models/Journal");
 const auth = require("../middleware/authMiddleware");
 const { scoreText } = require('../services/aiService');
 const Tip = require('../models/Tip');
+const { formatDateTime } = require('../utils/formatDate');
 
 // ============================
 // Create / Save a journal
@@ -48,7 +49,7 @@ router.post("/", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const titleText = `my journal tracking advice for ${title || '(untitled)'} on ${date || (savedJournal.createdAt ? new Date(savedJournal.createdAt).toISOString() : '')}`;
+            const titleText = `my journal tracking advice for ${title || '(untitled)'} on ${date || (savedJournal.createdAt ? formatDateTime(savedJournal.createdAt) : '')}`;
             const tip = new Tip({ userId: req.user.id, title: titleText, description: advice || '', entity_id: savedJournal._id.toString(), entityType: 'journal' });
             await tip.save();
           } catch (e) {
@@ -169,7 +170,7 @@ router.put("/:id", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const titleText = `my journal tracking advice for ${journal.title || '(untitled)'} on ${journal.date || (journal.createdAt ? new Date(journal.createdAt).toISOString() : '')}`;
+            const titleText = `my journal tracking advice for ${journal.title || '(untitled)'} on ${journal.date || (journal.createdAt ? formatDateTime(journal.createdAt) : '')}`;
             const tip = new Tip({ userId: req.user.id, title: titleText, description: advice || '', entity_id: journal._id.toString(), entityType: 'journal' });
             await tip.save();
           } catch (e) {

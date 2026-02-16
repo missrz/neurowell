@@ -4,6 +4,7 @@ const Mood = require("../models/Mood"); // Adjust path if needed
 const auth = require("../middleware/authMiddleware");
 const { scoreText } = require('../services/aiService');
 const Tip = require('../models/Tip');
+const { formatDateTime } = require('../utils/formatDate');
 
 // ============================
 // Create a new mood
@@ -45,7 +46,7 @@ router.post("/", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const title = `my mood tracking advice for ${moods.join(', ')} on ${new Date(savedMood.createdAt || savedMood.createdAt).toISOString()}`;
+            const title = `my mood tracking advice for ${moods.join(', ')} on ${formatDateTime(savedMood.createdAt)}`;
             const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: savedMood._id.toString(), entityType: 'mood' });
             await tip.save();
           } catch (e) {
@@ -75,7 +76,7 @@ router.get("/", auth, async (req, res) => {
       console.warn('Unauthorized attempt to list all moods by user', req.user && req.user.id);
       return res.status(403).json({ message: 'Forbidden: admin only' });
     }
-    const moods = await Mood.find().sort({ timestamp: -1 });
+    const moods = await Mood.find().sort({ createdAt: -1 });
     res.status(200).json(moods);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -89,7 +90,7 @@ router.get("/", auth, async (req, res) => {
 router.get("/user/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
-    const moods = await Mood.find({ userId }).sort({ timestamp: -1 });
+    const moods = await Mood.find({ userId }).sort({ createdAt: -1 });
     res.status(200).json(moods);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -136,7 +137,7 @@ router.put("/:id", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${new Date(mood.createdAt || mood.createdAt).toISOString()}`;
+            const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${formatDateTime(mood.createdAt)}`;
             const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: mood._id.toString(), entityType: 'mood' });
             await tip.save();
           } catch (e) {

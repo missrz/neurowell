@@ -1115,9 +1115,6 @@
         },
         {
           "name": "user index",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "method": "GET",
             "header": [
@@ -1127,18 +1124,9 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcxMjI2MjU5LCJleHAiOjE3NzE4MzEwNTl9.rGb1DijFM5xDIDt9vD_OjpsyJ1XBmw55Ekk2-b8ZtzE"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"payload\": {\n        \"title\": \"test by admin update\",\n        \"description\": \"hey this is my first test from postman\",\n        \"entityType\": \"Mood\",\n        \"entity_id\": \"69846ce65d42e8548936bc47\",\n        \"userId\": \"6984468f01d77f1c82c75b5a\"\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "localhost:4000/api/tips/user/:userId",
               "host": [
@@ -1172,11 +1160,11 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcxMjI2MDM3LCJleHAiOjE3NzE4MzA4Mzd9.ERsFokmh7x1y_rGqCx67VBl7948J948FbsV7-0kGasI"
               }
             ],
             "url": {
-              "raw": "localhost:4000/api/tips/:userId/readed",
+              "raw": "localhost:4000/api/tips/:userId/readed/:id",
               "host": [
                 "localhost"
               ],
@@ -1185,12 +1173,17 @@
                 "api",
                 "tips",
                 ":userId",
-                "readed"
+                "readed",
+                ":id"
               ],
               "variable": [
                 {
                   "key": "userId",
                   "value": "6984468f01d77f1c82c75b5a"
+                },
+                {
+                  "key": "id",
+                  "value": "6985ab3526281c4f9416c912"
                 }
               ]
             }
@@ -1311,7 +1304,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcxMjI2MjU5LCJleHAiOjE3NzE4MzEwNTl9.rGb1DijFM5xDIDt9vD_OjpsyJ1XBmw55Ekk2-b8ZtzE"
               }
             ],
             "url": {
@@ -1324,6 +1317,52 @@
                 "api",
                 "assesments",
                 "today"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "completed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiI..."
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"answers\": [\"A\",\"B\",\"C\",\"D\",\"E\"]\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:4000/api/assesments/:id/complete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "4000",
+              "path": [
+                "api",
+                "assesments",
+                ":id",
+                "complete"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "69872b57a0e6560f9eb0c41d"
+                }
               ]
             }
           },
@@ -1499,7 +1538,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\"type\" : \"game\", \r\n\"name\" : \"LOGIC mind GAME \", \r\n\"score\" :20\r\n}"
+              "raw": "{\r\n\"type\" : \"assessment\", \r\n\"name\" : \"LOGIC mind GAME \", \r\n\"score\" :20\r\n}"
             },
             "url": {
               "raw": "localhost:4000/api/valueble_history",

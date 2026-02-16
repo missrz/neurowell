@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
 
 import Preloader from "./components/Preloader";
 import Navbar from "./components/Navbar";
@@ -86,64 +86,53 @@ export default function App() {
       {loading ? (
         <Preloader onFinish={() => setLoading(false)} />
       ) : (
-        <Router>
-          <Navbar onOpenAbout={() => setSlideOpen(true)} />
+        (() => {
+          const RootLayout = () => (
+            <>
+              <Navbar onOpenAbout={() => setSlideOpen(true)} />
+              <Outlet />
+              <Footer />
+              <SlidePanel isOpen={slideOpen} onClose={() => setSlideOpen(false)} />
+              <Chatbot />
+            </>
+          );
 
-          <Routes>
-            {/* HOME PAGE */}
-            <Route
-              path="/" element={<Home />} 
-            />
+          const router = createBrowserRouter([
+            {
+              path: "/",
+              element: <RootLayout />,
+              children: [
+                { index: true, element: <Home /> },
+                { path: "chat", element: <Chat /> },
+                { path: "chatbot", element: <FullChatbotPage /> },
+                { path: "journal", element: <Journal /> },
+                { path: "login", element: <Login /> },
+                { path: "signup", element: <Signup /> },
+                { path: "consent", element: <Consent /> },
+                { path: "about", element: <About /> },
+                { path: "support", element: <Support /> },
+                { path: "assessment", element: <Assessment /> },
+                { path: "dashboard", element: <Dashboard /> },
+                { path: "sos", element: <SOS /> },
+                { path: "settings", element: <Settings /> },
+                { path: "admin", element: <Admin /> },
+                { path: "logout", element: <Logout /> },
+                { path: "notifications", element: <Notifications /> },
+                { path: "mood-tracker", element: <MoodTracker /> },
+                { path: "stress-games", element: <StressGames /> },
+                { path: "stress-games/bubble-merge", element: <BubbleMergeGame /> },
+                { path: "AdvancedAnalytics", element: <AdvancedAnalytics /> },
+                { path: "Resources", element: <Resources /> },
+                { path: "stress-games/snake", element: <SnakeGame /> },
+                { path: "stress-games/ball", element: <BounceLogicBall /> },
+                { path: "stress-games/night", element: <NightSkyMemoryGame /> },
+                { path: "*", element: <Navigate to="/" /> },
+              ],
+            },
+          ], { future: { v7_startTransition: true, v7_relativeSplatPath: true } });
 
-            {/* AI VOICE CHAT PAGE */}
-            <Route path="/chat" element={<Chat />} />
-
-            {/* FULL CHATBOT PAGE */}
-            <Route path="/chatbot" element={<FullChatbotPage />} />
-
-            {/* MOOD TRACKER PAGE */}
-            <Route path="/journal" element={<Journal />} />
-
-            {/* AUTH PAGES */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/consent" element={<Consent />} /> 
-
-            {/* OTHER PAGES */}
-            <Route path="/about" element={<About />} />
-            <Route path="/consent" element={<Consent />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/assessment" element={<Assessment />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            {/* <Route path="/source" element={<Source />} /> */}
-            <Route path="/sos" element={<SOS />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/notifications" element={<Notifications />} />
-
-            {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
-            <Route path="/mood-tracker" element={<MoodTracker />} />
-            <Route path="/stress-games" element={<StressGames />} />
-            {/* <Route path="/stress-games/logic" element={<LogicMindGame />} /> */}
-            <Route path="/stress-games/bubble-merge" element={<BubbleMergeGame />} />
-            <Route path="/AdvancedAnalytics" element={<AdvancedAnalytics/>}/>
-            <Route path="/Resources" element={<Resources />} />
-            {/* <Route path="/stress-games/code-breaker" element={<CodeBreakerGame />} />            */}
-            <Route path="/stress-games/snake" element={<SnakeGame />} />
-            <Route path="/stress-games/ball" element={<BounceLogicBall />} />
-            <Route path="/stress-games/night" element={<NightSkyMemoryGame />} />
-
-            {/* REDIRECT UNKNOWN ROUTES */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-
-          <Footer />
-          <SlidePanel isOpen={slideOpen} onClose={() => setSlideOpen(false)} />
-
-          {/* Floating Chatbot */}
-          <Chatbot />
-        </Router>
+          return <RouterProvider router={router} future={{ v7_startTransition: true, v7_relativeSplatPath: true }} />;
+        })()
       )}
     </>
   );

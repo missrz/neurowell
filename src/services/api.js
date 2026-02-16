@@ -231,3 +231,14 @@ export const markTipRead = async (userId, tipId) => {
     throw err;
   }
 };
+
+// Assessments
+export const fetchTodayAssessment = async () => {
+  const res = await axios.get(url('/api/assesments/today'), { headers: authHeaders() });
+  return res.data; // { _id, title, questions: [...] }
+};
+
+export const completeAssessment = async (id, answers) => {
+  const res = await axios.post(url(`/api/assesments/${id}/complete`), { answers }, { headers: authHeaders() });
+  return res.data; // { totalQuestions, correctCount, score, history }
+};
