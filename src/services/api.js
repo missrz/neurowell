@@ -3,9 +3,34 @@ import axios from "axios";
 // In-memory token (not persisted to localStorage)
 // Token kept in-memory and mirrored to sessionStorage so it survives reloads
 let authToken = null;
+
+const setCookie = (name, value, days = 7) => {
+  if (typeof document === 'undefined') return;
+  let expires = '';
+  if (days) {
+    const d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = ';expires=' + d.toUTCString();
+  }
+  const secure = (typeof window !== 'undefined' && window.location && window.location.protocol === 'https:') ? ';Secure' : '';
+  document.cookie = `${name}=${encodeURIComponent(value || '')}${expires};path=/;SameSite=Lax${secure}`;
+};
+
+const getCookie = (name) => {
+  if (typeof document === 'undefined') return null;
+  const matches = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+  return matches ? decodeURIComponent(matches[1]) : null;
+};
+
+const deleteCookie = (name) => {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;SameSite=Lax`;
+};
+
+// initialize from cookie (shared across tabs)
 try {
-  if (typeof window !== 'undefined' && window.sessionStorage) {
-    const stored = window.sessionStorage.getItem('authToken');
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    const stored = getCookie('authToken');
     if (stored) authToken = stored;
   }
 } catch (e) {
@@ -15,15 +40,14 @@ try {
 export const setAuthToken = (token) => {
   authToken = token;
   try {
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      if (token) window.sessionStorage.setItem('authToken', token);
-      else window.sessionStorage.removeItem('authToken');
-    }
+    if (token) setCookie('authToken', token, 7);
+    else deleteCookie('authToken');
   } catch (e) {
-    // ignore session storage errors
+    // ignore cookie set errors
   }
 };
 
+export const getStoredAuthToken = () => authToken;
 const authHeaders = () => {
   return authToken ? { Authorization: `Bearer ${authToken}` } : {};
 };
@@ -76,6 +100,9 @@ export const getMe = async () => {
 export const logout = async () => {
   // No server-side session to destroy for JWT, client just clears token
   authToken = null;
+  try {
+    deleteCookie('authToken');
+  } catch (e) {}
   return { ok: true };
 };
 

@@ -50,7 +50,7 @@ import Auth from "./components/Auth";
 
 // Floating Chatbot
 import Chatbot from "./components/Chatbot";
-import { setAuthToken, getMe } from './services/api';
+import { setAuthToken, getMe, getStoredAuthToken } from './services/api';
 import { useDispatch } from 'react-redux';
 import { setUser } from './store/userSlice';
 import { useEffect } from 'react';
@@ -62,10 +62,10 @@ export default function App() {
   const loggedUser = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
-  // restore token from sessionStorage on app start and fetch user
+  // restore token from cookie on app start and fetch user
   useEffect(() => {
     try {
-      const token = (typeof window !== 'undefined' && window.sessionStorage) ? window.sessionStorage.getItem('authToken') : null;
+      const token = getStoredAuthToken();
       if (token) {
         setAuthToken(token);
         getMe().then(res => {

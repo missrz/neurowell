@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/Signup.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { signup, setAuthToken } from '../services/api';
+import { signup, setAuthToken, getStoredAuthToken } from '../services/api';
 import { setUser } from '../store/userSlice';
 
 export default function Signup() {
@@ -28,7 +28,10 @@ export default function Signup() {
     try {
       const data = await signup(fullName, email, password, termsAndAccepted);
       setAuthToken(data.token);
-      dispatch(setUser({ user: data.user, token: data.token }));
+      // verify token persisted to cookie/in-memory and use that value
+      const stored = getStoredAuthToken() || data.token;
+      if (!stored) console.warn('Auth token not persisted after signup');
+      dispatch(setUser({ user: data.user, token: stored }));
       navigate('/consent');
     } catch (err) {
       setError(err?.response?.data?.error || 'Signup failed');

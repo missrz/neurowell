@@ -4,6 +4,7 @@ import "../styles/Notifications.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
 import { fetchUserTips, deleteTip, markTipRead } from "../services/api";
+import ToastNotification from "../components/ToastNotification";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
@@ -11,6 +12,8 @@ export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState('success');
 
   const currentUser = useSelector((state) => state.user.user);
 
@@ -58,10 +61,14 @@ export default function Notifications() {
       const uid = currentUser?._id || currentUser?.id;
       if (!uid) throw new Error("No user id available");
       await markTipRead(uid, id);
+      setToastType('success');
+      setToastMessage('Marked notification read');
     } catch (err) {
       // rollback
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isReaded: false } : n)));
       setError(err.message || "Failed to mark notification read");
+      setToastType('error');
+      setToastMessage(err.message || 'Failed to mark notification read');
     }
   };
 
@@ -71,8 +78,12 @@ export default function Notifications() {
     try {
       await deleteTip(id);
       setNotifications((prev) => prev.filter((n) => n.id !== id));
+      setToastType('success');
+      setToastMessage('Notification deleted');
     } catch (err) {
       setError(err.message || "Failed to delete notification");
+      setToastType('error');
+      setToastMessage(err.message || 'Failed to delete notification');
     }
   };
 
@@ -123,16 +134,19 @@ export default function Notifications() {
 
             <div className="notif-actions">
               {!notif.read && (
-                <button className="btn btn-sm btn-info" onClick={() => markRead(notif.id)}>
+                <button className="btn btn-sm btn-info" onClick={(e) => { e.stopPropagation(); markRead(notif.id); }}>
                   Mark Read
                 </button>
               )}
-              <button className="btn btn-sm btn-danger" onClick={() => deleteNotification(notif.id)}>
+              <button className="btn btn-sm btn-danger" onClick={(e) => { e.stopPropagation(); deleteNotification(notif.id); }}>
                 Delete
               </button>
             </div>
           </motion.div>
         ))
+      )}
+      {toastMessage && (
+        <ToastNotification message={toastMessage} type={toastType} onClose={() => setToastMessage(null)} />
       )}
     </div>
   );
