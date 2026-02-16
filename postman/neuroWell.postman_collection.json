@@ -1333,7 +1333,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiI..."
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcxMjI2MjU5LCJleHAiOjE3NzE4MzEwNTl9.rGb1DijFM5xDIDt9vD_OjpsyJ1XBmw55Ekk2-b8ZtzE"
               }
             ],
             "body": {
@@ -1361,7 +1361,7 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": "69872b57a0e6560f9eb0c41d"
+                  "value": "69872b57a0e6560f9eb0c41a"
                 }
               ]
             }
@@ -1562,7 +1562,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwNDY0NzExLCJleHAiOjE3NzEwNjk1MTF9.9DjXOd1K7_hQZL8MlCc_Jx-4kBA2_nnI2W6bfh7Lyy4",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcxMjI2MjU5LCJleHAiOjE3NzE4MzEwNTl9.rGb1DijFM5xDIDt9vD_OjpsyJ1XBmw55Ekk2-b8ZtzE",
                   "type": "string"
                 }
               ]
@@ -1575,7 +1575,8 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc"
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODQ0NjhmMDFkNzdmMWM4MmM3NWI1YSIsImVtYWlsIjoiYWtAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzcwMzc0OTA2LCJleHAiOjE3NzA5Nzk3MDZ9.vEcL_CT25GqeY42vFZVr08Qn16_VorZxW57eZ--Z0Uc",
+                "disabled": true
               }
             ],
             "url": {
