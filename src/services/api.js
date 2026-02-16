@@ -163,3 +163,44 @@ export const fetchAnalytics = async (type, period, subtype) => {
     throw err;
   }
 };
+
+// Fetch tips for a specific user: GET /api/tips/user/:userId
+export const fetchUserTips = async (userId) => {
+  try {
+    const res = await axios.get(url(`/api/tips/user/${userId}`), {
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    });
+    return res.data; // expected: array of tips or { tips: [...] }
+  } catch (err) {
+    console.error('fetchUserTips error', err);
+    throw err;
+  }
+};
+
+// Delete a tip by id: DELETE /api/tips/:tipId
+export const deleteTip = async (tipId) => {
+  try {
+    const res = await axios.delete(url(`/api/tips/${tipId}`), {
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    });
+    return res.data;
+  } catch (err) {
+    console.error('deleteTip error', err);
+    throw err;
+  }
+};
+
+// Mark a tip as read for a user: PUT /api/tips/:userId/readed/:id
+export const markTipRead = async (userId, tipId) => {
+  try {
+    const res = await axios.put(
+      url(`/api/tips/${userId}/readed/${tipId}`),
+      {},
+      { headers: { ...authHeaders(), 'Content-Type': 'application/json' } }
+    );
+    return res.data;
+  } catch (err) {
+    console.error('markTipRead error', err);
+    throw err;
+  }
+};

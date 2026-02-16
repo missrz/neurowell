@@ -120,7 +120,7 @@ export default function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/notify" element={<Notifications />} />
+            <Route path="/notifications" element={<Notifications />} />
 
             {/* Mood tracker: support both /journal (existing) and /mood-tracker (dashboard expectation) */}
             <Route path="/mood-tracker" element={<MoodTracker />} />

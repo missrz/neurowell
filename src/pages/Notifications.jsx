@@ -1,24 +1,79 @@
 // src/pages/Notifications.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Notifications.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { motion } from "framer-motion";
+import { fetchUserTips, deleteTip, markTipRead } from "../services/api";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 export default function Notifications() {
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: "Welcome!", text: "Thanks for joining the platform.", read: false },
-    { id: 2, title: "Daily Reminder", text: "Don’t forget to check your mood today.", read: false },
-    { id: 3, title: "Motivation", text: "You’re doing amazing. Keep going! 💙", read: true },
-  ]);
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const markRead = (id) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
+  const currentUser = useSelector((state) => state.user.user);
+
+  useEffect(() => {
+    const load = async (uid) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchUserTips(uid);
+        const items = Array.isArray(data) ? data : data.tips || data.items || [];
+
+        const normalized = items.map((it, idx) => ({
+          id: it.id || it._id || idx,
+          title: it.title || it.heading || it.subject || "Tip",
+          text: it.text || it.body || it.message || it.description || "",
+          read: !!(it.isReaded || it.read),
+        }));
+
+        setNotifications(normalized);
+      } catch (err) {
+        setError(err.message || "Failed to load notifications");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!currentUser) return;
+    const uid = currentUser._id || currentUser?.id;
+    if (!uid) return;
+    load(uid);
+  }, [currentUser]);
+
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const markRead = async (id) => {
+    const notif = notifications.find((n) => n.id === id);
+    if (!notif || notif.read) return;
+
+    // optimistic UI
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isReaded: true } : n)));
+
+    try {
+      const uid = currentUser?._id || currentUser?.id;
+      if (!uid) throw new Error("No user id available");
+      await markTipRead(uid, id);
+    } catch (err) {
+      // rollback
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isReaded: false } : n)));
+      setError(err.message || "Failed to mark notification read");
+    }
   };
 
-  const deleteNotification = (id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  const deleteNotification = async (id) => {
+    const notif = notifications.find((n) => n.id === id);
+    if (!notif) return;
+    try {
+      await deleteTip(id);
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    } catch (err) {
+      setError(err.message || "Failed to delete notification");
+    }
   };
 
   return (
@@ -37,13 +92,17 @@ export default function Notifications() {
           height: "50px",
           zIndex: "999",
         }}
-onClick={() => window.location.href = "/dashboard"}
+        onClick={() => window.location.href = "/dashboard"}
       >
         ✕
       </button>
       <h2 className="notif-title">🔔 Notifications</h2>
 
-      {notifications.length === 0 ? (
+      {loading ? (
+        <p className="empty-text">Loading...</p>
+      ) : error ? (
+        <p className="empty-text text-danger">{error}</p>
+      ) : notifications.length === 0 ? (
         <p className="empty-text">No notifications right now.</p>
       ) : (
         notifications.map((notif) => (
@@ -53,6 +112,8 @@ onClick={() => window.location.href = "/dashboard"}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            onClick={() => !notif.read && markRead(notif.id)}
+            style={{ cursor: notif.read ? "default" : "pointer" }}
           >
             <div className="notif-content">
               

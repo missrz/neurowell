@@ -167,19 +167,26 @@ router.delete("/:id", auth, async (req, res) => {
 
 // ============================
 // Update tip As readed by UserID
-// PUT /api/tips/:userId/readed
+// PUT /api/tips/:userId/readed/:id
 // ============================
-router.put("/:userId/readed", auth, async (req, res) => {
+router.put("/:userId/readed/:id", auth, async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId, id } = req.params;
+    // Find the tip and ensure correct type for findById
+    const tip = await Tip.findById(id);
+    if (!tip) {
+      return res.status(404).json({ message: "Tip not found" });
+    }
 
-    await Tip.updateMany(
-      { userId },
-      { $set: { isReaded: true } }
-    );
+    // Only the owner or an admin may mark it as read
+    if (tip.userId.toString() !== userId && tip.userId.toString() !== req.user.id && !req.user.isAdmin) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
 
-    const tips = await Tip.find({ userId }).sort({ date: -1 });
-    res.status(200).json(tips);
+    tip.isReaded = true;
+    await tip.save();
+
+    res.status(200).json(tip);
   } catch (error) {
     res.status(422).json({ message: "Server error", error });
   }

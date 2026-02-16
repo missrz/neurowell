@@ -40,7 +40,7 @@ export default function Dashboard() {
 
     "Settings": "/settings",
     "Progress Analytics": "/AdvancedAnalytics",
-    "Notifications": "/notify",
+    "Notifications": "/notifications",
     "Resources & Helplines": "/resources",
   };
 
