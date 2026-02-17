@@ -242,3 +242,13 @@ export const completeAssessment = async (id, answers) => {
   const res = await axios.post(url(`/api/assesments/${id}/complete`), { answers }, { headers: authHeaders() });
   return res.data; // { totalQuestions, correctCount, score, history }
 };
+
+// POST /api/valueble_history
+export const saveValuableHistory = async ({ type, name, score }) => {
+  const res = await axios.post(
+    url("/api/valueble_history"),
+    { type, name, score },
+    { headers: authHeaders() }
+  );
+  return res.data;
+};
