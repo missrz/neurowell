@@ -35,7 +35,6 @@ import Admin from "./pages/Admin";
 import Logout from "./pages/Logout";
 import Resources from "./pages/Resources";
 import Notifications from "./pages/Notifications";
-import BubbleMergeGame from "./pages/BubbleMergeGame";
 import SnakeGame from "./pages/SnakeGame";
 import BounceLogicBall from "./pages/BounceLogicBall";
 import NightSkyMemoryGame from "./pages/NightSkyMemoryGame";
@@ -120,7 +119,6 @@ export default function App() {
                 { path: "notifications", element: <Notifications /> },
                 { path: "mood-tracker", element: <MoodTracker /> },
                 { path: "stress-games", element: <StressGames /> },
-                { path: "stress-games/bubble-merge", element: <BubbleMergeGame /> },
                 { path: "AdvancedAnalytics", element: <AdvancedAnalytics /> },
                 { path: "Resources", element: <Resources /> },
                 { path: "stress-games/snake", element: <SnakeGame /> },
