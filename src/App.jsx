@@ -24,7 +24,6 @@ import Consent from "./pages/Consent";
 import Support from "./pages/Support";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
 import Chat from "./pages/Chat"; // AI Voice Chat page
-import ChatsPage from './pages/ChatsPage';
 import MoodTracker from "./pages/MoodTracker"; // Mood Tracker page
 import StressGames from "./pages/StressGames";
 import Assessment from "./pages/Assessment";
@@ -83,60 +82,6 @@ export default function App() {
   
   return (
     <>
-<<<<<<< HEAD
-      {loading ? (
-        <Preloader onFinish={() => setLoading(false)} />
-      ) : (
-        (() => {
-          const RootLayout = () => (
-            <>
-              <Navbar onOpenAbout={() => setSlideOpen(true)} />
-              <Outlet />
-              <Footer />
-              <SlidePanel isOpen={slideOpen} onClose={() => setSlideOpen(false)} />
-              <Chatbot />
-            </>
-          );
-
-          const router = createBrowserRouter([
-            {
-              path: "/",
-              element: <RootLayout />,
-              children: [
-                { index: true, element: <Home /> },
-                { path: "chat", element: <Chat /> },
-                { path: "chats", element: <ChatsPage /> },
-                { path: "chats/:chatId", element: <ChatsPage /> },
-                { path: "chatbot", element: <FullChatbotPage /> },
-                { path: "journal", element: <Journal /> },
-                { path: "login", element: <Login /> },
-                { path: "signup", element: <Signup /> },
-                { path: "consent", element: <Consent /> },
-                { path: "about", element: <About /> },
-                { path: "support", element: <Support /> },
-                { path: "assessment", element: <Assessment /> },
-                { path: "dashboard", element: <Dashboard /> },
-                { path: "sos", element: <SOS /> },
-                { path: "settings", element: <Settings /> },
-                { path: "admin", element: <Admin /> },
-                { path: "logout", element: <Logout /> },
-                { path: "notifications", element: <Notifications /> },
-                { path: "mood-tracker", element: <MoodTracker /> },
-                { path: "stress-games", element: <StressGames /> },
-                { path: "AdvancedAnalytics", element: <AdvancedAnalytics /> },
-                { path: "Resources", element: <Resources /> },
-                { path: "stress-games/snake", element: <SnakeGame /> },
-                { path: "stress-games/ball", element: <BounceLogicBall /> },
-                { path: "stress-games/night", element: <NightSkyMemoryGame /> },
-                { path: "*", element: <Navigate to="/" /> },
-              ],
-            },
-          ], { future: { v7_startTransition: true, v7_relativeSplatPath: true } });
-
-          return <RouterProvider router={router} future={{ v7_startTransition: true, v7_relativeSplatPath: true }} />;
-        })()
-      )}
-=======
     {loading ? (
       <Preloader onFinish={() => setLoading(false)} />
     ) : (
@@ -188,7 +133,6 @@ export default function App() {
         return <RouterProvider router={router} future={{ v7_startTransition: true, v7_relativeSplatPath: true }} />;
       })()
     )}
->>>>>>> 567d71d (add the question in the code breaker and modify the snake speed)
     </>
   );
 }
