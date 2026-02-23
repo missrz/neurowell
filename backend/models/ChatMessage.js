@@ -9,7 +9,8 @@ const ChatMessageSchema = new mongoose.Schema(
       required: true
     },
     content: String,
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+      chatId: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat', required: false }
     
   },
   { timestamps: true }

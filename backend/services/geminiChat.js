@@ -5,9 +5,11 @@ const ChatMessage = require("../models/ChatMessage")
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
-async function chatWithGemini({ userId, message }) {
+async function chatWithGemini({ userId, message, chatId }) {
   // 1️⃣ Fetch last messages (keep it small)
-  const history = await ChatMessage.find({ userId })
+  // If chatId provided, fetch messages for that chat; otherwise fallback to userId
+  const query = chatId ? { chatId } : { userId };
+  const history = await ChatMessage.find(query)
     .sort({ createdAt: -1 })
     .limit(10)
     .lean()
@@ -36,11 +38,14 @@ async function chatWithGemini({ userId, message }) {
   const result = await model.generateContent(finalPrompt)
   const reply = result.response.text()
 
-  // 5️⃣ Save messages
-  await ChatMessage.create([
-    { role: "user", content: message, userId },
-    { role: "assistant", content: reply, userId }
-  ])
+  // 5️⃣ Save messages (include chatId when present)
+  const userMsg = { role: 'user', content: message, userId };
+  const assistantMsg = { role: 'assistant', content: reply, userId };
+  if (chatId) {
+    userMsg.chatId = chatId;
+    assistantMsg.chatId = chatId;
+  }
+  await ChatMessage.create([userMsg, assistantMsg]);
 
   return reply
 }

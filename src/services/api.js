@@ -252,3 +252,80 @@ export const saveValuableHistory = async ({ type, name, score }) => {
   );
   return res.data;
 };
+
+// Send chat message to backend chat endpoint
+export const sendChat = async (message) => {
+  try {
+    const res = await axios.post(url('/api/chat/send'),
+    { message },
+    { headers: { ...authHeaders(), 'Content-Type': 'application/json' } }
+    );
+    return res.data; // expected: { reply: '...', ... }
+  } catch (err) {
+    console.error('sendChat error', err);
+    throw err;
+  }
+};
+
+// --- Chat/Conversation APIs (chat-scoped)
+export const createChat = async ({ title, participantIds } = {}) => {
+  try {
+    const res = await axios.post(url('/api/chats'), { title, participantIds }, { headers: { ...authHeaders(), 'Content-Type': 'application/json' } });
+    return res.data; // { chat }
+  } catch (err) {
+    console.error('createChat error', err);
+    throw err;
+  }
+};
+
+export const fetchChats = async () => {
+  try {
+    const res = await axios.get(url('/api/chats'), { headers: authHeaders() });
+    return res.data; // { chats }
+  } catch (err) {
+    console.error('fetchChats error', err);
+    throw err;
+  }
+};
+
+export const fetchChatMessages = async (chatId, opts = {}) => {
+  try {
+    const q = new URLSearchParams();
+    if (opts.limit) q.append('limit', String(opts.limit));
+    const res = await axios.get(url(`/api/chats/${chatId}/messages${q.toString() ? '?' + q.toString() : ''}`), { headers: authHeaders() });
+    return res.data; // { messages }
+  } catch (err) {
+    console.error('fetchChatMessages error', err);
+    throw err;
+  }
+};
+
+export const sendChatMessage = async (chatId, message) => {
+  try {
+    const res = await axios.post(url(`/api/chats/${chatId}/send`), { message }, { headers: { ...authHeaders(), 'Content-Type': 'application/json' } });
+    return res.data; // { reply }
+  } catch (err) {
+    console.error('sendChatMessage error', err);
+    throw err;
+  }
+};
+
+export const appendChatMessage = async (chatId, content, role = 'user') => {
+  try {
+    const res = await axios.post(url(`/api/chats/${chatId}/messages`), { content, role }, { headers: { ...authHeaders(), 'Content-Type': 'application/json' } });
+    return res.data; // { message }
+  } catch (err) {
+    console.error('appendChatMessage error', err);
+    throw err;
+  }
+};
+
+export const updateChat = async (chatId, patch) => {
+  try {
+    const res = await axios.patch(url(`/api/chats/${chatId}`), patch, { headers: { ...authHeaders(), 'Content-Type': 'application/json' } });
+    return res.data; // { chat }
+  } catch (err) {
+    console.error('updateChat error', err);
+    throw err;
+  }
+};

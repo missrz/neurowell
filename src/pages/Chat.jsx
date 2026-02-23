@@ -1,21 +1,37 @@
-import React, { useState } from "react";  
+import React, { useState, useRef } from "react";
+import { Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Chat.css";
 
 import robotGif from "../assets/a--2.gif";
 import sparkleGif from "../assets/ai-1.gif";
+import { sendChat } from "../services/api";
+import { useEffect, useRef as useRef2 } from "react";
 
 export default function Chat() {
   const navigate = useNavigate();
+  const currentUser = useSelector((s) => s.user.user);
+  const currentToken = useSelector((s) => s.user.token);
+
+  if (!currentToken) return <Navigate to="/login" />;
+
   const [isListening, setIsListening] = useState(false);
-  let recognition;
-  let micTimeout;
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [sending, setSending] = useState(false);
+
+  const recognitionRef = useRef(null);
+  const micTimeoutRef = useRef(null);
+  const messagesRef = useRef(null);
+  const endRef = useRef2(null);
 
   const handleClose = () => navigate("/dashboard");
 
-  const speakFunc = (input) => {
-    const utter = new SpeechSynthesisUtterance(input);
+  const speakFunc = (text) => {
+    if (!text || typeof window === "undefined" || !window.speechSynthesis) return;
+    const utter = new SpeechSynthesisUtterance(text);
     utter.lang = "en-GB";
     window.speechSynthesis.speak(utter);
   };
@@ -25,26 +41,26 @@ export default function Chat() {
       alert("Browser does not support voice input");
       return;
     }
-    recognition = new window.webkitSpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.continuous = false;
+    recognitionRef.current = new window.webkitSpeechRecognition();
+    recognitionRef.current.lang = "en-US";
+    recognitionRef.current.continuous = false;
 
-    recognition.onresult = (e) => {
-      const command = e.results[0][0].transcript.toLowerCase();
-      handleCommands(command);
+    recognitionRef.current.onresult = (e) => {
+      const command = e.results[0][0].transcript;
+      handleVoiceResult(command);
       stopVoiceInput();
     };
-    recognition.onend = () => stopVoiceInput();
+    recognitionRef.current.onend = () => stopVoiceInput();
 
-    recognition.start();
+    recognitionRef.current.start();
     setIsListening(true);
 
-    micTimeout = setTimeout(() => recognition.stop(), 15000);
+    micTimeoutRef.current = setTimeout(() => recognitionRef.current && recognitionRef.current.stop(), 15000);
   };
 
   const stopVoiceInput = () => {
-    if (recognition) recognition.stop();
-    clearTimeout(micTimeout);
+    if (recognitionRef.current) recognitionRef.current.stop();
+    clearTimeout(micTimeoutRef.current);
     setIsListening(false);
   };
 
@@ -53,9 +69,58 @@ export default function Chat() {
     else stopVoiceInput();
   };
 
-  const handleCommands = (command) => {
-    console.log(command);
-    if (command.includes("hello")) speakFunc("Hello! How can I help you?");
+  const handleVoiceResult = (text) => {
+    if (!text) return;
+    sendMessage(text);
+  };
+
+  const sendMessage = async (msg) => {
+    if (!msg || sending) return;
+    const trimmed = msg.trim();
+    if (!trimmed) return;
+
+    // Require authentication
+    if (!currentToken) {
+      setMessages((m) => [...m, { from: 'bot', text: 'Please login to continue.' }]);
+      setTimeout(() => navigate('/login'), 800);
+      return;
+    }
+
+    // add user message locally
+    setMessages((m) => [...m, { from: 'user', text: trimmed }]);
+    setInput("");
+    setSending(true);
+
+    try {
+      const payload = { message: trimmed, userId: currentUser?._id };
+      const res = await sendChat(payload.message);
+      // Try several likely response shapes
+      const reply = res?.reply || res?.message || res?.data || JSON.stringify(res);
+      setMessages((m) => [...m, { from: 'bot', text: reply }]);
+      speakFunc(reply);
+    } catch (err) {
+      console.error('Chat send error', err);
+      if (err && err.response && err.response.status === 401) {
+        setMessages((m) => [...m, { from: 'bot', text: 'Session expired. Please login again.' }]);
+        setTimeout(() => navigate('/login'), 800);
+      } else {
+        setMessages((m) => [...m, { from: 'bot', text: 'Sorry, something went wrong.' }]);
+      }
+    } finally {
+      setSending(false);
+    }
+  };
+
+  useEffect(() => {
+    // scroll to bottom when messages change
+    if (endRef.current) {
+      endRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  const handleSubmit = (e) => {
+    e && e.preventDefault();
+    sendMessage(input);
   };
 
   return (
@@ -70,11 +135,36 @@ export default function Chat() {
         <button
           className={`mic-btn btn btn-light ${isListening ? "listening" : ""}`}
           onClick={handleMicClick}
+          title={isListening ? 'Stop listening' : 'Start voice input'}
         >
           <i className={`fa-solid ${isListening ? "fa-microphone-lines" : "fa-microphone-lines-slash"}`}></i>
         </button>
 
         <img src={sparkleGif} alt="Sparkle" className="sparkle-gif img-fluid animate__animated animate__pulse animate__infinite" />
+      </div>
+
+      <div className="chat-panel w-100 mt-4">
+        <div className="messages">
+          {messages.map((m, idx) => (
+            <div key={idx} className={`message ${m.from}`}>
+              <div className="message-text">{m.text}</div>
+            </div>
+          ))}
+        </div>
+
+        <form className="chat-input d-flex" onSubmit={handleSubmit}>
+          <input
+            aria-label="Type a message"
+            className="form-control me-2"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={currentUser ? `Message as ${currentUser.fullName || currentUser.email}` : 'Type a message...'}
+            disabled={sending}
+          />
+          <button className="btn btn-primary" type="submit" disabled={sending}>
+            {sending ? 'Sending...' : 'Send'}
+          </button>
+        </form>
       </div>
     </div>
   );

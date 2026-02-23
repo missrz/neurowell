@@ -9,6 +9,7 @@ dotenv.config();
 
 const authRoutes = require("./routes/auth");
 const chatRoutes = require("./routes/chat");
+const chatsRoutes = require("./routes/chats");
 const moodRoutes = require("./routes/moodRoutes");
 const journalRoutes = require("./routes/journalRoutes");
 const analytics = require("./routes/analytics");
@@ -45,6 +46,7 @@ mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 // ========================
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
+app.use('/api/chats', chatsRoutes);
 app.use("/api/moods", moodRoutes);
 app.use("/api/journals", journalRoutes);
 app.use("/api/analytics", analytics);
