@@ -39,7 +39,7 @@ import Notifications from "./pages/Notifications";
 import SnakeGame from "./pages/SnakeGame";
 import BounceLogicBall from "./pages/BounceLogicBall";
 import NightSkyMemoryGame from "./pages/NightSkyMemoryGame";
-// import AIDetection from "./pages/AIDetection";
+import CodeBreakerGame from "./pages/CodeBreakerGame";
 // import MoodTracker from "./pages/MoodTracker";
 // import Insights from "./pages/Insights";
 // import Chatbot from "./pages/Chatbot";
@@ -61,7 +61,7 @@ export default function App() {
   const [showAuthInline, setShowAuthInline] = useState(false);
   const loggedUser = useSelector(state => state.user.user);
   const dispatch = useDispatch();
-
+  
   // restore token from cookie on app start and fetch user
   useEffect(() => {
     try {
@@ -80,9 +80,10 @@ export default function App() {
       // ignore
     }
   }, [dispatch]);
-
+  
   return (
     <>
+<<<<<<< HEAD
       {loading ? (
         <Preloader onFinish={() => setLoading(false)} />
       ) : (
@@ -135,6 +136,59 @@ export default function App() {
           return <RouterProvider router={router} future={{ v7_startTransition: true, v7_relativeSplatPath: true }} />;
         })()
       )}
+=======
+    {loading ? (
+      <Preloader onFinish={() => setLoading(false)} />
+    ) : (
+      (() => {
+        const RootLayout = () => (
+          <>
+          <Navbar onOpenAbout={() => setSlideOpen(true)} />
+          <Outlet />
+          <Footer />
+          <SlidePanel isOpen={slideOpen} onClose={() => setSlideOpen(false)} />
+          <Chatbot />
+          </>
+        );
+        
+        const router = createBrowserRouter([
+          {
+            path: "/",
+            element: <RootLayout />,
+            children: [
+              { index: true, element: <Home /> },
+              { path: "chat", element: <Chat /> },
+              { path: "chatbot", element: <FullChatbotPage /> },
+              { path: "journal", element: <Journal /> },
+              { path: "login", element: <Login /> },
+              { path: "signup", element: <Signup /> },
+              { path: "consent", element: <Consent /> },
+              { path: "about", element: <About /> },
+              { path: "support", element: <Support /> },
+              { path: "assessment", element: <Assessment /> },
+              { path: "dashboard", element: <Dashboard /> },
+              { path: "sos", element: <SOS /> },
+              { path: "settings", element: <Settings /> },
+              { path: "admin", element: <Admin /> },
+              { path: "logout", element: <Logout /> },
+              { path: "notifications", element: <Notifications /> },
+              { path: "mood-tracker", element: <MoodTracker /> },
+              { path: "stress-games", element: <StressGames /> },
+              { path: "AdvancedAnalytics", element: <AdvancedAnalytics /> },
+              { path: "Resources", element: <Resources /> },
+              { path: "stress-games/snake", element: <SnakeGame /> },
+              { path: "stress-games/ball", element: <BounceLogicBall /> },
+              { path: "stress-games/night", element: <NightSkyMemoryGame /> },
+              { path: "stress-games/code-breaker", element: <CodeBreakerGame /> },
+              { path: "*", element: <Navigate to="/" /> },
+            ],
+          },
+        ], { future: { v7_startTransition: true, v7_relativeSplatPath: true } });
+        
+        return <RouterProvider router={router} future={{ v7_startTransition: true, v7_relativeSplatPath: true }} />;
+      })()
+    )}
+>>>>>>> 567d71d (add the question in the code breaker and modify the snake speed)
     </>
   );
 }
