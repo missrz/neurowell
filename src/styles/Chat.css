@@ -103,12 +103,6 @@
   box-sizing: border-box;
 }
 
-/* hide page scrollbar; panels handle internal scrolling */
-html, body {
-  overflow: hidden;
-  height: 100%;
-}
-body::-webkit-scrollbar { display: none; }
 
 /* Chat panel */
 .chat-panel {
