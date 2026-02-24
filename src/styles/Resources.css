@@ -1,67 +1,76 @@
+/* ===== Resources Container ===== */
 .resources-container {
   max-width: 1000px;
   margin: auto;
   padding: 2rem;
-  color: white;
+  color: #1e293b;
   text-align: center;
 }
 
 .resources-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #00eaff;
+  color: #4f46e5;
   margin-bottom: 10px;
 }
 
 .resource-sub {
-  opacity: 0.8;
+  color: #64748b;
   margin-bottom: 2rem;
 }
 
-/* GRID */
+/* ===== GRID ===== */
 .resource-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
-/* CARD */
+/* ===== CARD ===== */
 .resource-card {
   padding: 1.5rem;
   border-radius: 20px;
-  background: rgba(0, 15, 30, 0.6);
-  border: 2px solid #00bcd4;
-  backdrop-filter: blur(6px);
-  transition: 0.3s;
-  box-shadow: 0 0 15px rgba(0, 195, 255, 0.3);
+
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+
+  transition: all 0.3s ease;
   position: relative;
 }
 
 .resource-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15);
 }
 
 .resource-card h4 {
-  color: #00eaff;
+  color: #4f46e5;
   margin-bottom: 10px;
 }
 
 .resource-card p {
-  opacity: 0.9;
+  color: #475569;
   font-size: 0.95rem;
 }
 
-/* TAG */
+/* ===== TAG ===== */
 .resource-tag {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: #00eaff;
-  color: black;
+
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+
   padding: 4px 10px;
   border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: bold;
+
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
 }

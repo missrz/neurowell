@@ -1,28 +1,218 @@
+/* ================= BASE ================= */
+
 .support-container {
-  min-height: 100vh;
+  min-height: auto;
+  padding: 60px 20px;
   width: 100%;
-  background-color: black;
-  position: relative;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  text-align: center;
+
+  background: linear-gradient(180deg, #f8fafc, #eef2ff);
+  position: relative;
+  overflow: hidden;
 }
 
-.close-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 1.5rem;
+/* animated glow blobs */
+
+.support-container::before,
+.support-container::after {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.22;
+  animation: blobMove 18s linear infinite;
+}
+
+.support-container::before {
+  background: #a78bfa;
+  top: -140px;
+  left: -120px;
+}
+
+.support-container::after {
+  background: #60a5fa;
+  bottom: -140px;
+  right: -120px;
+  animation-delay: 9s;
+}
+
+@keyframes blobMove {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(60px,40px); }
+  100% { transform: translate(0,0); }
+}
+
+
+/* ================= TITLE ================= */
+
+.support-title {
+  font-size: 2.7rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+  z-index: 1;
+
+  background: linear-gradient(90deg, #6366f1, #a855f7, #60a5fa);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shimmer 6s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+.support-intro {
+  max-width: 760px;
+  color: #475569;
+  margin-bottom: 44px;
+  z-index: 1;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* ================= PREMIUM SUPPORT CARD ================= */
+
+.support-card-247 {
+  position: relative;
+  max-width: 780px;
+  padding: 40px;
+  border-radius: 24px;
+  z-index: 1;
+
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255,255,255,0.7);
+  box-shadow: 0 18px 40px rgba(99,102,241,0.14);
+
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+/* animated gradient border */
+
+.support-card-247::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 24px;
+  background: linear-gradient(120deg,#6366f1,#a855f7,#60a5fa,#6366f1);
+  background-size: 300% 300%;
+  opacity: 0.35;
+  z-index: -1;
+  animation: borderFlow 8s linear infinite;
+}
+
+@keyframes borderFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* hover wow effect */
+
+.support-card-247:hover {
+  transform: translateY(-14px) scale(1.03);
+  box-shadow:
+    0 28px 60px rgba(99,102,241,0.28),
+    0 0 0 1px rgba(167,139,250,0.35);
+}
+
+/* ================= ICON ================= */
+
+.support-icon {
+  font-size: 3.2rem;
+  margin-bottom: 14px;
+  animation: float 3.2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+/* ================= CARD TEXT ================= */
+
+.support-card-247 h3 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.support-card-247 p {
+  color: #475569;
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+/* ================= BUTTONS ================= */
+
+.support-buttons {
+  margin-top: 34px;
+  z-index: 1;
 }
 
 .support-buttons a {
-  color: white;
-  font-weight: bold;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+/* button shimmer sweep */
+
+.support-buttons a::after {
+  content: "";
+  position: absolute;
+  left: -60%;
+  top: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent);
+  transform: skewX(-25deg);
+}
+
+.support-buttons a:hover::after {
+  animation: sweep 0.8s ease;
+}
+
+@keyframes sweep {
+  to { left: 130%; }
+}
+
 .support-buttons a:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 26px rgba(99,102,241,0.35);
+}
+
+/* ================= FOOTER ================= */
+
+.support-footer {
+  margin-top: 54px;
+  color: #64748b;
+  font-weight: 500;
+  z-index: 1;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .support-title {
+    font-size: 2.1rem;
+  }
+
+  .support-card-247 {
+    padding: 28px;
+  }
 }

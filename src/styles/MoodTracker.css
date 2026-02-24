@@ -1,69 +1,111 @@
-/* MoodTracker.css */
+/* ================================
+   MoodTracker.css
+   Final Premium Pastel Glass Theme
+================================ */
 
-/* Overall Container */
+/* ========= ROOT COLORS ========= */
+:root {
+  --blue: #c9d6ff;
+  --purple: #e2c9ff;
+  --teal: #c9f0ea;
+  --pink: #ffd1e8;
+
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.6);
+
+  --heading-dark: #4a4a70;
+  --text-dark: #55557a;
+}
+
+/* ========= MAIN CONTAINER ========= */
 .tracker-container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 2rem;
   padding: 2rem;
-  background-color: #0f0f1a;
   min-height: 100vh;
-  color: #fff;
-  position: relative;
+
+  background: linear-gradient(
+    120deg,
+    var(--blue),
+    var(--purple),
+    var(--teal),
+    var(--pink)
+  );
+  background-attachment: fixed;
+
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-dark);
+  position: relative;
 }
 
-/* Close Button (Top Right) */
+/* ========= CLOSE BUTTON (Modern Proper) ========= */
 .close-btn {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: #1c1c2e;
-  color: #00bfff;
-  border: 2px solid #00bfff;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  font-size: 1.2rem;
+  top: 20px;
+  right: 25px;
+
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  backdrop-filter: blur(10px);
+
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--heading-dark);
+
   cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(120, 120, 160, 0.25);
 }
 
 .close-btn:hover {
-  background: #00bfff;
-  color: #000;
-  box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff, 0 0 60px #00bfff;
-  transform: scale(1.1);
+  background: linear-gradient(135deg, #a7c7ff, #ffb7d5);
+  color: #fff;
+  transform: rotate(90deg) scale(1.1);
 }
 
-/* Left & Right Panels */
+/* ========= GLASS PANELS ========= */
+.history-section,
+.right-panel,
+.pie-chart {
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(120, 120, 160, 0.2);
+}
+
+/* ========= HISTORY SECTION ========= */
 .history-section {
   flex: 1;
-  background-color: #1c1c2e;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+  padding: 1.5rem;
   overflow-y: auto;
   max-height: 80vh;
 }
 
+/* ========= RIGHT PANEL ========= */
 .right-panel {
-  max-width: 300px;
+  max-width: 330px;
+  padding: 1.5rem;
 }
 
-/* Headings */
+/* ========= HEADINGS ========= */
 .history-section h2 {
   text-align: center;
-  margin-bottom: 1rem;
-  color: #00bfff;
+  margin-bottom: 1.2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--heading-dark);
+  letter-spacing: 1px;
 }
 
-/* Mood History Items */
+/* ========= MOOD LIST ========= */
 .history-section ul {
   list-style: none;
   padding: 0;
@@ -77,13 +119,20 @@
 }
 
 .mood-item {
-  border: 2px solid #00bfff;
-  border-radius: 8px;
-  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 0.4rem 0.9rem;
+
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  transition: all 0.3s;
+  gap: 0.4rem;
+
+  transition: all 0.3s ease;
+}
+
+.mood-item:hover {
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .mood-item .mood-emoji {
@@ -94,18 +143,19 @@
   font-size: 0.9rem;
 }
 
-/* Timestamp & Delete Button */
+/* ========= TIMESTAMP ========= */
 .timestamp {
   font-size: 0.75rem;
-  color: #a0a0a0;
+  color: #6b6b8c;
   margin-bottom: 0.5rem;
 }
 
+/* ========= DELETE BUTTON ========= */
 .delete-btn {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #ff4d4d;
+  color: #ff7a9c;
   font-size: 1rem;
   transition: transform 0.2s;
 }
@@ -114,64 +164,87 @@
   transform: scale(1.2);
 }
 
-/* Mood Buttons (Right Panel) */
+/* ========= MOOD BUTTON GRID ========= */
 .mood-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.7rem;
   justify-content: center;
   margin-bottom: 1rem;
 }
 
+/* ========= MOOD BUTTON ========= */
 .mood-btn {
-  background-color: #111122;
-  border: 2px solid #00bfff;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--glass-border);
+  color: var(--heading-dark);
+
+  padding: 0.6rem 1rem;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-  position: relative;
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  transition: all 0.3s ease;
 }
 
 .mood-btn:hover {
-  box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color), 0 0 30px var(--neon-color);
+  background: linear-gradient(90deg, #a7c7ff, #d6c2ff);
+  color: #fff;
   transform: translateY(-2px);
 }
 
 .mood-btn.selected {
-  background-color: #00bfff;
-  color: #000;
-  box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff;
+  background: linear-gradient(90deg, #9fe3d9, #ffb7d5);
+  color: #fff;
 }
 
-/* Add Button */
+/* ========= TEXTAREA ========= */
+textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 18px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  color: var(--heading-dark);
+  font-size: 0.95rem;
+  resize: none;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+textarea::placeholder {
+  color: #7a7a9a;
+}
+
+/* ========= ADD BUTTON ========= */
 .add-btn-container {
   display: flex;
   justify-content: center;
-  margin-top: 0.5rem;
 }
 
 .add-btn {
-  background-color: #00bfff;
+  background: linear-gradient(90deg, #8fd3c7, #f6a5c0);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 30px;
+
   cursor: pointer;
   font-size: 1rem;
-  color: #000;
-  font-weight: bold;
-  transition: all 0.3s;
-  box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+  font-weight: 600;
+  color: #3a3a5a;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(120, 120, 160, 0.25);
 }
 
 .add-btn:hover {
-  box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff, 0 0 60px #00bfff;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(120, 120, 160, 0.35);
 }
 
-/* Pie Chart */
+/* ========= PIE CHART ========= */
 .pie-container {
   flex: 0 0 400px;
   display: flex;
@@ -181,8 +254,20 @@
 .pie-chart {
   width: 400px;
   height: 400px;
-  background-color: #0f0f1a;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
-  padding: 1rem;
+  padding: 1.5rem;
+}
+
+/* Fix Legend Text */
+.pie-chart *,
+.recharts-legend-item-text {
+  color: var(--heading-dark) !important;
+  font-weight: 500;
+}
+/* Force Chart Legend Text Dark */
+canvas + div,
+.chartjs-legend li,
+.chartjs-legend li span,
+.pie-chart ul li {
+  color: #4a4a70 !important;
+  font-weight: 600 !important;
 }

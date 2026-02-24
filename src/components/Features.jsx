@@ -1,45 +1,62 @@
+// src/pages/Features.jsx
 import React from "react";
+import { FaBrain, FaComments, FaChartLine, FaShieldAlt, FaUserMd, FaMobileAlt } from "react-icons/fa";
 import "../styles/Features.css";
-import { BsChatDotsFill, BsHeartPulseFill, BsJournalCheck } from "react-icons/bs";
 
 export default function Features() {
+  const features = [
+    {
+      icon: <FaBrain />,
+      title: "AI Mental Analysis",
+      desc: "Advanced AI models analyze emotional patterns and early mental health indicators."
+    },
+    {
+      icon: <FaComments />,
+      title: "Smart Chat Support",
+      desc: "Conversational AI provides safe, guided, and empathetic interactions."
+    },
+    {
+      icon: <FaChartLine />,
+      title: "Progress Tracking",
+      desc: "Visual dashboards to monitor mood trends and improvement over time."
+    },
+    {
+      icon: <FaShieldAlt />,
+      title: "Privacy First",
+      desc: "Secure data handling and privacy-focused architecture."
+    },
+    {
+      icon: <FaUserMd />,
+      title: "Expert Guidance",
+      desc: "Helpline & professional support integration."
+    },
+    {
+      icon: <FaMobileAlt />,
+      title: "Cross Platform",
+      desc: "Works across web and mobile for continuous support."
+    }
+  ];
+
   return (
     <section className="features-section" id="features">
-      <div className="container text-center">
-        <h2 className="section-title">
-          Why <span>NeuroWell?</span>
+      <div className="features-header">
+        <h2>
+          Powerful <span>NeuroWell Features</span>
         </h2>
-        <p className="section-subtitle">
-          AI-driven emotional intelligence for a healthier mind.
+        <p>
+          Designed to support early mental health detection with AI precision
+          and human-centric care.
         </p>
+      </div>
 
-        <div className="row mt-5">
-          {[
-            {
-              icon: <BsHeartPulseFill />,
-              title: "Early Detection",
-              desc: "Analyze text + mood to detect early signs of stress, anxiety or depression.",
-            },
-            {
-              icon: <BsChatDotsFill />,
-              title: "AI Support Companion",
-              desc: "Friendly chatbot that listens and gives helpful advice anytime.",
-            },
-            {
-              icon: <BsJournalCheck />,
-              title: "Smart Mood Journal",
-              desc: "Track your emotional health and boost your day with self-care suggestions.",
-            },
-          ].map((item, i) => (
-            <div className="col-md-4 mb-4" key={i}>
-              <div className="feature-card">
-                <div className="feature-icon">{item.icon}</div>
-                <h4>{item.title}</h4>
-                <p>{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="features-grid">
+        {features.map((f, i) => (
+          <div className="feature-card" key={i}>
+            <div className="feature-icon">{f.icon}</div>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
