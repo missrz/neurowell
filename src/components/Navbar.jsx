@@ -27,7 +27,7 @@ export default function Navbar() {
     { name: "Features", link: "/dashboard", type: "route" },
     { name: "Journal", link: "/journal", type: "route" },
     { name: "Assessment", link: "/assessment", type: "route" }, // full page route
-    { name: "Chat", link: "/chats", type: "route" },
+    { name: "Chat", link: "/chat", type: "route" },
     { name: "Support", link: "/support", type: "route" },
     { name: "About", link: "/about", type: "route" },
 
