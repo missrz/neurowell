@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+
+// Sections
 // import AnimatedBackground from "../components/AnimatedBackground";
 import Hero from "../components/Hero";
-import NeuroWellInsight from "../components/NeuroWellInsight";
 import Features from "../components/Features";
+import HowItWorks from "../components/HowItWorks";
 import CTA from "../components/CTA";
-import Contact from "../components/Contact";
+import Support from "../pages/Support";
 import Auth from "../components/Auth";
 
 export default function Home() {
@@ -14,14 +16,31 @@ export default function Home() {
 
   return (
     <div style={{ position: "relative" }}>
+      
+      {/* Optional animated bg */}
       {/* <AnimatedBackground /> */}
+
+      {/* ===== HERO ===== */}
       <Hero />
 
-      {/* Other Home Sections */}
-      <NeuroWellInsight />
+      {/* ===== FEATURES ===== */}
       <Features />
-      <CTA />
-      <Contact />
+
+      {/* ===== HOW IT WORKS ===== */}
+      <HowItWorks />
+
+       {/* ===== CALL TO ACTION ===== */}
+      <CTA onLoginClick={() => setShowAuthInline(true)} />
+
+      {/* ===== SUPPORT / HELPLINE ===== */}
+      <Support />
+
+     
+      {/* ===== INLINE AUTH (OPTIONAL) ===== */}
+      {!loggedUser && showAuthInline && (
+        <Auth onClose={() => setShowAuthInline(false)} />
+      )}
+
     </div>
   );
 }

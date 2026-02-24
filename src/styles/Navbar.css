@@ -114,3 +114,209 @@ html {
   background: #6df2c2;
   border-radius: 4px;
 }
+.neo-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  position: relative;
+}
+
+/* profile avatar */
+.neo-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(99,102,241,0.6);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+}
+
+.neo-avatar:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 8px cyan,
+    0 0 16px rgba(0,255,255,0.7),
+    0 0 24px rgba(255,0,255,0.6);
+}
+.neo-profile {
+  position: relative;
+}
+/* dropdown aligned right */
+.neo-dropdown-right {
+  right: 0;
+  left: auto;
+}
+
+/* DROPDOWN */
+.neo-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 0.6rem;
+  min-width: 160px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  z-index: 999;
+
+  /* ANIMATION */
+  opacity: 0;
+  transform: translateY(-10px) scale(0.96);
+  pointer-events: none;
+  animation: dropdownFade 0.25s ease forwards;
+}
+
+.neo-dropdown a,
+.neo-dropdown button {
+  display: block;
+  padding: 0.5rem 0.8rem;
+  color: #1f2937;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.neo-dropdown a:hover,
+.neo-dropdown button:hover {
+  background: rgba(99,102,241,0.1);
+}
+
+.neo-logout-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+/* FORCE RIGHT ALIGNMENT FOR PROFILE / AUTH */
+.neo-auth {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  position: relative;
+}
+@keyframes dropdownFade {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+}
+
+.neo-bell {
+  position: relative;
+  font-size: 1.4rem;
+  margin-right: 14px;
+  cursor: pointer;
+  color: cyan;
+}
+
+.neo-bell-pulse {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: magenta;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (max-width: 768px) {
+
+  .neo-menu {
+    display: none; /* optional if you later add hamburger */
+  }
+
+  .neo-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 180px;
+    top: 50px;
+  }
+
+  .neo-avatar {
+    width: 34px;
+    height: 34px;
+  }
+}
+.neo-bell {
+  position: relative;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-right: 16px;
+}
+
+.neo-bell-pulse {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(239,68,68,0); }
+  100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+}
+@media (max-width: 768px) {
+  .neo-dropdown {
+    right: 10px;
+    left: auto;
+    min-width: 160px;
+  }
+
+  .neo-menu {
+    display: none; /* if you add hamburger later */
+  }
+}
+/* ================= PROFILE INITIAL AVATAR ================= */
+
+.neo-avatar-initial {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+
+  background: linear-gradient(135deg, #7c7cff, #9f7cff);
+  box-shadow:
+    0 0 10px rgba(124,124,255,0.6),
+    0 0 20px rgba(124,124,255,0.4);
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover glow */
+.neo-avatar-initial:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 15px rgba(124,124,255,0.8),
+    0 0 30px rgba(124,124,255,0.6);
+}
