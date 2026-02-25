@@ -92,7 +92,7 @@
   );
   opacity: 0;
   transform: translateX(-120%);
-  transition: 0.7s ease;
+  transition: 1.9s ease;
 }
 
 /* hover */
