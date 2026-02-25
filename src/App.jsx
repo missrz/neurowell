@@ -102,7 +102,7 @@ export default function App() {
             element: <RootLayout />,
             children: [
               { index: true, element: <Home /> },
-              { path: "chat", element: <Chat /> },
+              { path: "chats", element: <Chat /> },
               { path: "chatbot", element: <FullChatbotPage /> },
               { path: "journal", element: <Journal /> },
               { path: "login", element: <Login /> },

@@ -1,40 +1,54 @@
-/* Global CSS for your NeuroWell frontend */
+/* ================= GLOBAL RESET ================= */
 
-/* Reset default styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body styling */
+/* ================= BODY ================= */
+
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #0a0a0a;
-  color: #ffffff;
+
+  /* Soft pastel background */
+  background: linear-gradient(
+    135deg,
+    #fdf6ff,
+    #fcefee,
+    #eaf4ff
+  );
+
+  /* Soft text instead of white */
+  color: #6d7ba3;
+
   overflow-x: hidden;
 }
 
-/* Links */
+/* ================= LINKS ================= */
+
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Headings */
+/* ================= HEADINGS ================= */
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Orbitron', sans-serif;
-  color: #00ffe7;
+  font-family: 'Poppins', sans-serif;
+  color: #5f6caf;
 }
 
-/* Buttons */
+/* ================= BUTTON ================= */
+
 button {
   cursor: pointer;
   border: none;
   outline: none;
 }
 
-/* Smooth scroll for anchor links */
+/* ================= SMOOTH SCROLL ================= */
+
 html {
   scroll-behavior: smooth;
 }
