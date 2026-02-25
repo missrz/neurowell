@@ -104,6 +104,7 @@ export default function App() {
               { index: true, element: <Home /> },
               { path: "chats", element: <ChatsPage /> },
               { path: "chats/:chatId", element: <ChatsPage /> },
+              { path: "chat", element: <Chat /> },
               { path: "chatbot", element: <FullChatbotPage /> },
               { path: "journal", element: <Journal /> },
               { path: "login", element: <Login /> },

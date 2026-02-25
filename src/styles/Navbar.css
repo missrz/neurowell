@@ -3,15 +3,16 @@
   top: 0;
   width: 100%;
   height: 75px;
-  display: flex;
-  justify-content: space-between;
+  
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
+  
   padding: 0 3rem;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 0, 255, 0.15);
-
+  
   transition: transform 0.2s ease-out;
   z-index: 50;
 }
@@ -22,7 +23,10 @@
   font-weight: 700;
   color: #fff;
   letter-spacing: 1px;
+  
+  justify-self: start;
 }
+
 
 .neo-logo span {
   color: cyan;
@@ -34,16 +38,18 @@
   display: flex;
   gap: 2rem;
   list-style: none;
+  justify-self: center;
+  
 }
 
 .neo-link {
   font-size: 1.05rem;
   color: #fff;
   cursor: pointer;
-
+  
   position: relative;
   padding-bottom: 5px;
-
+  
   transition: color 0.3s;
 }
 
@@ -56,11 +62,11 @@
   position: absolute;
   bottom: 0;
   left: 0;
-
+  
   width: 0%;
   height: 2px;
   background: linear-gradient(90deg, cyan, magenta);
-
+  
   transition: width 0.3s ease;
 }
 
@@ -73,18 +79,18 @@
   background: transparent;
   padding: 10px 22px;
   border-radius: 50px;
-
+  
   color: #fff;
   font-size: 1rem;
   border: 1px solid rgba(255, 0, 255, 0.4);
-
+  
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
 
 .neo-btn:hover {
   box-shadow: 0 0 12px rgba(255,0,255,0.4),
-              0 0 18px rgba(0,255,255,0.35);
+  0 0 18px rgba(0,255,255,0.35);
   border-color: cyan;
 }
 html {
@@ -128,16 +134,16 @@ html {
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid rgba(99,102,241,0.6);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  
 }
 
 .neo-avatar:hover {
   transform: scale(1.08);
   box-shadow:
-    0 0 8px cyan,
-    0 0 16px rgba(0,255,255,0.7),
-    0 0 24px rgba(255,0,255,0.6);
+  0 0 8px cyan,
+  0 0 16px rgba(0,255,255,0.7),
+  0 0 24px rgba(255,0,255,0.6);
 }
 .neo-profile {
   position: relative;
@@ -153,7 +159,7 @@ html {
   position: absolute;
   top: 55px;
   right: 0;
-
+  
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
   border-radius: 12px;
@@ -161,7 +167,7 @@ html {
   min-width: 160px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   z-index: 999;
-
+  
   /* ANIMATION */
   opacity: 0;
   transform: translateY(-10px) scale(0.96);
@@ -195,8 +201,10 @@ html {
 .neo-auth {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  /* margin-left: auto; */
   position: relative;
+  justify-self: end;
+  
 }
 @keyframes dropdownFade {
   to {
@@ -239,18 +247,18 @@ html {
   }
 }
 @media (max-width: 768px) {
-
+  
   .neo-menu {
     display: none; /* optional if you later add hamburger */
   }
-
+  
   .neo-dropdown {
     right: 0;
     left: auto;
     min-width: 180px;
     top: 50px;
   }
-
+  
   .neo-avatar {
     width: 34px;
     height: 34px;
@@ -285,7 +293,7 @@ html {
     left: auto;
     min-width: 160px;
   }
-
+  
   .neo-menu {
     display: none; /* if you add hamburger later */
   }
@@ -299,16 +307,16 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  
   font-weight: 700;
   font-size: 1.1rem;
   color: #fff;
-
+  
   background: linear-gradient(135deg, #7c7cff, #9f7cff);
   box-shadow:
-    0 0 10px rgba(124,124,255,0.6),
-    0 0 20px rgba(124,124,255,0.4);
-
+  0 0 10px rgba(124,124,255,0.6),
+  0 0 20px rgba(124,124,255,0.4);
+  
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -317,6 +325,107 @@ html {
 .neo-avatar-initial:hover {
   transform: scale(1.08);
   box-shadow:
-    0 0 15px rgba(124,124,255,0.8),
-    0 0 30px rgba(124,124,255,0.6);
+  0 0 15px rgba(124,124,255,0.8),
+  0 0 30px rgba(124,124,255,0.6);
+}
+/* ================= BRAIN CONTAINER ================= */
+
+.brain-container {
+  position: relative;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-block;
+  overflow: visible;
+}
+
+/* Hide brain initially */
+.brain-wrapper {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 200px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.4s ease;
+}
+
+/* Text glitch effect */
+.brain-container:hover .logo-text {
+  animation: glitch 0.4s linear infinite;
+  color: cyan;
+  text-shadow:
+    2px 0 magenta,
+    -2px 0 cyan;
+}
+
+/* Show brain on hover */
+.brain-container:hover .brain-wrapper {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Brain outline */
+.brain-outline {
+  fill: none;
+  stroke: cyan;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 8px cyan);
+  animation: pulse 1.5s infinite;
+}
+
+/* Neural network lines */
+.neural-line {
+  stroke: magenta;
+  stroke-width: 2;
+  stroke-dasharray: 10;
+  stroke-dashoffset: 20;
+  animation: flow 2s linear infinite;
+}
+
+/* Particle glow */
+.particles::before,
+.particles::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: cyan;
+  border-radius: 50%;
+  box-shadow: 0 0 10px cyan, 0 0 20px magenta;
+  animation: float 2s infinite ease-in-out;
+}
+
+.particles::after {
+  left: 120px;
+  top: 60px;
+  animation-delay: 0.8s;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes flow {
+  0% { stroke-dashoffset: 20; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, -1px); }
+  80% { transform: translate(1px, 2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); opacity: 1; }
+  50% { transform: translateY(-15px); opacity: 0.6; }
+  100% { transform: translateY(0px); opacity: 1; }
 }

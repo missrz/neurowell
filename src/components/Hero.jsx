@@ -56,7 +56,7 @@ export default function Hero() {
               </div>
 
               <div className="feature-item">
-                <span>🛡</span>
+                <span>💎</span>
                 <p>Complete Data Privacy</p>
               </div>
 

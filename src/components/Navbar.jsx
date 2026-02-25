@@ -21,14 +21,14 @@ export default function Navbar() {
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
   useEffect(() => {
-  const handleClickOutside = () => {
-    setOpen(false);
-    setBellOpen(false);
-  };
-
-  document.addEventListener("click", handleClickOutside);
-  return () => document.removeEventListener("click", handleClickOutside);
-}, []);
+    const handleClickOutside = () => {
+      setOpen(false);
+      setBellOpen(false);
+    };
+    
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,11 +37,13 @@ export default function Navbar() {
   const menuItems = [
     { name: "Home", link: "home", type: "scroll" },
     { name: "Features", link: "/dashboard", type: "route" },
-    { name: "Journal", link: "/journal", type: "route" },
-    { name: "Assessment", link: "/assessment", type: "route" }, // full page route
+    // { name: "Journal", link: "/journal", type: "route" },
+    // { name: "Assessment", link: "/assessment", type: "route" }, // full page route
     { name: "Chats", link: "/chats", type: "route" },
-    { name: "Support", link: "/support", type: "route" },
+    // { name: "Support", link: "/support", type: "route" },
     { name: "About", link: "/about", type: "route" },
+    { name: "Resources", link: "/Resources", type: "route" },
+    
     
   ];
   
@@ -92,25 +94,25 @@ export default function Navbar() {
   ))}
   </ul>
   <div className="neo-auth">
-    {/* 🔔 Notification Bell */}
-<div
+  {/* 🔔 Notification Bell */}
+  <div
   className="neo-bell"
   onClick={(e) => {
     e.stopPropagation();
     setBellOpen(!bellOpen);
   }}
->
+  >
   🔔
   <span className="neo-bell-pulse"></span>
-
+  
   {bellOpen && (
     <div className="neo-dropdown neo-bell-dropdown">
-      <p className="neo-notification">💙 You logged your mood</p>
-      <p className="neo-notification">🧠 New assessment available</p>
-      <p className="neo-notification muted">No more notifications</p>
+    <p className="neo-notification">💙 You logged your mood</p>
+    <p className="neo-notification">🧠 New assessment available</p>
+    <p className="neo-notification muted">No more notifications</p>
     </div>
   )}
-</div>
+  </div>
   
   {user ? (
     <div className="neo-profile" ref={dropdownRef}>
