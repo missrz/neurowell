@@ -51,7 +51,20 @@ export default function Chatbot({ fullPage = false, setRobotState }) {
         }
 
         const data = await res.json();
-        const answer = data.answer || data.text || data.message || (data.raw && data.raw.answer) || JSON.stringify(data);
+        const extractAnswer = (d) => {
+          if (!d) return '';
+          if (typeof d === 'string') return d;
+          // Prefer top-level `reply` then older fields
+          if (d.reply) {
+            if (typeof d.reply === 'string') return d.reply;
+            if (typeof d.reply === 'object') {
+              return d.reply.answer || d.reply.text || d.reply.message || JSON.stringify(d.reply);
+            }
+          }
+          return d.answer || d.text || d.message || (d.raw && d.raw.answer) || JSON.stringify(d);
+        };
+
+        const answer = extractAnswer(data);
 
         setMessages(prev => {
           const copy = [...prev];
