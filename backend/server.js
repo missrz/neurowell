@@ -41,7 +41,15 @@ const chatWithGemini = require('./services/geminiChat');
 // MongoDB Connection
 // ========================
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+    // On startup, ensure today's assessment exists (non-blocking)
+    generateAssessmentJob().then(() => {
+      console.log('✅ generateAssessmentJob completed at startup');
+    }).catch(err => {
+      console.error('⚠️ generateAssessmentJob failed at startup:', err && err.message ? err.message : err);
+    });
+  })
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // ========================
