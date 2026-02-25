@@ -97,6 +97,12 @@ export const getMe = async () => {
   return res.data; // { user }
 };
 
+// Admin: list users
+export const listUsers = async () => {
+  const res = await axios.get(url('/api/users'), { headers: authHeaders() });
+  return res.data; // expected: array of users
+};
+
 export const logout = async () => {
   // No server-side session to destroy for JWT, client just clears token
   authToken = null;
@@ -328,4 +334,35 @@ export const updateChat = async (chatId, patch) => {
     console.error('updateChat error', err);
     throw err;
   }
+};
+
+// --- API Keys (admin) ---
+export const listApiKeys = async () => {
+  const res = await axios.get(url('/api/api-keys'), { headers: authHeaders() });
+  return res.data;
+};
+
+export const createApiKey = async ({ name, provider, key, isActive=true, notes='' }) => {
+  const res = await axios.post(url('/api/api-keys'), { name, provider, key, isActive, notes }, { headers: { ...authHeaders(), 'Content-Type': 'application/json' } });
+  return res.data;
+};
+
+export const getApiKey = async (id, reveal=false) => {
+  const res = await axios.get(url(`/api/api-keys/${id}${reveal ? '?reveal=true' : ''}`), { headers: authHeaders() });
+  return res.data;
+};
+
+export const updateApiKey = async (id, patch) => {
+  const res = await axios.put(url(`/api/api-keys/${id}`), patch, { headers: { ...authHeaders(), 'Content-Type': 'application/json' } });
+  return res.data;
+};
+
+export const deleteApiKey = async (id) => {
+  const res = await axios.delete(url(`/api/api-keys/${id}`), { headers: authHeaders() });
+  return res.data;
+};
+
+export const validateApiKey = async (id) => {
+  const res = await axios.post(url(`/api/api-keys/${id}/validate`), {}, { headers: authHeaders() });
+  return res.data;
 };
