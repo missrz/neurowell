@@ -1,44 +1,147 @@
-/* CTA SECTION */
+/* ================= CTA SECTION ================= */
+
 .cta-section {
   width: 100%;
   padding: 60px 20px;
-  margin-top: 20px;
+  margin-top: 0;
   text-align: center;
-  background: #000;           /* FULL BLACK */
+  position: relative;
+  overflow: hidden;
+
+   background:
+   radial-gradient(circle at 85% 20%, rgba(216, 191, 255, 0.35), transparent 50%),
+   radial-gradient(circle at 50% 85%, rgba(175, 238, 238, 0.4), transparent 50%),
+    radial-gradient(circle at 15% 30%, rgba(173, 216, 255, 0.35), transparent 50%),
+
+    linear-gradient(135deg, #f6f9ff, #eef3ff);
 }
 
-/* Heading */
+/* soft glow orb like other sections */
+.cta-section::before {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(99,102,241,0.10), transparent 70%);
+  bottom: -160px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* ================= CONTENT WRAPPER ================= */
+
+.cta-content {
+  max-width: 760px;
+  margin: auto;
+
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  padding: 3rem 2rem;
+
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.06);
+
+  animation: fadeUp 0.9s ease forwards;
+}
+
+/* ================= HEADING ================= */
+
 .cta-heading {
-  font-size: 2.4rem;
-  margin-bottom: 12px;
-  color: #00ffe7;             /* Neon Cyan */
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px #00ffe7;
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #1e293b;
 }
 
-/* Subtext */
+.cta-heading span {
+  color: #4f46e5;
+}
+
+/* ================= SUBTEXT ================= */
+
 .cta-subtext {
-  font-size: 1rem;
-  color: #cfcfcf;
-  margin-bottom: 20px;
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 2.2rem;
 }
 
-/* Button */
+/* ================= BUTTON ================= */
+
 .cta-button {
-  background: linear-gradient(90deg, #00b4ff, #a259ff);
-  color: #000;
-  border-radius: 40px;
-  padding: 12px 32px;
+  position: relative;
+  padding: 14px 40px;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: 0.25s ease;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+
+  color: #ffffff;
+
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+
+  box-shadow: 0 10px 28px rgba(99,102,241,0.35);
+  transition: all 0.35s ease;
+  overflow: hidden;
 }
 
-/* Hover Effect */
+/* shine sweep like feature cards */
+.cta-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.45),
+    transparent 70%
+  );
+  opacity: 0;
+  transform: translateX(-120%);
+  transition: 0.6s ease;
+  border-radius: inherit;
+}
+
 .cta-button:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 18px #00b4ff;
+  transform: translateY(-4px) scale(1.07);
+  box-shadow: 0 18px 44px rgba(99,102,241,0.55);
+}
+
+.cta-button:hover::before {
+  opacity: 1;
+  transform: translateX(120%);
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 640px) {
+  .cta-content {
+    padding: 2.2rem 1.4rem;
+  }
+
+  .cta-heading {
+    font-size: 1.9rem;
+  }
+
+  .cta-subtext {
+    font-size: 0.95rem;
+  }
 }

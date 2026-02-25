@@ -1,11 +1,20 @@
+/* =========================
+   GLOBAL & BODY
+========================= */
 body {
   padding-top: 90px !important;
   background: linear-gradient(135deg, #eef2ff, #fdf4ff);
+  font-family: "Inter", sans-serif;
+  color: #1f2937;
+  margin: 0;
 }
 
-/* ROOT */
+/* =========================
+   ROOT VARIABLES
+========================= */
 :root {
   --glass: rgba(255, 255, 255, 0.65);
+  --glass-blur: blur(12px);
   --border: rgba(255, 255, 255, 0.35);
   --text: #1f2937;
   --muted: #6b7280;
@@ -13,14 +22,23 @@ body {
   --secondary: #60a5fa;
 }
 
-/* PAGE */
+/* =========================
+   PAGE & GRID
+========================= */
 .analytics-page {
   padding: 24px;
   min-height: 100vh;
-  font-family: "Inter", sans-serif;
 }
 
-/* HEADER */
+.grid-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 22px;
+}
+
+/* =========================
+   HEADER
+========================= */
 .header-row {
   display: flex;
   justify-content: space-between;
@@ -31,9 +49,12 @@ body {
   font-size: 26px;
   font-weight: 700;
   color: var(--text);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* RANGE BUTTONS */
+/* =========================
+   RANGE BUTTONS
+========================= */
 .range-selector {
   display: flex;
   gap: 10px;
@@ -44,59 +65,98 @@ body {
   border-radius: 20px;
   border: none;
   background: var(--glass);
-  backdrop-filter: blur(10px);
+  backdrop-filter: var(--glass-blur);
   color: var(--text);
   cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.range-btn:hover {
+  background: rgba(124, 58, 237, 0.15);
 }
 
 .range-btn.active {
   background: var(--primary);
-  color: white;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
 }
 
-/* GRID */
-.grid-two {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 22px;
-}
-
-/* CARD */
+/* =========================
+   CARDS
+========================= */
 .card {
-  background: var(--glass);
-  backdrop-filter: blur(18px);
+  position: relative;
+  background: linear-gradient(145deg, rgba(255,255,255,0.6), rgba(245,245,255,0.45));
+  backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 22px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.1);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 160%;
+  height: 180%;
+  background: radial-gradient(circle at center, rgba(99, 210, 255, 0.15), transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  animation: floatGlow 10s ease-in-out infinite;
+}
+
+@keyframes floatGlow {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(15px, 20px) scale(1.05); }
+}
+
+.card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================
+   CARD TEXT
+========================= */
 .card-title {
   color: var(--text);
   margin-bottom: 6px;
+  font-weight: 600;
 }
 
-/* TEXT */
 .avg-text,
-.journal-status {
+.journal-status,
+.quote {
   color: var(--muted);
+  opacity: 0.9;
   margin-bottom: 10px;
+  line-height: 1.6;
 }
 
-/* QUOTE */
 .quote {
   margin-top: 12px;
   text-align: center;
   font-style: italic;
-  color: var(--muted);
 }
 
-/* CHART */
+/* =========================
+   CHARTS
+========================= */
 .recharts-wrapper {
   margin-top: 10px;
 }
 
-/* ================= GAUGE ================= */
+/* =========================
+   GAUGE / SCORE
+========================= */
 .gauge-container {
   text-align: center;
   margin-top: 12px;
@@ -110,11 +170,33 @@ body {
 .gauge-score {
   font-size: 42px;
   font-weight: 700;
-  color: var(--primary);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-top: -8px;
+  text-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
 }
 
 .gauge-label {
   font-size: 14px;
   color: var(--muted);
+}
+
+/* =========================
+   PROGRESS BAR
+========================= */
+.progress {
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+  background-color: #e5e7eb;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transition: width 0.4s ease;
 }

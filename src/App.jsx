@@ -12,10 +12,10 @@ import Dashboard from "./pages/Dashboard";
 import Home from './pages/Home';
 import Hero from "./components/Hero";
 import NeuroWellInsight from "./components/NeuroWellInsight";
-import Features from "./components/Features";
 import CTA from "./components/CTA";
 import Contact from "./components/Contact";
 import About from "./components/About";
+import HowItWorks from "./components/HowItWorks";
 
 // Pages
 import Login from "./pages/Login";
@@ -60,8 +60,7 @@ export default function App() {
   const [showAuthInline, setShowAuthInline] = useState(false);
   const loggedUser = useSelector(state => state.user.user);
   const dispatch = useDispatch();
-  
-  // restore token from cookie on app start and fetch user
+
   useEffect(() => {
     try {
       const token = getStoredAuthToken();
@@ -82,6 +81,7 @@ export default function App() {
   
   return (
     <>
+
     {loading ? (
       <Preloader onFinish={() => setLoading(false)} />
     ) : (
@@ -102,10 +102,11 @@ export default function App() {
             element: <RootLayout />,
             children: [
               { index: true, element: <Home /> },
-              { path: "chat", element: <Chat /> },
+              { path: "chats", element: <Chat /> },
               { path: "chatbot", element: <FullChatbotPage /> },
               { path: "journal", element: <Journal /> },
               { path: "login", element: <Login /> },
+              { path: "how", element: <HowItWorks /> },
               { path: "signup", element: <Signup /> },
               { path: "consent", element: <Consent /> },
               { path: "about", element: <About /> },
@@ -133,6 +134,7 @@ export default function App() {
         return <RouterProvider router={router} future={{ v7_startTransition: true, v7_relativeSplatPath: true }} />;
       })()
     )}
+
     </>
   );
 }

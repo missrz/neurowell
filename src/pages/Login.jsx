@@ -12,7 +12,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const loggedUser = useSelector(state => state.user.user);
   useEffect(() => {
-    if (loggedUser) navigate('/dashboard');
+    if (loggedUser) navigate('/Hero');
   }, [loggedUser, navigate]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
