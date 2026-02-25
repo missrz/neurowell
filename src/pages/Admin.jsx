@@ -1,17 +1,39 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Admin.css";
 import axios from "axios";
+import { listUsers } from '../services/api';
+import AdminKeys from '../components/AdminKeys';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function Admin() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const [activeTab, setActiveTab] = useState('users');
+  const navigate = useNavigate();
+  const user = useSelector(state => state.user.user);
 
-  // Fetch Users (You can change URL according to your backend)
+  // Redirect non-admin users to dashboard
   useEffect(() => {
-    fetch("https://your-backend-url.com/api/users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.log("Error:", err));
+    if (!user) {
+      navigate('/login');
+    } else if (!user.isAdmin) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  // Fetch Users via frontend API helper (uses auth headers)
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const data = await listUsers();
+        if (mounted) setUsers(data || []);
+      } catch (err) {
+        console.log("Error fetching users:", err);
+      }
+    })();
+    return () => { mounted = false; };
   }, []);
 
   // Filter search results
@@ -27,13 +49,13 @@ export default function Admin() {
         <h2 className="admin-logo">Neurowell Admin</h2>
 
         <ul className="admin-menu">
-          <li>Dashboard</li>
-          <li className="active">Users</li>
-          <li>Reports</li>
-          <li>Settings</li>
+          <li className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>Dashboard</li>
+          <li className={activeTab === 'users' ? 'active' : ''} onClick={() => setActiveTab('users')}>Users</li>
+          <li className={activeTab === 'reports' ? 'active' : ''} onClick={() => setActiveTab('reports')}>Reports</li>
+          <li className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>Settings</li>
+          <li className={activeTab === 'keys' ? 'active' : ''} onClick={() => setActiveTab('keys')}>API Keys</li>
         </ul>
 
-        <button className="logout-btn">Logout</button>
       </aside>
 
       {/* Main Content */}
@@ -51,36 +73,46 @@ export default function Admin() {
           />
         </div>
 
-        {/* User Table */}
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>User Name</th>
-              <th>Email</th>
-              <th>Date Joined</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredUsers.length === 0 ? (
-              <tr>
-                <td colSpan="4" className="no-data">
-                  No Users Found
-                </td>
-              </tr>
-            ) : (
-              filteredUsers.map((user, index) => (
-                <tr key={user.id || index}>
-                  <td>{index + 1}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.createdAt?.slice(0, 10)}</td>
+        {/* Content Tabs */}
+        {activeTab === 'users' && (
+          <>
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>User Name</th>
+                  <th>Email</th>
+                  <th>Date Joined</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+
+              <tbody>
+                {filteredUsers.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="no-data">
+                      No Users Found
+                    </td>
+                  </tr>
+                ) : (
+                  filteredUsers.map((user, index) => (
+                    <tr key={user.id || index}>
+                      <td>{index + 1}</td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>{user.createdAt?.slice(0, 10)}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </>
+        )}
+
+        {activeTab === 'keys' && (
+          <div style={{ marginTop: 24 }}>
+            <AdminKeys />
+          </div>
+        )}
       </main>
     </div>
   );

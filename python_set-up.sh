@@ -8,13 +8,13 @@ python set-up
             GEMINI_API_KEY=ya29.your_api_key_here
             EMBED_MODEL=sentence-transformers/all-MiniLM-L6-v2
             ```
-    3> set -o allexport; source .env; set +o allexport
-    5> python3 seed.py # seed data set into fassi index data
-    6> Run a quick query
+    5> set -o allexport; source .env; set +o allexport
+    6> python3 seed.py # seed data set into fassi index data
+    7> Run a quick query
         ```bash
         python3 test_query.py
         ```
-    7> Run the API server
+    8> Run the API server
         ```bash
         uvicorn main:app --host 0.0.0.0 --port 4001 --reload
         ```

@@ -23,7 +23,7 @@ import Signup from "./pages/Signup";
 import Consent from "./pages/Consent";
 import Support from "./pages/Support";
 import AdvancedAnalytics from "./pages/AdvancedAnalytics";
-import Chat from "./pages/Chat"; // AI Voice Chat page
+import ChatsPage from "./pages/ChatsPage"; // AI Voice Chat page
 import MoodTracker from "./pages/MoodTracker"; // Mood Tracker page
 import StressGames from "./pages/StressGames";
 import Assessment from "./pages/Assessment";
@@ -102,7 +102,8 @@ export default function App() {
             element: <RootLayout />,
             children: [
               { index: true, element: <Home /> },
-              { path: "chat", element: <Chat /> },
+              { path: "chats", element: <ChatsPage /> },
+              { path: "chats/:chatId", element: <ChatsPage /> },
               { path: "chatbot", element: <FullChatbotPage /> },
               { path: "journal", element: <Journal /> },
               { path: "login", element: <Login /> },

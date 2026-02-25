@@ -18,6 +18,7 @@ const tipsRoutes = require('./routes/tips');
 const resourcesRoutes = require('./routes/resources');
 const assesmentRoutes = require('./routes/assesments');
 const valuebleHistoryRoutes = require('./routes/valueable_history');
+const apiKeysRoutes = require('./routes/apiKeys');
 
 const app = express();
 
@@ -33,12 +34,22 @@ app.use(express.json());
 const PORT = process.env.PORT || 4000;
 const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/neurowell";
 const AI_SERVER_URL = process.env.AI_SERVER_URL || "http://localhost:4001";
+const apiKeyService = require('./services/apiKeyService');
+const chatWithGemini = require('./services/geminiChat');
 
 // ========================
 // MongoDB Connection
 // ========================
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+    // On startup, ensure today's assessment exists (non-blocking)
+    generateAssessmentJob().then(() => {
+      console.log('✅ generateAssessmentJob completed at startup');
+    }).catch(err => {
+      console.error('⚠️ generateAssessmentJob failed at startup:', err && err.message ? err.message : err);
+    });
+  })
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // ========================
@@ -55,6 +66,7 @@ app.use("/api/tips", tipsRoutes);
 app.use("/api/resources", resourcesRoutes);
 app.use('/api/assesments', assesmentRoutes);
 app.use('/api/valueble_history', valuebleHistoryRoutes);
+app.use('/api/api-keys', apiKeysRoutes);
 
 
 // AI detection route
@@ -63,6 +75,17 @@ app.post("/api/detect", async (req, res, next) => {
   if (!text) return res.status(400).json({ error: "Text is required" });
 
   try {
+    // Try to use a stored Gemini key (managed in DB) first. If no key or call fails, fall back to Python AI proxy.
+    try {
+      const active = await apiKeyService.getActiveKey('gemini');
+      if (active && active.key) {
+        const reply = await chatWithGemini({ message: text, apiKey: active.key });
+        return res.json({ answer: reply });
+      }
+    } catch (innerErr) {
+      console.error('Node Gemini attempt failed, falling back to Python AI:', innerErr.message || innerErr);
+    }
+
     const axios = require("axios");
     const response = await axios.post(`${AI_SERVER_URL}/predict`, { text });
     res.json(response.data);
