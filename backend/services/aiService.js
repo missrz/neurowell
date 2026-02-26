@@ -19,11 +19,20 @@ async function scoreText(text) {
     const reply = meta?.reply ?? meta;
     const usedKeyLabel = meta?.usedKeyLabel || 'unknown';
     console.info(`aiService.scoreText: gemini used -> ${usedKeyLabel}`);
+    // Try robust JSON extraction (handles fenced code blocks and surrounding text)
     try {
-      const parsed = JSON.parse(reply);
-      return parsed;
+      const { tryParseJson } = require('../utils/jsonExtract');
+      let parsed = null;
+      if (typeof reply === 'string') parsed = tryParseJson(reply);
+      if (!parsed && typeof reply !== 'string') parsed = reply;
+      if (parsed) return parsed;
+      // as a last resort, try direct JSON.parse if reply is string
+      if (typeof reply === 'string') {
+        parsed = JSON.parse(reply);
+        return parsed;
+      }
     } catch (e) {
-      console.warn('gemini scoreText JSON parse failed for reply:', e.message || e);
+      console.warn('gemini scoreText JSON extraction failed for reply:', e.message || e);
       // Fall through to Python fallback
     }
   } catch (err) {
@@ -49,10 +58,17 @@ async function generateAssessment(theme, numQuestions = 5) {
     const usedKeyLabel = meta?.usedKeyLabel || 'unknown';
     console.info(`aiService.generateAssessment: gemini used -> ${usedKeyLabel}`);
     try {
-      const parsed = JSON.parse(reply);
-      return parsed;
+      const { tryParseJson } = require('../utils/jsonExtract');
+      let parsed = null;
+      if (typeof reply === 'string') parsed = tryParseJson(reply);
+      if (!parsed && typeof reply !== 'string') parsed = reply;
+      if (parsed) return parsed;
+      if (typeof reply === 'string') {
+        parsed = JSON.parse(reply);
+        return parsed;
+      }
     } catch (e) {
-      console.warn('gemini generateAssessment JSON parse failed for reply:', e.message || e);
+      console.warn('gemini generateAssessment JSON extraction failed for reply:', e.message || e);
       // Fall through to Python fallback
     }
   } catch (err) {
