@@ -6,9 +6,9 @@ import { fetchTodayAssessment, completeAssessment } from "../services/api";
 
 export default function Assessment() {
   const navigate = useNavigate();
-
+  
   // questions will be loaded from server; fallback option types below
-
+  
   // =========================
   // Options based on type
   // Levels always start from LOW → HIGH
@@ -43,14 +43,14 @@ export default function Assessment() {
       { label: "Excellent", value: 5 },
     ],
   };
-
+  
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [assessment, setAssessment] = useState(null);
   const [result, setResult] = useState(null);
-
+  
   const progress = (() => {
     const total = (assessment && assessment.questions && assessment.questions.length) || 0;
     if (total === 0) return 0;
@@ -63,17 +63,17 @@ export default function Assessment() {
     const updated = [...answers];
     updated[current] = value;
     setAnswers(updated);
-
+    
     const total = (assessment && assessment.questions && assessment.questions.length) || 0;
     if (current < total - 1) {
       setCurrent(current + 1);
       return;
     }
-
+    
     // last question -> submit
     submitAnswers(updated);
   };
-
+  
   const getResultMessage = (percent) => {
     if (percent >= 90) return "🌟 Excellent! You’re feeling emotionally strong, calm, and well-balanced. Keep nurturing these positive habits and continue prioritizing your mental well-being.";
     if (percent >= 80) return "😊 Very good! Your mental health seems stable and positive overall. Occasional stress is normal—continue practicing healthy routines and self-care.";
@@ -84,7 +84,7 @@ export default function Assessment() {
     if (percent >= 30) return "😞 Very low. Your responses suggest significant emotional distress. You are not alone—consider reaching out to a close person or a mental health professional.";
     return "🚨 Critical. You may be experiencing serious emotional difficulties. Please consider seeking professional help or talking to a trusted support person as soon as possible.";
   };
-
+  
   const currentQuestion = (assessment && assessment.questions && assessment.questions[current]) || null;
   const options = (() => {
     if (!currentQuestion) return [];
@@ -95,7 +95,7 @@ export default function Assessment() {
     const fallback = optionMap[currentQuestion.type] || optionMap['level'];
     return fallback.map((o) => ({ label: o.label, value: o.label }));
   })();
-
+  
   useEffect(() => {
     let mounted = true;
     const load = async () => {
@@ -104,7 +104,7 @@ export default function Assessment() {
         const data = await fetchTodayAssessment();
         if (!mounted) return;
         setAssessment(data);
-
+        
         // if server indicates user already completed today's assessment, show result view
         if (data && data.alreadyCompleted) {
           setSubmitted(true);
@@ -119,7 +119,7 @@ export default function Assessment() {
     load();
     return () => { mounted = false; };
   }, []);
-
+  
   const submitAnswers = async (answersToSend) => {
     try {
       const res = await completeAssessment(assessment._id, answersToSend);
@@ -130,72 +130,80 @@ export default function Assessment() {
       setSubmitted(true);
     }
   };
-
+  
   return (
     <div className="assessment-container">
-      <button
-        className="close-btn btn btn-danger"
-        onClick={() => navigate("/dashboard")}
-      >
-        ✕
-      </button>
-
-      <div className="assessment-card p-5 text-center">
-        <h2 className="text-light mb-3">Mental Wellness Assessment</h2>
-
-        {/* Progress */}
-        <div className="progress mb-4">
-          <div
-            className="progress-bar bg-success"
-            style={{ width: `${progress}%` }}
-          />
+    <button
+    className="close-btn btn btn-danger"
+    onClick={() => navigate("/dashboard")}
+    >
+    ✕
+    </button>
+    
+    <div className="assessment-card p-5 text-center">
+    <h2
+    className="mb-3"
+    style={{
+      background: "linear-gradient(90deg, #7b00ff, #00eaff)",
+      WebkitBackgroundClip: "text",
+      WebkitTextFillColor: "transparent"
+    }}
+    >
+    Mental Wellness Assessment
+    </h2>
+    {/* Progress */}
+    <div className="progress mb-4">
+    <div
+    className="progress-bar bg-success"
+    style={{ width: `${progress}%` }}
+    />
+    </div>
+    
+    {!submitted ? (
+      <>
+      {loading || !currentQuestion ? (
+        <h5 className="mb-4 question-text">Loading assessment...</h5>
+      ) : (
+        <h5 className="mb-4 question-text">{currentQuestion.title || currentQuestion.text}</h5>
+      )}
+      {!loading && currentQuestion && (
+        <>
+        <div className="d-flex justify-content-center flex-wrap gap-3">
+        {options.map((opt) => (
+          <button
+          key={opt.value}
+          className="btn option-btn"
+          onClick={() => handleAnswer(opt.value)}
+          >
+          {opt.label}
+          </button>
+        ))}
         </div>
-
-        {!submitted ? (
-          <>
-            {loading || !currentQuestion ? (
-              <h5 className="text-light mb-4">Loading assessment...</h5>
-            ) : (
-              <h5 className="text-light mb-4">{currentQuestion.title || currentQuestion.text}</h5>
-            )}
-            {!loading && currentQuestion && (
-              <>
-                <div className="d-flex justify-content-center flex-wrap gap-3">
-                  {options.map((opt) => (
-                    <button
-                      key={opt.value}
-                      className="btn option-btn"
-                      onClick={() => handleAnswer(opt.value)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-
-                <p className="text-muted mt-4">Question {current + 1} of {(assessment.questions || []).length}</p>
-              </>
-            )}
-          </>
-        ) : (
-          <div className="result animate__animated animate__fadeIn">
-            <h3 className="text-light mb-3">Assessment Result</h3>
-            {result && result.alreadyCompleted && (
-              <p className="text-warning">You have already completed the assessment for today.</p>
-            )}
-            <h5 className="text-info">
-              Score: {result && typeof result.score !== 'undefined' ? `${result.score}%` : '—'}
-            </h5>
-            <p className="text-light mt-3">{getResultMessage(result && result.score ? result.score : 0)}</p>
-
-            <button
-              className="btn btn-success mt-3"
-              onClick={() => navigate("/dashboard")}
-            >
-              Go to Dashboard
-            </button>
-          </div>
-        )}
+        
+        <p className="question-progress mt-4">Question {current + 1} of {(assessment.questions || []).length}</p>
+        </>
+      )}
+      </>
+    ) : (
+      <div className="result animate__animated animate__fadeIn">
+      <h3 className="text-light mb-3">Assessment Result</h3>
+      {result && result.alreadyCompleted && (
+        <p className="text-warning">You have already completed the assessment for today.</p>
+      )}
+      <h5 className="text-info">
+      Score: {result && typeof result.score !== 'undefined' ? `${result.score}%` : '—'}
+      </h5>
+      <p className="mb-4 question-text">{getResultMessage(result && result.score ? result.score : 0)}</p>
+      
+      <button
+      className="btn btn-success mt-3"
+      onClick={() => navigate("/dashboard")}
+      >
+      Go to Dashboard
+      </button>
       </div>
+    )}
+    </div>
     </div>
   );
 }

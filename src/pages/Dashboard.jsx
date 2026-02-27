@@ -65,6 +65,7 @@ export default function Dashboard() {
       background: "linear-gradient(135deg, #fdf6ff, #fcefee, #eaf4ff)",
       minHeight: "100vh",
       overflowX: "hidden",
+      paddingTop: "75px"
     }}
     
     >

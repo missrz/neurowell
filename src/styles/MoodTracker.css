@@ -263,6 +263,7 @@ textarea::placeholder {
   color: var(--heading-dark) !important;
   font-weight: 500;
 }
+
 /* Force Chart Legend Text Dark */
 canvas + div,
 .chartjs-legend li,

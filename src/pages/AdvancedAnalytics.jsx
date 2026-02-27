@@ -128,7 +128,9 @@ export default function AdvancedAnalytics() {
   };
 
   useEffect(() => {
+    console.log("hello")
     const load = async () => {
+      
       setLoading(true);
       try {
         const period = mapPeriod(range);
