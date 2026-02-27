@@ -249,6 +249,24 @@ export const completeAssessment = async (id, answers) => {
   return res.data; // { totalQuestions, correctCount, score, history }
 };
 
+// Admin: list all assessments
+export const listAssesments = async () => {
+  const res = await axios.get(url('/api/assesments'), { headers: authHeaders() });
+  return res.data; // expected: array of assesments
+};
+
+// Admin: get assessment by id (includes questions)
+export const getAssesment = async (id) => {
+  const res = await axios.get(url(`/api/assesments/${id}`), { headers: authHeaders() });
+  return res.data;
+};
+
+// Admin: delete assessment by id
+export const deleteAssesment = async (id) => {
+  const res = await axios.delete(url(`/api/assesments/${id}`), { headers: authHeaders() });
+  return res.data;
+};
+
 // POST /api/valueble_history
 export const saveValuableHistory = async ({ type, name, score }) => {
   const res = await axios.post(

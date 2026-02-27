@@ -3,6 +3,7 @@ import "../styles/Admin.css";
 import axios from "axios";
 import { listUsers } from '../services/api';
 import AdminKeys from '../components/AdminKeys';
+import AdminAssessments from '../components/AdminAssessments';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,7 +52,7 @@ export default function Admin() {
         <ul className="admin-menu">
           <li className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>Dashboard</li>
           <li className={activeTab === 'users' ? 'active' : ''} onClick={() => setActiveTab('users')}>Users</li>
-          <li className={activeTab === 'reports' ? 'active' : ''} onClick={() => setActiveTab('reports')}>Reports</li>
+          <li className={activeTab === 'assessments' ? 'active' : ''} onClick={() => setActiveTab('assessments')}>Assessments</li>
           <li className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>Settings</li>
           <li className={activeTab === 'keys' ? 'active' : ''} onClick={() => setActiveTab('keys')}>API Keys</li>
         </ul>
@@ -62,15 +63,17 @@ export default function Admin() {
       <main className="admin-main">
 
         <div className="admin-header">
-          <h1>Users Panel</h1>
+          <h1>Admin Panel</h1>
 
-          <input
-            type="text"
-            placeholder="Search user..."
-            className="admin-search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          {activeTab === 'users' && (
+            <input
+              type="text"
+              placeholder="Search user..."
+              className="admin-search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          )}
         </div>
 
         {/* Content Tabs */}
@@ -106,6 +109,12 @@ export default function Admin() {
               </tbody>
             </table>
           </>
+        )}
+
+        {activeTab === 'assessments' && (
+          <div style={{ marginTop: 24 }}>
+            <AdminAssessments />
+          </div>
         )}
 
         {activeTab === 'keys' && (

@@ -178,3 +178,57 @@
     padding: 15px;
   }
 }
+
+/* ---------- MODAL & BUTTONS ---------- */
+.btn {
+  background: #4e73df;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn:hover { opacity: 0.95; }
+
+.btn.danger {
+  background: #e94560;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: #fff;
+  max-width: 900px;
+  width: 90%;
+  border-radius: 10px;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+  overflow: hidden;
+  z-index: 10000;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-body {
+  padding: 16px 18px;
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.modal-header h3 { margin: 0; }
+

@@ -11,21 +11,46 @@ async function generateAssessmentJob() {
     const startOfToday = new Date();
     startOfToday.setHours(0,0,0,0);
     const startOfTomorrow = new Date(startOfToday.getTime() + 24 * 60 * 60 * 1000);
-    const existing = await Assesment.findOne({ createdAt: { $gte: startOfToday, $lt: startOfTomorrow } });
+    let existing = await Assesment.findOne({ createdAt: { $gte: startOfToday, $lt: startOfTomorrow } });
     if (existing) {
       console.log(`ℹ️ Assessment for today already exists (${existing._id}), skipping creation.`);
       return existing;
     }
 
     const { generateAssessment } = require('../services/aiService');
-    const data = await generateAssessment(null, 5);
-
-    // 1️⃣ Create Assesment
-    // Validate response shape
-    if (!data || !data.assessment || !Array.isArray(data.questions) || data.questions.length === 0) {
-      throw new Error('AI returned invalid assessment payload');
+    let data = null;
+    try {
+      data = await generateAssessment(null, 5);
+    } catch (e) {
+      console.warn('generateAssessmentJob: AI generation failed:', e && e.message ? e.message : e);
     }
 
+    // If AI returned an invalid payload, create a safe fallback assessment + question
+    if (!data || !data.assessment || !Array.isArray(data.questions) || data.questions.length === 0) {
+      console.warn('generateAssessmentJob: AI returned invalid payload — creating fallback assessment');
+      try {
+        const fallback = await Assesment.create({
+          title: 'Daily assessment (fallback)',
+          aiResponse: data || { error: 'AI generation failed or returned invalid payload' }
+        });
+
+        const fallbackQuestion = {
+          title: 'How are you feeling today?',
+          options: ['Great', 'Okay', 'Not great', 'Prefer not to say'],
+          correctAnswer: 'Okay',
+          assesmentId: fallback._id
+        };
+
+        await Question.create(fallbackQuestion);
+        console.log(`✅ Fallback assessment created (${fallback._id})`);
+        return fallback;
+      } catch (e2) {
+        console.error('generateAssessmentJob: failed to create fallback assessment:', e2 && e2.message ? e2.message : e2);
+        throw e2;
+      }
+    }
+
+    // 1️⃣ Create Assesment
     const assesment = await Assesment.create({
       title: data.assessment.title,
       aiResponse: data.raw || data

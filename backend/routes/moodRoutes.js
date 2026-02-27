@@ -4,7 +4,7 @@ const Mood = require("../models/Mood"); // Adjust path if needed
 const auth = require("../middleware/authMiddleware");
 const { scoreText } = require('../services/aiService');
 const Tip = require('../models/Tip');
-const { formatDateTime } = require('../utils/formatDate');
+const { formatDate } = require('../utils/formatDate');
 
 // ============================
 // Create a new mood
@@ -32,6 +32,7 @@ router.post("/", auth, async (req, res) => {
         try {
           const text = (moods && moods.length ? moods.join(', ') : '') + (description ? '\n' + description : '');
           const aiResp = await scoreText(text);
+          console.log('response', aiResp);
           const score = aiResp && aiResp.score != null ? aiResp.score : null;
           const aiData = aiResp.raw || aiResp;
           await Mood.findByIdAndUpdate(savedMood._id, { $set: { score, aiResponse: aiData } });
@@ -46,7 +47,7 @@ router.post("/", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const title = `my mood tracking advice for ${moods.join(', ')} on ${formatDateTime(savedMood.createdAt)}`;
+            const title = `my mood tracking advice for ${moods.join(', ')} on ${formatDate(savedMood.createdAt)}`;
             const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: savedMood._id.toString(), entityType: 'mood' });
             await tip.save();
           } catch (e) {
@@ -137,7 +138,7 @@ router.put("/:id", auth, async (req, res) => {
                 advice = aiData;
               }
             }
-            const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${formatDateTime(mood.createdAt)}`;
+            const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${formatDate(mood.createdAt)}`;
             const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: mood._id.toString(), entityType: 'mood' });
             await tip.save();
           } catch (e) {

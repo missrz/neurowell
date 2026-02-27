@@ -158,6 +158,7 @@ router.put("/:id", auth, async (req, res) => {
           const aiResp = await scoreText(payloadText);
           const score = aiResp && aiResp.score != null ? aiResp.score : null;
           const aiData = aiResp.raw || aiResp;
+          console.log('response', aiResp);
           await Journal.findByIdAndUpdate(journal._id, { $set: { score, aiResponse: aiData } });
 
           // create Tip attached to journal

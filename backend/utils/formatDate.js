@@ -19,4 +19,13 @@ function formatDateTime(d) {
   return `${day}/${month}/${year} ${hourStr}:${minutes} ${ampm}`;
 }
 
-module.exports = { formatDateTime };
+function formatDate(d) {
+  if (!d) d = new Date();
+  const date = new Date(d);
+  const day = pad(date.getDate());
+  const month = pad(date.getMonth() + 1);
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+module.exports = { formatDateTime, formatDate };
