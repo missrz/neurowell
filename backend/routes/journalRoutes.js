@@ -140,17 +140,29 @@ router.put("/:id", auth, async (req, res) => {
 
     const pinned = req.body?.payload?.pinned;
 
-    journal.title = req.body?.payload?.title;
-    journal.text = req.body?.payload?.text;
-    journal.date = req.body?.payload?.date;    
+    const prevTitle = journal.title;
+    const prevText = journal.text;
+
+    const newTitle = req.body?.payload?.title;
+    const newText = req.body?.payload?.text;
+
+    journal.title = newTitle;
+    journal.text = newText;
+    journal.date = req.body?.payload?.date;
     journal.pinned =
       pinned === null || pinned === undefined
         ? journal.pinned
         : pinned;
 
+    const titleChanged =
+      newTitle !== undefined && String(newTitle).trim() !== String(prevTitle || "").trim();
+    const textChanged =
+      newText !== undefined && String(newText).trim() !== String(prevText || "").trim();
+
     await journal.save();
-    // background AI scoring + Tip creation on update
-    setImmediate(() => {
+    // background AI scoring + Tip creation on update only when title/text changed
+    if (titleChanged || textChanged) {
+      setImmediate(() => {
       (async () => {
         console.log('Journal update background job started for:', req.user.id, 'journal:', journal._id);
         try {
@@ -183,7 +195,8 @@ router.put("/:id", auth, async (req, res) => {
           console.error('Journal update background AI error for user', req.user.id, err && err.message ? err.message : err);
         }
       })();
-    });
+      });
+    }
 
     res.status(200).json(journal);
   } catch (error) {

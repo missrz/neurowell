@@ -114,43 +114,56 @@ router.put("/:id", auth, async (req, res) => {
       return res.status(403).json({ message: "Not authorized" });
     }
 
-    mood.moods = req.body.moods;
-    mood.description = req.body.description;
+    const prevMoods = mood.moods;
+    const prevDescription = mood.description;
+
+    const newMoods = req.body.moods;
+    const newDescription = req.body.description;
+
+    mood.moods = newMoods;
+    mood.description = newDescription;
     await mood.save();
 
-    setImmediate(() => {
-      (async () => {
-        console.log("Background job started for:", req.user.id);
-        try {
-          const text = (mood.moods && mood.moods.length ? mood.moods.join(', ') : '') + (mood.description ? '\n' + mood.description : '');
-          const aiResp = await scoreText(text);
-          const score = aiResp && aiResp.score != null ? aiResp.score : null;
-          const aiData = aiResp.raw || aiResp;
-          await Mood.findByIdAndUpdate(mood._id, { $set: { score, aiResponse: aiData } });
+    const moodsChanged =
+      newMoods !== undefined && JSON.stringify(newMoods || []) !== JSON.stringify(prevMoods || []);
+    const descriptionChanged =
+      newDescription !== undefined && String(newDescription || '').trim() !== String(prevDescription || '').trim();
 
-          // create a Tip with advice from AI
+    if (moodsChanged || descriptionChanged) {
+      setImmediate(() => {
+        (async () => {
+          console.log("Background job started for:", req.user.id);
           try {
-            let advice = '';
-            if (aiData) {
-              if (typeof aiData === 'object') {
-                advice = aiData.advice || aiData.message || aiData.text || '';
-              } else if (typeof aiData === 'string') {
-                advice = aiData;
-              }
-            }
-            const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${formatDate(mood.createdAt)}`;
-            const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: mood._id.toString(), entityType: 'mood' });
-            await tip.save();
-          } catch (e) {
-            console.error('Failed to create Tip for mood', mood._id, e && e.message ? e.message : e);
-          }
+            const text = (mood.moods && mood.moods.length ? mood.moods.join(', ') : '') + (mood.description ? '\n' + mood.description : '');
+            const aiResp = await scoreText(text);
+            const score = aiResp && aiResp.score != null ? aiResp.score : null;
+            const aiData = aiResp.raw || aiResp;
+            await Mood.findByIdAndUpdate(mood._id, { $set: { score, aiResponse: aiData } });
 
-          console.log("Background job finished for:", req.user.id, "score:", score);
-        } catch (err) {
-          console.error('Background AI scoring error for user', req.user.id, err && err.message ? err.message : err);
-        }
-      })();
-    });
+            // create a Tip with advice from AI
+            try {
+              let advice = '';
+              if (aiData) {
+                if (typeof aiData === 'object') {
+                  advice = aiData.advice || aiData.message || aiData.text || '';
+                } else if (typeof aiData === 'string') {
+                  advice = aiData;
+                }
+              }
+              const title = `my mood tracking advice for ${(mood.moods || []).join(', ')} on ${formatDate(mood.createdAt)}`;
+              const tip = new Tip({ userId: req.user.id, title, description: advice || '', entity_id: mood._id.toString(), entityType: 'mood' });
+              await tip.save();
+            } catch (e) {
+              console.error('Failed to create Tip for mood', mood._id, e && e.message ? e.message : e);
+            }
+
+            console.log("Background job finished for:", req.user.id, "score:", score);
+          } catch (err) {
+            console.error('Background AI scoring error for user', req.user.id, err && err.message ? err.message : err);
+          }
+        })();
+      });
+    }
 
     res.status(200).json(mood);
   } catch (error) {

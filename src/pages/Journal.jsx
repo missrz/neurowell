@@ -205,7 +205,7 @@ export default function JournalPage() {
                 }
               }
               >
-                📌 Pin
+                {selectedJournal?.pinned ? "📌 Unpin" : "📌 Pin"}
               </button>
 
               {selectedJournal._id && (
